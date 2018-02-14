@@ -1,0 +1,21 @@
+<!-- home.html is the home page of the app. html pages are what the user see on the app. It is only front end stuff. If you want
+functionality, then add javascript or python code. -->
+
+{% extends "reservoir_management/base.html" %}
+{% load tethys_gizmos staticfiles %}
+
+{% block app_content %}
+    <div id="map" class="map"></div>
+    <div id="popup" class="ol-popup">
+      <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+      <div id="popup-content"></div>
+    </div>
+
+{% endblock %}
+
+
+
+{% block styles %}
+    {{ block.super }}
+    <link href="{% static 'reservoir_management/css/map.css' %}" rel="stylesheet"/>
+{% endblock %}

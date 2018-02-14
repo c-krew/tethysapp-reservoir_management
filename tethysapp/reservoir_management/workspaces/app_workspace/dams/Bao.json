@@ -1,0 +1,1 @@
+{"location": {"crs": {"type": "link", "properties": {"href": "http://spatialreference.org/ref/epsg/4326/proj4/", "type": "proj4"}}, "type": "Point", "properties": {"id": 1}, "coordinates": [-70.76024026611489, 19.299643224523905]}, "name": "Bao"}

@@ -1,0 +1,1 @@
+{"location": {"crs": {"type": "link", "properties": {"href": "http://spatialreference.org/ref/epsg/4326/proj4/", "type": "proj4"}}, "type": "Point", "properties": {"id": 1}, "coordinates": [-70.700202341445, 19.27475048841268]}, "name": "Tavera"}

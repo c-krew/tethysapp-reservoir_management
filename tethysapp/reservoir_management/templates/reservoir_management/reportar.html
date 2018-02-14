@@ -1,0 +1,17 @@
+<!-- reportar.html is the reportar page of the app. html pages are what the user see on the app. It is only front end stuff. If you want
+functionality, then add javascript or python code. -->
+
+{% extends "reservoir_management/base.html" %}
+{% load tethys_gizmos %}
+
+{% block app_content %}
+    <div>
+      <h1 align="center">Ingresar</h1>
+    </div>
+    {% gizmo dam_input %}
+    {% gizmo level_input %}
+    {% gizmo time_input %}
+{% endblock %}
+
+{% block app_actions %}
+{% endblock %}
