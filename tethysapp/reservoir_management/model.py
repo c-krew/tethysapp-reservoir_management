@@ -10,7 +10,7 @@ def getforecastflows():
 
     #These are the comids for the rivers that go into the reservoirs. See Streamflow Prediction Tool
     comids = ['21838', '21834', '21835']
-    totvalues = {}
+    allvalues = {}
 
     for x in comids:
         #the information for where to look for the comids. We may need to think of a different way to do this because not all the rivers we
@@ -42,16 +42,21 @@ def getforecastflows():
             if str(dates).endswith("00:00:00"):
                 value = float(parser[1].split('<')[0])
                 values.append(value)
-        totvalues[comid] = values
+        allvalues[comid] = values
 
     newseries = []
-    for x in totvalues:
-        newseries.append(totvalues[x])
+    allformvalues = {}
+    for x in allvalues:
+        newseries.append(allvalues[x])
 
-    flow = [sum(x) for x in zip(*newseries)]
-    formattedflow = ['%.2f' % elem for elem in flow]
+    total = [sum(x) for x in zip(*newseries)]
+    allvalues['total'] = total
 
-    return formattedflow
+    for x in allvalues:
+        formattedtotal = ["%.2f" % elem for elem in allvalues[x]]
+        allformvalues[x] = formattedtotal
+
+    return allformvalues
 
 def getforecastdates():
     # These are the comids for the rivers that go into the reservoirs. See Streamflow Prediction Tool
