@@ -944,7 +944,13 @@ def hatillo(request):
 
     #This creates the table
     table_view = TableView(column_names=('Caudales/Niveles',forecastdates[0], forecastdates[1], forecastdates[2], forecastdates[3], forecastdates[4], forecastdates[5], forecastdates[6]),
-                           rows=[('Caudal de Entrada',inflows[0], inflows[1], inflows[2],inflows[3],inflows[4],inflows[5],inflows[6]),
+                           rows=[('Caudal de Entrada (Total)',inflows['total'][0], inflows['total'][1], inflows['total'][2],inflows['total'][3],inflows['total'][4],inflows['total'][5],inflows['total'][6]),
+                                 ('Caudal de Entrada (21838)', inflows['21838'][0], inflows['21838'][1], inflows['21838'][2], inflows['21838'][3],
+                                  inflows['21838'][4], inflows['21838'][5], inflows['21838'][6]),
+                                 ('Caudal de Entrada (21835)', inflows['21835'][0], inflows['21835'][1], inflows['21835'][2], inflows['21835'][3],
+                                  inflows['21835'][4], inflows['21835'][5], inflows['21835'][6]),
+                                 ('Caudal de Entrada (21834)', inflows['21834'][0], inflows['21834'][1], inflows['21834'][2], inflows['21834'][3],
+                                  inflows['21834'][4], inflows['21834'][5], inflows['21834'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
                                  ('Niveles','368', '370', '369', '374','373','371','372')],
                            hover=True,
@@ -1014,7 +1020,13 @@ def maguaca(request):
 
     #This creates the table
     table_view = TableView(column_names=('Caudales/Niveles',forecastdates[0], forecastdates[1], forecastdates[2], forecastdates[3], forecastdates[4], forecastdates[5], forecastdates[6]),
-                           rows=[('Caudal de Entrada',inflows[0], inflows[1], inflows[2],inflows[3],inflows[4],inflows[5],inflows[6]),
+                           rows=[('Caudal de Entrada (Total)',inflows['total'][0], inflows['total'][1], inflows['total'][2],inflows['total'][3],inflows['total'][4],inflows['total'][5],inflows['total'][6]),
+                                 ('Caudal de Entrada (21838)', inflows['21838'][0], inflows['21838'][1], inflows['21838'][2], inflows['21838'][3],
+                                  inflows['21838'][4], inflows['21838'][5], inflows['21838'][6]),
+                                 ('Caudal de Entrada (21835)', inflows['21835'][0], inflows['21835'][1], inflows['21835'][2], inflows['21835'][3],
+                                  inflows['21835'][4], inflows['21835'][5], inflows['21835'][6]),
+                                 ('Caudal de Entrada (21834)', inflows['21834'][0], inflows['21834'][1], inflows['21834'][2], inflows['21834'][3],
+                                  inflows['21834'][4], inflows['21834'][5], inflows['21834'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
                                  ('Niveles','368', '370', '369', '374','373','371','372')],
                            hover=True,
@@ -1084,7 +1096,13 @@ def chacuey(request):
 
     #This creates the table
     table_view = TableView(column_names=('Caudales/Niveles',forecastdates[0], forecastdates[1], forecastdates[2], forecastdates[3], forecastdates[4], forecastdates[5], forecastdates[6]),
-                           rows=[('Caudal de Entrada',inflows[0], inflows[1], inflows[2],inflows[3],inflows[4],inflows[5],inflows[6]),
+                           rows=[('Caudal de Entrada (Total)',inflows['total'][0], inflows['total'][1], inflows['total'][2],inflows['total'][3],inflows['total'][4],inflows['total'][5],inflows['total'][6]),
+                                 ('Caudal de Entrada (21838)', inflows['21838'][0], inflows['21838'][1], inflows['21838'][2], inflows['21838'][3],
+                                  inflows['21838'][4], inflows['21838'][5], inflows['21838'][6]),
+                                 ('Caudal de Entrada (21835)', inflows['21835'][0], inflows['21835'][1], inflows['21835'][2], inflows['21835'][3],
+                                  inflows['21835'][4], inflows['21835'][5], inflows['21835'][6]),
+                                 ('Caudal de Entrada (21834)', inflows['21834'][0], inflows['21834'][1], inflows['21834'][2], inflows['21834'][3],
+                                  inflows['21834'][4], inflows['21834'][5], inflows['21834'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
                                  ('Niveles','368', '370', '369', '374','373','371','372')],
                            hover=True,
@@ -1154,7 +1172,13 @@ def jiguey(request):
 
     #This creates the table
     table_view = TableView(column_names=('Caudales/Niveles',forecastdates[0], forecastdates[1], forecastdates[2], forecastdates[3], forecastdates[4], forecastdates[5], forecastdates[6]),
-                           rows=[('Caudal de Entrada',inflows[0], inflows[1], inflows[2],inflows[3],inflows[4],inflows[5],inflows[6]),
+                           rows=[('Caudal de Entrada (Total)',inflows['total'][0], inflows['total'][1], inflows['total'][2],inflows['total'][3],inflows['total'][4],inflows['total'][5],inflows['total'][6]),
+                                 ('Caudal de Entrada (21838)', inflows['21838'][0], inflows['21838'][1], inflows['21838'][2], inflows['21838'][3],
+                                  inflows['21838'][4], inflows['21838'][5], inflows['21838'][6]),
+                                 ('Caudal de Entrada (21835)', inflows['21835'][0], inflows['21835'][1], inflows['21835'][2], inflows['21835'][3],
+                                  inflows['21835'][4], inflows['21835'][5], inflows['21835'][6]),
+                                 ('Caudal de Entrada (21834)', inflows['21834'][0], inflows['21834'][1], inflows['21834'][2], inflows['21834'][3],
+                                  inflows['21834'][4], inflows['21834'][5], inflows['21834'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
                                  ('Niveles','368', '370', '369', '374','373','371','372')],
                            hover=True,
@@ -1224,7 +1248,13 @@ def moncion(request):
 
     #This creates the table
     table_view = TableView(column_names=('Caudales/Niveles',forecastdates[0], forecastdates[1], forecastdates[2], forecastdates[3], forecastdates[4], forecastdates[5], forecastdates[6]),
-                           rows=[('Caudal de Entrada',inflows[0], inflows[1], inflows[2],inflows[3],inflows[4],inflows[5],inflows[6]),
+                           rows=[('Caudal de Entrada (Total)',inflows['total'][0], inflows['total'][1], inflows['total'][2],inflows['total'][3],inflows['total'][4],inflows['total'][5],inflows['total'][6]),
+                                 ('Caudal de Entrada (21838)', inflows['21838'][0], inflows['21838'][1], inflows['21838'][2], inflows['21838'][3],
+                                  inflows['21838'][4], inflows['21838'][5], inflows['21838'][6]),
+                                 ('Caudal de Entrada (21835)', inflows['21835'][0], inflows['21835'][1], inflows['21835'][2], inflows['21835'][3],
+                                  inflows['21835'][4], inflows['21835'][5], inflows['21835'][6]),
+                                 ('Caudal de Entrada (21834)', inflows['21834'][0], inflows['21834'][1], inflows['21834'][2], inflows['21834'][3],
+                                  inflows['21834'][4], inflows['21834'][5], inflows['21834'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
                                  ('Niveles','368', '370', '369', '374','373','371','372')],
                            hover=True,
@@ -1294,7 +1324,13 @@ def pinalito(request):
 
     #This creates the table
     table_view = TableView(column_names=('Caudales/Niveles',forecastdates[0], forecastdates[1], forecastdates[2], forecastdates[3], forecastdates[4], forecastdates[5], forecastdates[6]),
-                           rows=[('Caudal de Entrada',inflows[0], inflows[1], inflows[2],inflows[3],inflows[4],inflows[5],inflows[6]),
+                           rows=[('Caudal de Entrada (Total)',inflows['total'][0], inflows['total'][1], inflows['total'][2],inflows['total'][3],inflows['total'][4],inflows['total'][5],inflows['total'][6]),
+                                 ('Caudal de Entrada (21838)', inflows['21838'][0], inflows['21838'][1], inflows['21838'][2], inflows['21838'][3],
+                                  inflows['21838'][4], inflows['21838'][5], inflows['21838'][6]),
+                                 ('Caudal de Entrada (21835)', inflows['21835'][0], inflows['21835'][1], inflows['21835'][2], inflows['21835'][3],
+                                  inflows['21835'][4], inflows['21835'][5], inflows['21835'][6]),
+                                 ('Caudal de Entrada (21834)', inflows['21834'][0], inflows['21834'][1], inflows['21834'][2], inflows['21834'][3],
+                                  inflows['21834'][4], inflows['21834'][5], inflows['21834'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
                                  ('Niveles','368', '370', '369', '374','373','371','372')],
                            hover=True,
@@ -1364,7 +1400,13 @@ def rincon(request):
 
     #This creates the table
     table_view = TableView(column_names=('Caudales/Niveles',forecastdates[0], forecastdates[1], forecastdates[2], forecastdates[3], forecastdates[4], forecastdates[5], forecastdates[6]),
-                           rows=[('Caudal de Entrada',inflows[0], inflows[1], inflows[2],inflows[3],inflows[4],inflows[5],inflows[6]),
+                           rows=[('Caudal de Entrada (Total)',inflows['total'][0], inflows['total'][1], inflows['total'][2],inflows['total'][3],inflows['total'][4],inflows['total'][5],inflows['total'][6]),
+                                 ('Caudal de Entrada (21838)', inflows['21838'][0], inflows['21838'][1], inflows['21838'][2], inflows['21838'][3],
+                                  inflows['21838'][4], inflows['21838'][5], inflows['21838'][6]),
+                                 ('Caudal de Entrada (21835)', inflows['21835'][0], inflows['21835'][1], inflows['21835'][2], inflows['21835'][3],
+                                  inflows['21835'][4], inflows['21835'][5], inflows['21835'][6]),
+                                 ('Caudal de Entrada (21834)', inflows['21834'][0], inflows['21834'][1], inflows['21834'][2], inflows['21834'][3],
+                                  inflows['21834'][4], inflows['21834'][5], inflows['21834'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
                                  ('Niveles','368', '370', '369', '374','373','371','372')],
                            hover=True,
@@ -1434,7 +1476,13 @@ def sabaneta(request):
 
     #This creates the table
     table_view = TableView(column_names=('Caudales/Niveles',forecastdates[0], forecastdates[1], forecastdates[2], forecastdates[3], forecastdates[4], forecastdates[5], forecastdates[6]),
-                           rows=[('Caudal de Entrada',inflows[0], inflows[1], inflows[2],inflows[3],inflows[4],inflows[5],inflows[6]),
+                           rows=[('Caudal de Entrada (Total)',inflows['total'][0], inflows['total'][1], inflows['total'][2],inflows['total'][3],inflows['total'][4],inflows['total'][5],inflows['total'][6]),
+                                 ('Caudal de Entrada (21838)', inflows['21838'][0], inflows['21838'][1], inflows['21838'][2], inflows['21838'][3],
+                                  inflows['21838'][4], inflows['21838'][5], inflows['21838'][6]),
+                                 ('Caudal de Entrada (21835)', inflows['21835'][0], inflows['21835'][1], inflows['21835'][2], inflows['21835'][3],
+                                  inflows['21835'][4], inflows['21835'][5], inflows['21835'][6]),
+                                 ('Caudal de Entrada (21834)', inflows['21834'][0], inflows['21834'][1], inflows['21834'][2], inflows['21834'][3],
+                                  inflows['21834'][4], inflows['21834'][5], inflows['21834'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
                                  ('Niveles','368', '370', '369', '374','373','371','372')],
                            hover=True,
@@ -1504,7 +1552,13 @@ def tavera_bao(request):
 
     #This creates the table
     table_view = TableView(column_names=('Caudales/Niveles',forecastdates[0], forecastdates[1], forecastdates[2], forecastdates[3], forecastdates[4], forecastdates[5], forecastdates[6]),
-                           rows=[('Caudal de Entrada',inflows[0], inflows[1], inflows[2],inflows[3],inflows[4],inflows[5],inflows[6]),
+                           rows=[('Caudal de Entrada (Total)',inflows['total'][0], inflows['total'][1], inflows['total'][2],inflows['total'][3],inflows['total'][4],inflows['total'][5],inflows['total'][6]),
+                                 ('Caudal de Entrada (21838)', inflows['21838'][0], inflows['21838'][1], inflows['21838'][2], inflows['21838'][3],
+                                  inflows['21838'][4], inflows['21838'][5], inflows['21838'][6]),
+                                 ('Caudal de Entrada (21835)', inflows['21835'][0], inflows['21835'][1], inflows['21835'][2], inflows['21835'][3],
+                                  inflows['21835'][4], inflows['21835'][5], inflows['21835'][6]),
+                                 ('Caudal de Entrada (21834)', inflows['21834'][0], inflows['21834'][1], inflows['21834'][2], inflows['21834'][3],
+                                  inflows['21834'][4], inflows['21834'][5], inflows['21834'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
                                  ('Niveles','368', '370', '369', '374','373','371','372')],
                            hover=True,
@@ -1574,7 +1628,13 @@ def valdesia(request):
 
     #This creates the table
     table_view = TableView(column_names=('Caudales/Niveles',forecastdates[0], forecastdates[1], forecastdates[2], forecastdates[3], forecastdates[4], forecastdates[5], forecastdates[6]),
-                           rows=[('Caudal de Entrada',inflows[0], inflows[1], inflows[2],inflows[3],inflows[4],inflows[5],inflows[6]),
+                           rows=[('Caudal de Entrada (Total)',inflows['total'][0], inflows['total'][1], inflows['total'][2],inflows['total'][3],inflows['total'][4],inflows['total'][5],inflows['total'][6]),
+                                 ('Caudal de Entrada (21838)', inflows['21838'][0], inflows['21838'][1], inflows['21838'][2], inflows['21838'][3],
+                                  inflows['21838'][4], inflows['21838'][5], inflows['21838'][6]),
+                                 ('Caudal de Entrada (21835)', inflows['21835'][0], inflows['21835'][1], inflows['21835'][2], inflows['21835'][3],
+                                  inflows['21835'][4], inflows['21835'][5], inflows['21835'][6]),
+                                 ('Caudal de Entrada (21834)', inflows['21834'][0], inflows['21834'][1], inflows['21834'][2], inflows['21834'][3],
+                                  inflows['21834'][4], inflows['21834'][5], inflows['21834'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
                                  ('Niveles','368', '370', '369', '374','373','371','372')],
                            hover=True,
