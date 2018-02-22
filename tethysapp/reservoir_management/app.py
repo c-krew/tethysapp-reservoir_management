@@ -41,8 +41,58 @@ class ReservoirManagement(TethysAppBase):
                    ),
             UrlMap(
                 name='sabana_yegua',
-                url='reservoir-management/sabana-yegua',
+                url='reservoir-management/sabana_yegua',
                 controller='reservoir_management.controllers.sabana_yegua'
+            ),
+            UrlMap(
+                name='hatillo',
+                url='reservoir-management/hatillo',
+                controller='reservoir_management.controllers.hatillo'
+            ),
+            UrlMap(
+                name='maguaca',
+                url='reservoir-management/maguaca',
+                controller='reservoir_management.controllers.maguaca'
+            ),
+            UrlMap(
+                name='chacuey',
+                url='reservoir-management/chacuey',
+                controller='reservoir_management.controllers.chacuey'
+            ),
+            UrlMap(
+                name='jiguey',
+                url='reservoir-management/jiguey',
+                controller='reservoir_management.controllers.jiguey'
+            ),
+            UrlMap(
+                name='moncion',
+                url='reservoir-management/moncion',
+                controller='reservoir_management.controllers.moncion'
+            ),
+            UrlMap(
+                name='pinalito',
+                url='reservoir-management/pinalito',
+                controller='reservoir_management.controllers.pinalito'
+            ),
+            UrlMap(
+                name='rincon',
+                url='reservoir-management/rincon',
+                controller='reservoir_management.controllers.rincon'
+            ),
+            UrlMap(
+                name='sabaneta',
+                url='reservoir-management/sabaneta',
+                controller='reservoir_management.controllers.sabaneta'
+            ),
+            UrlMap(
+                name='tavera_bao',
+                url='reservoir-management/tavera_bao',
+                controller='reservoir_management.controllers.tavera_bao'
+            ),
+            UrlMap(
+                name='valdesia',
+                url='reservoir-management/valdesia',
+                controller='reservoir_management.controllers.valdesia'
             ),
         )
 

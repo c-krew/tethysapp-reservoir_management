@@ -77,7 +77,7 @@ function init_map(){
     var wmsLayer = new ol.layer.Image({
         source: new ol.source.ImageWMS({
             url: 'http://localhost:8181/geoserver/wms',
-            params: {'LAYERS': '9bs7nt'},
+            params: {'LAYERS': 'reservoirs'},
             serverType: 'geoserver',
             crossOrigin: 'Anonymous'
         })
@@ -123,6 +123,27 @@ function init_map(){
             content.innerHTML = '<h3>' + res_name + '</h3><br><p> Nivel de Agua = ... </p><p> Caudal en entrada = ... </p><p> Ultimo dia de ingresar = ... </p>';
             overlay.setPosition(coordinate);
                 });
+            map.on("singleclick",function(evt) {
+
+                var res_name_lower;
+                if (res_name == "Sabana Yegua")
+                   {
+                         res_name_lower= 'sabana_yegua';
+                   }
+                   else if (res_name == "Tavera-Bao")
+                   {
+                        res_name_lower = 'tavera_bao';
+                   }
+                   else
+                   {
+                        res_name_lower = res_name.charAt(0).toLowerCase() + res_name.slice(1);
+                   }
+                location.href = 'http://127.0.0.1:8000/apps/reservoir-management/' + res_name_lower
+
+
+            });
+
+
             }
         } else {
             /*if the cursor is not a pointer hand, then there is no popup*/
