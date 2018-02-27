@@ -3,6 +3,9 @@
 
 import requests
 import datetime as dt
+import pandas as pd
+from .app import ReservoirManagement as app
+import os
 
 
 def getforecastflows():
@@ -90,5 +93,20 @@ def getforecastdates():
             timestep.append(str(dates)[5:-9])
 
     return timestep
+
+def gethistoricaldata():
+
+    app_workspace = app.get_app_workspace()
+    damsheet = os.path.join(app_workspace.path, 'DamLevel_DR_BYU 2018.xlsx')
+    dfnan = pd.read_excel(damsheet, usecols='A,B', skiprows=2)
+    df = dfnan.dropna()
+
+    data = []
+    for index, row in df.iterrows():
+        timestep = row["Nivel"].to_pydatetime()
+        value = row["Tavera"]
+        data.append([timestep, value])
+
+    return data
 
 
