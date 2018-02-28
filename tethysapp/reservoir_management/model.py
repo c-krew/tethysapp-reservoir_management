@@ -34,6 +34,7 @@ def getforecastflows(watershed,subbasin,comids):
         data.pop(0)
 
         values = []
+        timestep = []
 
         for e in data:
             parser = e.split('"  methodCode="1"  sourceCode="1"  qualityControlLevelCode="1" >')
@@ -42,6 +43,7 @@ def getforecastflows(watershed,subbasin,comids):
             if str(dates).endswith("00:00:00"):
                 value = float(parser[1].split('<')[0])
                 values.append(value)
+                timestep.append(str(dates)[5:-9])
         allvalues[comid] = values
 
     newseries = []
@@ -56,40 +58,10 @@ def getforecastflows(watershed,subbasin,comids):
         formattedtotal = ["%.2f" % elem for elem in allvalues[x]]
         allformvalues[x] = formattedtotal
 
+    allformvalues['timestep'] = timestep
+
     return allformvalues
 
-def getforecastdates(watershed,subbasin,comids):
-    # These are the comids for the rivers that go into the reservoirs. See Streamflow Prediction Tool
-    # the information for where to look for the comids. We may need to think of a different way to do this because not all the rivers we
-    # need are in this watershed/subbasin combination.
-
-    for x in comids:
-        startdate = 'most_recent'
-
-
-        res = requests.get('https://tethys.byu.edu/apps/streamflow-prediction-tool/api/GetWaterML/?watershed_name=' +
-                           watershed + '&subbasin_name=' + subbasin + '&reach_id=' + x + '&start_folder=' +
-                           startdate + '&stat_type=mean',
-                           headers={'Authorization': 'Token 72b145121add58bcc5843044d9f1006d9140b84b'})
-
-        # The following code takes the results from the streamflow prediction tool and then sorts through it to get the dates
-        content = res.content
-
-        data = content.split('dateTimeUTC="')
-        data.pop(0)
-
-        timestep = []
-
-        series = []
-        for e in data:
-            parser = e.split('"  methodCode="1"  sourceCode="1"  qualityControlLevelCode="1" >')
-            dateraw = parser[0]
-            dates = dt.datetime.strptime(dateraw, "%Y-%m-%dT%H:%M:%S")
-            if str(dates).endswith("00:00:00"):
-                timestep.append(str(dates)[5:-9])
-
-        return timestep
-        break
 
 def gethistoricaldata(res):
 
