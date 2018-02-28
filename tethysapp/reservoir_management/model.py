@@ -8,18 +8,15 @@ from .app import ReservoirManagement as app
 import os
 
 
-def getforecastflows():
+def getforecastflows(watershed,subbasin,comids):
 
 
     #These are the comids for the rivers that go into the reservoirs. See Streamflow Prediction Tool
-    comids = ['21838', '21834', '21835']
     allvalues = {}
 
     for x in comids:
         #the information for where to look for the comids. We may need to think of a different way to do this because not all the rivers we
         #need are in this watershed/subbasin combination.
-        watershed = 'Dominican Republic'
-        subbasin = 'Yaque del Sur'
         comid = x
         startdate = 'most_recent'
 
@@ -61,51 +58,60 @@ def getforecastflows():
 
     return allformvalues
 
-def getforecastdates():
+def getforecastdates(watershed,subbasin,comids):
     # These are the comids for the rivers that go into the reservoirs. See Streamflow Prediction Tool
     # the information for where to look for the comids. We may need to think of a different way to do this because not all the rivers we
     # need are in this watershed/subbasin combination.
-    watershed = 'Dominican Republic'
-    subbasin = 'Yaque del Sur'
-    comid = '21838'
-    startdate = 'most_recent'
+
+    for x in comids:
+        startdate = 'most_recent'
 
 
-    res = requests.get('https://tethys.byu.edu/apps/streamflow-prediction-tool/api/GetWaterML/?watershed_name=' +
-                       watershed + '&subbasin_name=' + subbasin + '&reach_id=' + comid + '&start_folder=' +
-                       startdate + '&stat_type=mean',
-                       headers={'Authorization': 'Token 72b145121add58bcc5843044d9f1006d9140b84b'})
+        res = requests.get('https://tethys.byu.edu/apps/streamflow-prediction-tool/api/GetWaterML/?watershed_name=' +
+                           watershed + '&subbasin_name=' + subbasin + '&reach_id=' + x + '&start_folder=' +
+                           startdate + '&stat_type=mean',
+                           headers={'Authorization': 'Token 72b145121add58bcc5843044d9f1006d9140b84b'})
 
-    # The following code takes the results from the streamflow prediction tool and then sorts through it to get the dates
-    content = res.content
+        # The following code takes the results from the streamflow prediction tool and then sorts through it to get the dates
+        content = res.content
 
-    data = content.split('dateTimeUTC="')
-    data.pop(0)
+        data = content.split('dateTimeUTC="')
+        data.pop(0)
 
-    timestep = []
+        timestep = []
 
-    series = []
-    for e in data:
-        parser = e.split('"  methodCode="1"  sourceCode="1"  qualityControlLevelCode="1" >')
-        dateraw = parser[0]
-        dates = dt.datetime.strptime(dateraw, "%Y-%m-%dT%H:%M:%S")
-        if str(dates).endswith("00:00:00"):
-            timestep.append(str(dates)[5:-9])
+        series = []
+        for e in data:
+            parser = e.split('"  methodCode="1"  sourceCode="1"  qualityControlLevelCode="1" >')
+            dateraw = parser[0]
+            dates = dt.datetime.strptime(dateraw, "%Y-%m-%dT%H:%M:%S")
+            if str(dates).endswith("00:00:00"):
+                timestep.append(str(dates)[5:-9])
 
-    return timestep
+        return timestep
+        break
 
-def gethistoricaldata():
+def gethistoricaldata(res):
 
     app_workspace = app.get_app_workspace()
     damsheet = os.path.join(app_workspace.path, 'DamLevel_DR_BYU 2018.xlsx')
-    dfnan = pd.read_excel(damsheet, usecols='A,B', skiprows=2)
-    df = dfnan.dropna()
+
+    dfnan = pd.read_excel(damsheet, skiprows=2)
+    df1 = dfnan[['Nivel', res]]
+    df = df1.dropna()
 
     data = []
+
     for index, row in df.iterrows():
         timestep = row["Nivel"].to_pydatetime()
-        value = row["Tavera"]
+        value = row[res]
         data.append([timestep, value])
+
+    if res == 'Bao':
+        del data[0]
+        del data[0]
+    elif res == 'Moncion':
+        del data[0]
 
     return data
 
