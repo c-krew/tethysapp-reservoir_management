@@ -5,7 +5,7 @@ from django.shortcuts import render, reverse, redirect
 from django.contrib.auth.decorators import login_required
 from tethys_sdk.gizmos import MapView, Button, TextInput, DatePicker, SelectInput, DataTableView, MVDraw, MVView, MVLayer, LinePlot, TableView, TimeSeries
 from datetime import datetime
-from model import getforecastflows, gethistoricaldata
+from model import getforecastflows, gethistoricaldata, getrecentdata
 
 
 @login_required()
@@ -99,11 +99,19 @@ def reportar(request):
                            placeholder='i.e. 14:12',
                            )
 
+    data = getrecentdata()
+    table_view = TableView(column_names=('Tiempo', 'Nivel'),
+                           rows=data,
+                           hover=True,
+                           striped=True,
+                           bordered=True,
+                           condensed=True)
 
     context = {
         'dam_input': dam_input,
         'level_input':level_input,
         'time_input': time_input,
+        'table_view': table_view,
     }
 
     return render(request, 'reservoir_management/reportar.html', context)

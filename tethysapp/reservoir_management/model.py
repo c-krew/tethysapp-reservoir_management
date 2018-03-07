@@ -87,4 +87,24 @@ def gethistoricaldata(res):
 
     return data
 
+def getrecentdata():
+
+    app_workspace = app.get_app_workspace()
+    damsheet = os.path.join(app_workspace.path, 'DamLevel_DR_BYU 2018.xlsx')
+
+    dfnan = pd.read_excel(damsheet, skiprows=2)
+
+    dftavera = dfnan[['Tavera', 'Nivel']].dropna()
+
+    dftavera = (dftavera[::-1])
+
+    dftavera = (dftavera[:10])
+
+    data = []
+    for row in dftavera.itertuples():
+        timestep = str(row.Nivel)[:10]
+        Level = row.Tavera
+        data.append((timestep, Level))
+
+    return data
 
