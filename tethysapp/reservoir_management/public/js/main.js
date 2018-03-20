@@ -170,6 +170,47 @@ function init_map(){
 
 }
 
+function append(){
+    var dam = $("#dam").val();
+    var level = $("#levelinput").val();
+    var date = $("#dateinput").val();
+
+    $.ajax({
+        url: '/apps/reservoir-management/append-res-info/',
+        type: 'GET',
+        data: {'dam' : dam, 'level' : level, 'date' : date},
+        contentType: 'application/json',
+        error: function (status) {
+
+        }, success: function (response) {
+
+        }
+    })
+}
+
+function test(){
+    alert("work")
+}
+
+$('#sampleModal').on('show.bs.modal', function () {
+    var dam = $("#dam").val();
+    var level = $("#levelinput").val();
+    var date = $("#dateinput").val();
+    levelstr = "Nivel del Embalse = " + level
+    datestr = "Dia = " + date;
+    document.getElementsByClassName("modal-body")[0].innerHTML = "Embalse = " + dam;
+    $( ".modal-body" ).append("<br>");
+    $( ".modal-body" ).append("<br>");
+    $( ".modal-body" ).append(levelstr);
+    $( ".modal-body" ).append("<br>");
+    $( ".modal-body" ).append("<br>");
+    $( ".modal-body" ).append(datestr);
+})
+
+function addvarstomessage(){
+    document.getElementsByClassName("modal-body")[0].innerHTML = "Paragraph changed!";
+}
+
 
 /*thse function occur automatically when the page is loaded*/
 $(function(){
@@ -178,3 +219,5 @@ $(function(){
     $(".toggle-nav").removeClass('toggle-nav');
     init_map();
 });
+
+

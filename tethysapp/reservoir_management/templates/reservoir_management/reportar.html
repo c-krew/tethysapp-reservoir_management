@@ -10,9 +10,16 @@ functionality, then add javascript or python code. -->
     </div>
     {% gizmo dam_input %}
     {% gizmo level_input %}
-    {% gizmo time_input %}
+    {% gizmo date_input %}
     {% gizmo table_view %}
+    <div id="ingresar">
+        <a href="#sampleModal" role="button" class="btn btn-success" data-toggle="modal">Ingresar Datos</a>
+    </div>
 {% endblock %}
 
 {% block app_actions %}
+{% endblock %}
+
+{% block after_app_content %}
+    {% gizmo message_box %}
 {% endblock %}

@@ -3,8 +3,8 @@
 
 from django.shortcuts import render, reverse, redirect
 from django.contrib.auth.decorators import login_required
-from tethys_sdk.gizmos import MapView, Button, TextInput, DatePicker, SelectInput, DataTableView, MVDraw, MVView, MVLayer, LinePlot, TableView, TimeSeries
-from datetime import datetime
+from tethys_sdk.gizmos import *
+import datetime
 from model import getforecastflows, gethistoricaldata, getrecentdata
 
 
@@ -60,7 +60,7 @@ def sabana_yegua(request):
                                  ('Caudal de Entrada (21834)', forecastinfo['21834'][0], forecastinfo['21834'][1], forecastinfo['21834'][2], forecastinfo['21834'][3],
                                   forecastinfo['21834'][4], forecastinfo['21834'][5], forecastinfo['21834'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
-                                 ('Niveles','368', '370', '369', '374','373','371','372')],
+                                 ('Niveles','393', '393.8', '394', '394.1','394','394.4','394.8')],
                            hover=True,
                            striped=True,
                            bordered=True,
@@ -94,10 +94,21 @@ def reportar(request):
                            placeholder='i.e. 375',
                            )
 
-    time_input = TextInput(display_text='Tiempo en lo que fue medido',
-                           name='timeinput',
-                           placeholder='i.e. 14:12',
-                           )
+
+    today = datetime.datetime.now()
+    year = str(today.year)
+    month = str(today.strftime("%B"))
+    day = str(today.day)
+    date = month + ' ' + day + ', ' + year
+
+    date_input = DatePicker(name='dateinput',
+                             display_text='Date',
+                             autoclose=True,
+                             format='MM d, yyyy',
+                             start_date='2/15/2014',
+                             start_view='month',
+                             today_button=True,
+                             initial= date)
 
     data = getrecentdata()
     table_view = TableView(column_names=('Tiempo', 'Nivel'),
@@ -107,11 +118,22 @@ def reportar(request):
                            bordered=True,
                            condensed=True)
 
+    message_box = MessageBox(name='sampleModal',
+                             title='Resumen de Entradas',
+                             message='',
+                             dismiss_button='Regresar',
+                             affirmative_button='Proceder',
+                             width=400,
+                             affirmative_attributes='onclick=append();',
+                             )
+
+
     context = {
         'dam_input': dam_input,
         'level_input':level_input,
-        'time_input': time_input,
+        'date_input': date_input,
         'table_view': table_view,
+        'message_box': message_box,
     }
 
     return render(request, 'reservoir_management/reportar.html', context)
