@@ -94,6 +94,11 @@ class ReservoirManagement(TethysAppBase):
                 url='reservoir-management/valdesia',
                 controller='reservoir_management.controllers.valdesia'
             ),
+            UrlMap(
+                name='append-res-info',
+                url='reservoir-management/append-res-info',
+                controller='reservoir_management.ajax_controllers.append_res_info'
+            ),
         )
 
         return url_maps
