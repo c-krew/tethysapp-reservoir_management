@@ -76,7 +76,7 @@ function init_map(){
     /*searched for the reservoir layer on the geoserver and grabs it. This will need to be changed when installed on a different computer*/
     var wmsLayer = new ol.layer.Image({
         source: new ol.source.ImageWMS({
-            url: 'http://localhost:8181/geoserver/wms',
+            url: 'http://tethys.byu.edu:8181/geoserver/wms',
             params: {'LAYERS': 'reservoirs'},
             serverType: 'geoserver',
             crossOrigin: 'Anonymous'
@@ -205,6 +205,13 @@ $('#sampleModal').on('show.bs.modal', function () {
     $( ".modal-body" ).append("<br>");
     $( ".modal-body" ).append("<br>");
     $( ".modal-body" ).append(datestr);
+    warning = '<i class="material-icons" style="font-size:48px;color:red">warning</i>'
+    if (level == "") {
+        $( ".modal-body" ).append("<br>");
+        $( ".modal-body" ).append(warning);
+        $( ".modal-body" ).append("<br>");
+        $( ".modal-body" ).append('<i style="font-size:25px;color:red">Se necesita un nivel para el embalse</i>')
+    }
 })
 
 function addvarstomessage(){
