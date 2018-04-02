@@ -123,7 +123,9 @@ def reportar(request):
                              initial= date)
 
     data = getrecentdata()
-    table_view = TableView(column_names=('Tiempo', 'Nivel'),
+    table_view = TableView(column_names=('Tiempo','Tavera-Bao','Moncion','Rincon','Hatillo',
+                                         'Jiguey','Valdesia','S. Yegua','Sabaneta','Rio Blanco',
+                                         'Pinalito','Maguaca','Chacuey'),
                            rows=data,
                            hover=True,
                            striped=True,

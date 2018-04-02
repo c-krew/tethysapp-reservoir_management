@@ -90,21 +90,46 @@ def gethistoricaldata(res):
 def getrecentdata():
 
     app_workspace = app.get_app_workspace()
-    damsheet = os.path.join(app_workspace.path, 'DamLevel_DR_BYU 2018.xlsx')
+    damsheet = os.path.join(app_workspace.path, 'NEWDamLevel_DR_BYU 2018.xlsx')
 
     dfnan = pd.read_excel(damsheet)
 
-    dftavera = dfnan[['Tavera', 'Nivel']].dropna()
+    today = dt.datetime.now()
+    year = str(today.year)
+    month = str(today.strftime("%B"))
+    day = str(today.day)
+    date = month + ' ' + day + ', ' + year
 
-    dftavera = (dftavera[::-1])
+    time = str(dt.datetime.strptime(date, '%B %d, %Y'))[0:10]
 
-    dftavera = (dftavera[:10])
+    dfdateindex = dfnan.set_index("Nivel")
+
+    dfdateindex = dfdateindex.loc[:time]
+
+    dftable = (dfdateindex[::-1])
+    dftable = (dftable[:10])
 
     data = []
-    for row in dftavera.itertuples():
-        timestep = str(row.Nivel)[:10]
-        Level = row.Tavera
-        data.append((timestep, Level))
+    for row in dftable.itertuples():
+        Time = str(row[0])[:10]
+        #    Level = str(row[1:15])
+        Tavera = row[1]
+        #Bao = row[2]
+        Moncion = row[3]
+        Rincon = row[4]
+        Hatillo = row[5]
+        Jiguey = row[6]
+        Valdesia = row[7]
+        Yegua = row[8]
+        Sabaneta = row[9]
+        Blanco = row[10]
+        Pinalito = row[11]
+        Maguaca = row[12]
+        Chacuey = row[13]
+        #    Lopez = row[14]
+
+        data.append((Time, Tavera, Moncion, Rincon, Hatillo, Jiguey, Valdesia, Yegua, Sabaneta, Blanco, Pinalito,
+                     Maguaca, Chacuey))
 
     return data
 

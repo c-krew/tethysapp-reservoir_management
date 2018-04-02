@@ -14,7 +14,7 @@ class ReservoirManagement(TethysAppBase):
 
     name = 'Herramientas de Operaciones de los Embalses'
     index = 'reservoir_management:home'
-    icon = 'reservoir_management/images/droplets.png'
+    icon = 'reservoir_management/images/LOGO.png'
     package = 'reservoir_management'
     root_url = 'reservoir-management'
     color = '#01AEBF'
