@@ -8,7 +8,7 @@ from .app import ReservoirManagement as app
 import os
 
 
-def getforecastflows(watershed,subbasin,comids):
+def getforecastflows(comids):
 
 
     #These are the comids for the rivers that go into the reservoirs. See Streamflow Prediction Tool
@@ -22,7 +22,7 @@ def getforecastflows(watershed,subbasin,comids):
 
 
         res = requests.get('https://tethys.byu.edu/apps/streamflow-prediction-tool/api/GetWaterML/?watershed_name=' +
-                           watershed + '&subbasin_name=' + subbasin + '&reach_id=' + comid + '&start_folder=' +
+                           'Dominican Republic' + '&subbasin_name=' + 'National' + '&reach_id=' + comid + '&start_folder=' +
                            startdate + '&stat_type=mean',
                            headers={'Authorization': 'Token 72b145121add58bcc5843044d9f1006d9140b84b'})
 

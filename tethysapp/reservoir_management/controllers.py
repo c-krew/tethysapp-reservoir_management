@@ -30,11 +30,9 @@ def sabana_yegua(request):
     """
 
     #this refers to python code in model.py. It uses the stremaflow prediction tool api to get this information.
-    watershed = 'Dominican Republic'
-    subbasin = 'Yaque del Sur'
-    comids = ['21838', '21834', '21835']
+    comids = ['593', '600', '599']
 
-    forecastinfo = getforecastflows(watershed,subbasin,comids)
+    forecastinfo = getforecastflows(comids)
     data = gethistoricaldata('S. Yegua')
 
     timeseries_plot = TimeSeries(
@@ -53,12 +51,12 @@ def sabana_yegua(request):
 
     table_view = TableView(column_names=('Caudales/Niveles',forecastinfo['timestep'][0], forecastinfo['timestep'][1], forecastinfo['timestep'][2], forecastinfo['timestep'][3], forecastinfo['timestep'][4], forecastinfo['timestep'][5], forecastinfo['timestep'][6]),
                            rows=[('Caudal de Entrada (Total)',forecastinfo['total'][0], forecastinfo['total'][1], forecastinfo['total'][2],forecastinfo['total'][3],forecastinfo['total'][4],forecastinfo['total'][5],forecastinfo['total'][6]),
-                                 ('Caudal de Entrada (21838)', forecastinfo['21838'][0], forecastinfo['21838'][1], forecastinfo['21838'][2], forecastinfo['21838'][3],
-                                  forecastinfo['21838'][4], forecastinfo['21838'][5], forecastinfo['21838'][6]),
-                                 ('Caudal de Entrada (21835)', forecastinfo['21835'][0], forecastinfo['21835'][1], forecastinfo['21835'][2], forecastinfo['21835'][3],
-                                  forecastinfo['21835'][4], forecastinfo['21835'][5], forecastinfo['21835'][6]),
-                                 ('Caudal de Entrada (21834)', forecastinfo['21834'][0], forecastinfo['21834'][1], forecastinfo['21834'][2], forecastinfo['21834'][3],
-                                  forecastinfo['21834'][4], forecastinfo['21834'][5], forecastinfo['21834'][6]),
+                                 ('Caudal de Entrada (593)', forecastinfo['593'][0], forecastinfo['593'][1], forecastinfo['593'][2], forecastinfo['593'][3],
+                                  forecastinfo['593'][4], forecastinfo['593'][5], forecastinfo['593'][6]),
+                                 ('Caudal de Entrada (600)', forecastinfo['600'][0], forecastinfo['600'][1], forecastinfo['600'][2], forecastinfo['600'][3],
+                                  forecastinfo['600'][4], forecastinfo['600'][5], forecastinfo['600'][6]),
+                                 ('Caudal de Entrada (599)', forecastinfo['599'][0], forecastinfo['599'][1], forecastinfo['599'][2], forecastinfo['599'][3],
+                                  forecastinfo['599'][4], forecastinfo['599'][5], forecastinfo['599'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
                                  ('Niveles','393', '393.8', '394', '394.1','394','394.4','394.8')],
                            hover=True,
@@ -163,11 +161,9 @@ def hatillo(request):
     #you would need to create a python script outside of this and then refer to it just like the getforecastflows() and getforecastinfo[timestep]()
     #for the table as seen below.
 
-    watershed = 'Dominican Republic'
-    subbasin = 'Yaque del Sur'
-    comids = ['21838', '21834', '21835']
+    comids = ['834', '813', '849', '857']
 
-    forecastinfo = getforecastflows(watershed,subbasin,comids)
+    forecastinfo = getforecastflows(comids)
     data = gethistoricaldata('Hatillo')
 
     timeseries_plot = TimeSeries(
@@ -188,12 +184,14 @@ def hatillo(request):
     #This creates the table
     table_view = TableView(column_names=('Caudales/Niveles',forecastinfo['timestep'][0], forecastinfo['timestep'][1], forecastinfo['timestep'][2], forecastinfo['timestep'][3], forecastinfo['timestep'][4], forecastinfo['timestep'][5], forecastinfo['timestep'][6]),
                            rows=[('Caudal de Entrada (Total)',forecastinfo['total'][0], forecastinfo['total'][1], forecastinfo['total'][2],forecastinfo['total'][3],forecastinfo['total'][4],forecastinfo['total'][5],forecastinfo['total'][6]),
-                                 ('Caudal de Entrada (21838)', forecastinfo['21838'][0], forecastinfo['21838'][1], forecastinfo['21838'][2], forecastinfo['21838'][3],
-                                  forecastinfo['21838'][4], forecastinfo['21838'][5], forecastinfo['21838'][6]),
-                                 ('Caudal de Entrada (21835)', forecastinfo['21835'][0], forecastinfo['21835'][1], forecastinfo['21835'][2], forecastinfo['21835'][3],
-                                  forecastinfo['21835'][4], forecastinfo['21835'][5], forecastinfo['21835'][6]),
-                                 ('Caudal de Entrada (21834)', forecastinfo['21834'][0], forecastinfo['21834'][1], forecastinfo['21834'][2], forecastinfo['21834'][3],
-                                  forecastinfo['21834'][4], forecastinfo['21834'][5], forecastinfo['21834'][6]),
+                                 ('Caudal de Entrada (834)', forecastinfo['834'][0], forecastinfo['834'][1], forecastinfo['834'][2], forecastinfo['834'][3],
+                                  forecastinfo['834'][4], forecastinfo['834'][5], forecastinfo['834'][6]),
+                                 ('Caudal de Entrada (813)', forecastinfo['813'][0], forecastinfo['813'][1], forecastinfo['813'][2], forecastinfo['813'][3],
+                                  forecastinfo['813'][4], forecastinfo['813'][5], forecastinfo['813'][6]),
+                                 ('Caudal de Entrada (849)', forecastinfo['849'][0], forecastinfo['849'][1], forecastinfo['849'][2], forecastinfo['849'][3],
+                                  forecastinfo['849'][4], forecastinfo['849'][5], forecastinfo['849'][6]),
+                                 ('Caudal de Entrada (857)', forecastinfo['857'][0], forecastinfo['857'][1], forecastinfo['857'][2], forecastinfo['857'][3],
+                                  forecastinfo['857'][4], forecastinfo['857'][5], forecastinfo['857'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
                                  ('Niveles','368', '370', '369', '374','373','371','372')],
                            hover=True,
@@ -215,12 +213,9 @@ def maguaca(request):
     """
     Controller for the Add Dam page.
     """
+    comids = ['1399']
 
-    watershed = 'Dominican Republic'
-    subbasin = 'Yaque del Sur'
-    comids = ['21838', '21834', '21835']
-
-    forecastinfo = getforecastflows(watershed,subbasin,comids)
+    forecastinfo = getforecastflows(comids)
     data = gethistoricaldata('Maguaca')
 
     timeseries_plot = TimeSeries(
@@ -240,13 +235,8 @@ def maguaca(request):
     #This creates the table
     table_view = TableView(column_names=('Caudales/Niveles',forecastinfo['timestep'][0], forecastinfo['timestep'][1], forecastinfo['timestep'][2], forecastinfo['timestep'][3], forecastinfo['timestep'][4], forecastinfo['timestep'][5], forecastinfo['timestep'][6]),
                            rows=[('Caudal de Entrada (Total)',forecastinfo['total'][0], forecastinfo['total'][1], forecastinfo['total'][2],forecastinfo['total'][3],forecastinfo['total'][4],forecastinfo['total'][5],forecastinfo['total'][6]),
-                                 ('Caudal de Entrada (21838)', forecastinfo['21838'][0], forecastinfo['21838'][1], forecastinfo['21838'][2], forecastinfo['21838'][3],
-                                  forecastinfo['21838'][4], forecastinfo['21838'][5], forecastinfo['21838'][6]),
-                                 ('Caudal de Entrada (21835)', forecastinfo['21835'][0], forecastinfo['21835'][1], forecastinfo['21835'][2], forecastinfo['21835'][3],
-                                  forecastinfo['21835'][4], forecastinfo['21835'][5], forecastinfo['21835'][6]),
-                                 ('Caudal de Entrada (21834)', forecastinfo['21834'][0], forecastinfo['21834'][1], forecastinfo['21834'][2], forecastinfo['21834'][3],
-                                  forecastinfo['21834'][4], forecastinfo['21834'][5], forecastinfo['21834'][6]),
-                                 ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
+                                 ('Caudal de Entrada (1399)', forecastinfo['1399'][0], forecastinfo['1399'][1], forecastinfo['1399'][2], forecastinfo['1399'][3],
+                                  forecastinfo['1399'][4], forecastinfo['1399'][5], forecastinfo['1399'][6]),
                                  ('Niveles','368', '370', '369', '374','373','371','372')],
                            hover=True,
                            striped=True,
@@ -267,12 +257,9 @@ def chacuey(request):
     """
     Controller for the Add Dam page.
     """
+    comids = ['1396']
 
-    watershed = 'Dominican Republic'
-    subbasin = 'Yaque del Sur'
-    comids = ['21838', '21834', '21835']
-
-    forecastinfo = getforecastflows(watershed,subbasin,comids)
+    forecastinfo = getforecastflows(comids)
     data = gethistoricaldata('Chacuey')
 
     timeseries_plot = TimeSeries(
@@ -292,12 +279,8 @@ def chacuey(request):
     #This creates the table
     table_view = TableView(column_names=('Caudales/Niveles',forecastinfo['timestep'][0], forecastinfo['timestep'][1], forecastinfo['timestep'][2], forecastinfo['timestep'][3], forecastinfo['timestep'][4], forecastinfo['timestep'][5], forecastinfo['timestep'][6]),
                            rows=[('Caudal de Entrada (Total)',forecastinfo['total'][0], forecastinfo['total'][1], forecastinfo['total'][2],forecastinfo['total'][3],forecastinfo['total'][4],forecastinfo['total'][5],forecastinfo['total'][6]),
-                                 ('Caudal de Entrada (21838)', forecastinfo['21838'][0], forecastinfo['21838'][1], forecastinfo['21838'][2], forecastinfo['21838'][3],
-                                  forecastinfo['21838'][4], forecastinfo['21838'][5], forecastinfo['21838'][6]),
-                                 ('Caudal de Entrada (21835)', forecastinfo['21835'][0], forecastinfo['21835'][1], forecastinfo['21835'][2], forecastinfo['21835'][3],
-                                  forecastinfo['21835'][4], forecastinfo['21835'][5], forecastinfo['21835'][6]),
-                                 ('Caudal de Entrada (21834)', forecastinfo['21834'][0], forecastinfo['21834'][1], forecastinfo['21834'][2], forecastinfo['21834'][3],
-                                  forecastinfo['21834'][4], forecastinfo['21834'][5], forecastinfo['21834'][6]),
+                                 ('Caudal de Entrada (1396)', forecastinfo['1396'][0], forecastinfo['1396'][1], forecastinfo['1396'][2], forecastinfo['1396'][3],
+                                  forecastinfo['1396'][4], forecastinfo['1396'][5], forecastinfo['1396'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
                                  ('Niveles','368', '370', '369', '374','373','371','372')],
                            hover=True,
@@ -319,12 +302,9 @@ def jiguey(request):
     """
     Controller for the Add Dam page.
     """
+    comids = ['475', '496']
 
-    watershed = 'Dominican Republic'
-    subbasin = 'Yaque del Sur'
-    comids = ['21838', '21834', '21835']
-
-    forecastinfo = getforecastflows(watershed,subbasin,comids)
+    forecastinfo = getforecastflows(comids)
     data = gethistoricaldata('Jiguey')
 
     timeseries_plot = TimeSeries(
@@ -344,12 +324,10 @@ def jiguey(request):
     #This creates the table
     table_view = TableView(column_names=('Caudales/Niveles',forecastinfo['timestep'][0], forecastinfo['timestep'][1], forecastinfo['timestep'][2], forecastinfo['timestep'][3], forecastinfo['timestep'][4], forecastinfo['timestep'][5], forecastinfo['timestep'][6]),
                            rows=[('Caudal de Entrada (Total)',forecastinfo['total'][0], forecastinfo['total'][1], forecastinfo['total'][2],forecastinfo['total'][3],forecastinfo['total'][4],forecastinfo['total'][5],forecastinfo['total'][6]),
-                                 ('Caudal de Entrada (21838)', forecastinfo['21838'][0], forecastinfo['21838'][1], forecastinfo['21838'][2], forecastinfo['21838'][3],
-                                  forecastinfo['21838'][4], forecastinfo['21838'][5], forecastinfo['21838'][6]),
-                                 ('Caudal de Entrada (21835)', forecastinfo['21835'][0], forecastinfo['21835'][1], forecastinfo['21835'][2], forecastinfo['21835'][3],
-                                  forecastinfo['21835'][4], forecastinfo['21835'][5], forecastinfo['21835'][6]),
-                                 ('Caudal de Entrada (21834)', forecastinfo['21834'][0], forecastinfo['21834'][1], forecastinfo['21834'][2], forecastinfo['21834'][3],
-                                  forecastinfo['21834'][4], forecastinfo['21834'][5], forecastinfo['21834'][6]),
+                                 ('Caudal de Entrada (475)', forecastinfo['475'][0], forecastinfo['475'][1], forecastinfo['475'][2], forecastinfo['475'][3],
+                                  forecastinfo['475'][4], forecastinfo['475'][5], forecastinfo['475'][6]),
+                                 ('Caudal de Entrada (496)', forecastinfo['496'][0], forecastinfo['496'][1], forecastinfo['496'][2], forecastinfo['496'][3],
+                                  forecastinfo['496'][4], forecastinfo['496'][5], forecastinfo['496'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
                                  ('Niveles','368', '370', '369', '374','373','371','372')],
                            hover=True,
@@ -371,12 +349,9 @@ def moncion(request):
     """
     Controller for the Add Dam page.
     """
+    comids = ['1148', '1182']
 
-    watershed = 'Dominican Republic'
-    subbasin = 'Yaque del Sur'
-    comids = ['21838', '21834', '21835']
-
-    forecastinfo = getforecastflows(watershed,subbasin,comids)
+    forecastinfo = getforecastflows(comids)
     data = gethistoricaldata('Moncion')
 
     timeseries_plot = TimeSeries(
@@ -396,12 +371,10 @@ def moncion(request):
     #This creates the table
     table_view = TableView(column_names=('Caudales/Niveles',forecastinfo['timestep'][0], forecastinfo['timestep'][1], forecastinfo['timestep'][2], forecastinfo['timestep'][3], forecastinfo['timestep'][4], forecastinfo['timestep'][5], forecastinfo['timestep'][6]),
                            rows=[('Caudal de Entrada (Total)',forecastinfo['total'][0], forecastinfo['total'][1], forecastinfo['total'][2],forecastinfo['total'][3],forecastinfo['total'][4],forecastinfo['total'][5],forecastinfo['total'][6]),
-                                 ('Caudal de Entrada (21838)', forecastinfo['21838'][0], forecastinfo['21838'][1], forecastinfo['21838'][2], forecastinfo['21838'][3],
-                                  forecastinfo['21838'][4], forecastinfo['21838'][5], forecastinfo['21838'][6]),
-                                 ('Caudal de Entrada (21835)', forecastinfo['21835'][0], forecastinfo['21835'][1], forecastinfo['21835'][2], forecastinfo['21835'][3],
-                                  forecastinfo['21835'][4], forecastinfo['21835'][5], forecastinfo['21835'][6]),
-                                 ('Caudal de Entrada (21834)', forecastinfo['21834'][0], forecastinfo['21834'][1], forecastinfo['21834'][2], forecastinfo['21834'][3],
-                                  forecastinfo['21834'][4], forecastinfo['21834'][5], forecastinfo['21834'][6]),
+                                 ('Caudal de Entrada (1148)', forecastinfo['1148'][0], forecastinfo['1148'][1], forecastinfo['1148'][2], forecastinfo['1148'][3],
+                                  forecastinfo['1148'][4], forecastinfo['1148'][5], forecastinfo['1148'][6]),
+                                 ('Caudal de Entrada (1182)', forecastinfo['1182'][0], forecastinfo['1182'][1], forecastinfo['1182'][2], forecastinfo['1182'][3],
+                                  forecastinfo['1182'][4], forecastinfo['1182'][5], forecastinfo['1182'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
                                  ('Niveles','368', '370', '369', '374','373','371','372')],
                            hover=True,
@@ -423,12 +396,9 @@ def pinalito(request):
     """
     Controller for the Add Dam page.
     """
+    comids = ['790']
 
-    watershed = 'Dominican Republic'
-    subbasin = 'Yaque del Sur'
-    comids = ['21838', '21834', '21835']
-
-    forecastinfo = getforecastflows(watershed,subbasin,comids)
+    forecastinfo = getforecastflows(comids)
     data = gethistoricaldata('Pinalito')
 
     timeseries_plot = TimeSeries(
@@ -448,12 +418,8 @@ def pinalito(request):
     #This creates the table
     table_view = TableView(column_names=('Caudales/Niveles',forecastinfo['timestep'][0], forecastinfo['timestep'][1], forecastinfo['timestep'][2], forecastinfo['timestep'][3], forecastinfo['timestep'][4], forecastinfo['timestep'][5], forecastinfo['timestep'][6]),
                            rows=[('Caudal de Entrada (Total)',forecastinfo['total'][0], forecastinfo['total'][1], forecastinfo['total'][2],forecastinfo['total'][3],forecastinfo['total'][4],forecastinfo['total'][5],forecastinfo['total'][6]),
-                                 ('Caudal de Entrada (21838)', forecastinfo['21838'][0], forecastinfo['21838'][1], forecastinfo['21838'][2], forecastinfo['21838'][3],
-                                  forecastinfo['21838'][4], forecastinfo['21838'][5], forecastinfo['21838'][6]),
-                                 ('Caudal de Entrada (21835)', forecastinfo['21835'][0], forecastinfo['21835'][1], forecastinfo['21835'][2], forecastinfo['21835'][3],
-                                  forecastinfo['21835'][4], forecastinfo['21835'][5], forecastinfo['21835'][6]),
-                                 ('Caudal de Entrada (21834)', forecastinfo['21834'][0], forecastinfo['21834'][1], forecastinfo['21834'][2], forecastinfo['21834'][3],
-                                  forecastinfo['21834'][4], forecastinfo['21834'][5], forecastinfo['21834'][6]),
+                                 ('Caudal de Entrada (790)', forecastinfo['790'][0], forecastinfo['790'][1], forecastinfo['790'][2], forecastinfo['790'][3],
+                                  forecastinfo['790'][4], forecastinfo['790'][5], forecastinfo['790'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
                                  ('Niveles','368', '370', '369', '374','373','371','372')],
                            hover=True,
@@ -475,12 +441,9 @@ def rincon(request):
     """
     Controller for the Add Dam page.
     """
+    comids = ['853', '922']
 
-    watershed = 'Dominican Republic'
-    subbasin = 'Yaque del Sur'
-    comids = ['21838', '21834', '21835']
-
-    forecastinfo = getforecastflows(watershed,subbasin,comids)
+    forecastinfo = getforecastflows(comids)
     data = gethistoricaldata('Rincon')
 
     timeseries_plot = TimeSeries(
@@ -500,13 +463,10 @@ def rincon(request):
     #This creates the table
     table_view = TableView(column_names=('Caudales/Niveles',forecastinfo['timestep'][0], forecastinfo['timestep'][1], forecastinfo['timestep'][2], forecastinfo['timestep'][3], forecastinfo['timestep'][4], forecastinfo['timestep'][5], forecastinfo['timestep'][6]),
                            rows=[('Caudal de Entrada (Total)',forecastinfo['total'][0], forecastinfo['total'][1], forecastinfo['total'][2],forecastinfo['total'][3],forecastinfo['total'][4],forecastinfo['total'][5],forecastinfo['total'][6]),
-                                 ('Caudal de Entrada (21838)', forecastinfo['21838'][0], forecastinfo['21838'][1], forecastinfo['21838'][2], forecastinfo['21838'][3],
-                                  forecastinfo['21838'][4], forecastinfo['21838'][5], forecastinfo['21838'][6]),
-                                 ('Caudal de Entrada (21835)', forecastinfo['21835'][0], forecastinfo['21835'][1], forecastinfo['21835'][2], forecastinfo['21835'][3],
-                                  forecastinfo['21835'][4], forecastinfo['21835'][5], forecastinfo['21835'][6]),
-                                 ('Caudal de Entrada (21834)', forecastinfo['21834'][0], forecastinfo['21834'][1], forecastinfo['21834'][2], forecastinfo['21834'][3],
-                                  forecastinfo['21834'][4], forecastinfo['21834'][5], forecastinfo['21834'][6]),
-                                 ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
+                                 ('Caudal de Entrada (853)', forecastinfo['853'][0], forecastinfo['853'][1], forecastinfo['853'][2], forecastinfo['853'][3],
+                                  forecastinfo['853'][4], forecastinfo['853'][5], forecastinfo['853'][6]),
+                                 ('Caudal de Entrada (922)', forecastinfo['922'][0], forecastinfo['922'][1], forecastinfo['922'][2], forecastinfo['922'][3],
+                                  forecastinfo['922'][4], forecastinfo['922'][5], forecastinfo['922'][6]),
                                  ('Niveles','368', '370', '369', '374','373','371','372')],
                            hover=True,
                            striped=True,
@@ -527,12 +487,9 @@ def sabaneta(request):
     """
     Controller for the Add Dam page.
     """
+    comids = ['863', '862']
 
-    watershed = 'Dominican Republic'
-    subbasin = 'Yaque del Sur'
-    comids = ['21838', '21834', '21835']
-
-    forecastinfo = getforecastflows(watershed,subbasin,comids)
+    forecastinfo = getforecastflows(comids)
     data = gethistoricaldata('Sabaneta')
 
     timeseries_plot = TimeSeries(
@@ -552,12 +509,10 @@ def sabaneta(request):
     #This creates the table
     table_view = TableView(column_names=('Caudales/Niveles',forecastinfo['timestep'][0], forecastinfo['timestep'][1], forecastinfo['timestep'][2], forecastinfo['timestep'][3], forecastinfo['timestep'][4], forecastinfo['timestep'][5], forecastinfo['timestep'][6]),
                            rows=[('Caudal de Entrada (Total)',forecastinfo['total'][0], forecastinfo['total'][1], forecastinfo['total'][2],forecastinfo['total'][3],forecastinfo['total'][4],forecastinfo['total'][5],forecastinfo['total'][6]),
-                                 ('Caudal de Entrada (21838)', forecastinfo['21838'][0], forecastinfo['21838'][1], forecastinfo['21838'][2], forecastinfo['21838'][3],
-                                  forecastinfo['21838'][4], forecastinfo['21838'][5], forecastinfo['21838'][6]),
-                                 ('Caudal de Entrada (21835)', forecastinfo['21835'][0], forecastinfo['21835'][1], forecastinfo['21835'][2], forecastinfo['21835'][3],
-                                  forecastinfo['21835'][4], forecastinfo['21835'][5], forecastinfo['21835'][6]),
-                                 ('Caudal de Entrada (21834)', forecastinfo['21834'][0], forecastinfo['21834'][1], forecastinfo['21834'][2], forecastinfo['21834'][3],
-                                  forecastinfo['21834'][4], forecastinfo['21834'][5], forecastinfo['21834'][6]),
+                                 ('Caudal de Entrada (863)', forecastinfo['863'][0], forecastinfo['863'][1], forecastinfo['863'][2], forecastinfo['863'][3],
+                                  forecastinfo['863'][4], forecastinfo['863'][5], forecastinfo['863'][6]),
+                                 ('Caudal de Entrada (862)', forecastinfo['862'][0], forecastinfo['862'][1], forecastinfo['862'][2], forecastinfo['862'][3],
+                                  forecastinfo['862'][4], forecastinfo['862'][5], forecastinfo['862'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
                                  ('Niveles','368', '370', '369', '374','373','371','372')],
                            hover=True,
@@ -579,12 +534,9 @@ def tavera_bao(request):
     """
     Controller for the Add Dam page.
     """
+    comids = ['1024', '1140', '1142', '1153']
 
-    watershed = 'Dominican Republic'
-    subbasin = 'Yaque del Sur'
-    comids = ['21838', '21834', '21835']
-
-    forecastinfo = getforecastflows(watershed,subbasin,comids)
+    forecastinfo = getforecastflows(comids)
     data = gethistoricaldata('Bao')
 
     timeseries_plot = TimeSeries(
@@ -604,12 +556,14 @@ def tavera_bao(request):
     #This creates the table
     table_view = TableView(column_names=('Caudales/Niveles',forecastinfo['timestep'][0], forecastinfo['timestep'][1], forecastinfo['timestep'][2], forecastinfo['timestep'][3], forecastinfo['timestep'][4], forecastinfo['timestep'][5], forecastinfo['timestep'][6]),
                            rows=[('Caudal de Entrada (Total)',forecastinfo['total'][0], forecastinfo['total'][1], forecastinfo['total'][2],forecastinfo['total'][3],forecastinfo['total'][4],forecastinfo['total'][5],forecastinfo['total'][6]),
-                                 ('Caudal de Entrada (21838)', forecastinfo['21838'][0], forecastinfo['21838'][1], forecastinfo['21838'][2], forecastinfo['21838'][3],
-                                  forecastinfo['21838'][4], forecastinfo['21838'][5], forecastinfo['21838'][6]),
-                                 ('Caudal de Entrada (21835)', forecastinfo['21835'][0], forecastinfo['21835'][1], forecastinfo['21835'][2], forecastinfo['21835'][3],
-                                  forecastinfo['21835'][4], forecastinfo['21835'][5], forecastinfo['21835'][6]),
-                                 ('Caudal de Entrada (21834)', forecastinfo['21834'][0], forecastinfo['21834'][1], forecastinfo['21834'][2], forecastinfo['21834'][3],
-                                  forecastinfo['21834'][4], forecastinfo['21834'][5], forecastinfo['21834'][6]),
+                                 ('Caudal de Entrada (1024)', forecastinfo['1024'][0], forecastinfo['1024'][1], forecastinfo['1024'][2], forecastinfo['1024'][3],
+                                  forecastinfo['1024'][4], forecastinfo['1024'][5], forecastinfo['1024'][6]),
+                                 ('Caudal de Entrada (1140)', forecastinfo['1140'][0], forecastinfo['1140'][1], forecastinfo['1140'][2], forecastinfo['1140'][3],
+                                  forecastinfo['1140'][4], forecastinfo['1140'][5], forecastinfo['1140'][6]),
+                                 ('Caudal de Entrada (1142)', forecastinfo['1142'][0], forecastinfo['1142'][1], forecastinfo['1142'][2], forecastinfo['1142'][3],
+                                  forecastinfo['1142'][4], forecastinfo['1142'][5], forecastinfo['1142'][6]),
+                                 ('Caudal de Entrada (1153)', forecastinfo['1153'][0], forecastinfo['1153'][1], forecastinfo['1153'][2], forecastinfo['1153'][3],
+                                  forecastinfo['1153'][4], forecastinfo['1153'][5], forecastinfo['1153'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
                                  ('Niveles','368', '370', '369', '374','373','371','372')],
                            hover=True,
@@ -631,12 +585,9 @@ def valdesia(request):
     """
     Controller for the Add Dam page.
     """
+    comids = ['159']
 
-    watershed = 'Dominican Republic'
-    subbasin = 'Yaque del Sur'
-    comids = ['21838', '21834', '21835']
-
-    forecastinfo = getforecastflows(watershed,subbasin,comids)
+    forecastinfo = getforecastflows(comids)
     data = gethistoricaldata('Valdesia')
 
     timeseries_plot = TimeSeries(
@@ -656,12 +607,8 @@ def valdesia(request):
     #This creates the table
     table_view = TableView(column_names=('Caudales/Niveles',forecastinfo['timestep'][0], forecastinfo['timestep'][1], forecastinfo['timestep'][2], forecastinfo['timestep'][3], forecastinfo['timestep'][4], forecastinfo['timestep'][5], forecastinfo['timestep'][6]),
                            rows=[('Caudal de Entrada (Total)',forecastinfo['total'][0], forecastinfo['total'][1], forecastinfo['total'][2],forecastinfo['total'][3],forecastinfo['total'][4],forecastinfo['total'][5],forecastinfo['total'][6]),
-                                 ('Caudal de Entrada (21838)', forecastinfo['21838'][0], forecastinfo['21838'][1], forecastinfo['21838'][2], forecastinfo['21838'][3],
-                                  forecastinfo['21838'][4], forecastinfo['21838'][5], forecastinfo['21838'][6]),
-                                 ('Caudal de Entrada (21835)', forecastinfo['21835'][0], forecastinfo['21835'][1], forecastinfo['21835'][2], forecastinfo['21835'][3],
-                                  forecastinfo['21835'][4], forecastinfo['21835'][5], forecastinfo['21835'][6]),
-                                 ('Caudal de Entrada (21834)', forecastinfo['21834'][0], forecastinfo['21834'][1], forecastinfo['21834'][2], forecastinfo['21834'][3],
-                                  forecastinfo['21834'][4], forecastinfo['21834'][5], forecastinfo['21834'][6]),
+                                 ('Caudal de Entrada (159)', forecastinfo['159'][0], forecastinfo['159'][1], forecastinfo['159'][2], forecastinfo['159'][3],
+                                  forecastinfo['159'][4], forecastinfo['159'][5], forecastinfo['159'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
                                  ('Niveles','368', '370', '369', '374','373','371','372')],
                            hover=True,
