@@ -76,7 +76,7 @@ function init_map(){
     /*searched for the reservoir layer on the geoserver and grabs it. This will need to be changed when installed on a different computer*/
     var wmsLayer = new ol.layer.Image({
         source: new ol.source.ImageWMS({
-            url: 'http://tethys.byu.edu:8181/geoserver/wms',
+            url: 'http://tethys-staging.byu.edu:8181/geoserver/wms',
             params: {'LAYERS': 'reservoirs'},
             serverType: 'geoserver',
             crossOrigin: 'Anonymous'
