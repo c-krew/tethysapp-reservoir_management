@@ -20,12 +20,11 @@ def getforecastflows(comids):
         comid = x
         startdate = 'most_recent'
 
-
-        res = requests.get('https://tethys.byu.edu/apps/streamflow-prediction-tool/api/GetWaterML/?watershed_name=' +
-                           'Dominican Republic' + '&subbasin_name=' + 'National' + '&reach_id=' + comid + '&start_folder=' +
-                           startdate + '&stat_type=mean',
-                           headers={'Authorization': 'Token 72b145121add58bcc5843044d9f1006d9140b84b'})
-
+        request_params = dict(watershed_name='Dominican Republic', subbasin_name='National', reach_id=x,
+                              forecast_folder='most_recent', stat_type='mean')
+        request_headers = dict(Authorization='Token fa7fa9f7d35eddb64011913ef8a27129c9740f3c')
+        res = requests.get('http://tethys-staging.byu.edu/apps/streamflow-prediction-tool/api/GetForecast/',
+                           params=request_params, headers=request_headers)
 
         #The following code takes the results from the streamflow prediction tool and then sorts through it to get the flows
         content = res.content
