@@ -5,7 +5,7 @@ from django.shortcuts import render, reverse, redirect
 from django.contrib.auth.decorators import login_required
 from tethys_sdk.gizmos import *
 import datetime
-from model import getforecastflows, gethistoricaldata, getrecentdata
+from model import getforecastflows, gethistoricaldata, getrecentdata, forecastdata, forecastlevels
 
 
 @login_required()
@@ -32,7 +32,7 @@ def sabana_yegua(request):
     #this refers to python code in model.py. It uses the stremaflow prediction tool api to get this information.
     comids = ['593', '600', '599']
 
-    forecastinfo = getforecastflows(comids)
+    forecasteddata = forecastdata(comids, 'Sabana_Yegua', 360, 3)
     data = gethistoricaldata('S. Yegua')
 
     timeseries_plot = TimeSeries(
@@ -49,16 +49,25 @@ def sabana_yegua(request):
         y_min = 300
     )
 
-    table_view = TableView(column_names=('Caudales/Niveles',forecastinfo['timestep'][0], forecastinfo['timestep'][1], forecastinfo['timestep'][2], forecastinfo['timestep'][3], forecastinfo['timestep'][4], forecastinfo['timestep'][5], forecastinfo['timestep'][6]),
-                           rows=[('Caudal de Entrada (Total)',forecastinfo['total'][0], forecastinfo['total'][1], forecastinfo['total'][2],forecastinfo['total'][3],forecastinfo['total'][4],forecastinfo['total'][5],forecastinfo['total'][6]),
-                                 ('Caudal de Entrada (593)', forecastinfo['593'][0], forecastinfo['593'][1], forecastinfo['593'][2], forecastinfo['593'][3],
-                                  forecastinfo['593'][4], forecastinfo['593'][5], forecastinfo['593'][6]),
-                                 ('Caudal de Entrada (600)', forecastinfo['600'][0], forecastinfo['600'][1], forecastinfo['600'][2], forecastinfo['600'][3],
-                                  forecastinfo['600'][4], forecastinfo['600'][5], forecastinfo['600'][6]),
-                                 ('Caudal de Entrada (599)', forecastinfo['599'][0], forecastinfo['599'][1], forecastinfo['599'][2], forecastinfo['599'][3],
-                                  forecastinfo['599'][4], forecastinfo['599'][5], forecastinfo['599'][6]),
+    table_view = TableView(column_names=('Caudales/Niveles',forecasteddata['dates'][0], forecasteddata['dates'][1],
+                                         forecasteddata['dates'][2], forecasteddata['dates'][3], forecasteddata['dates'][4],
+                                         forecasteddata['dates'][5], forecasteddata['dates'][6]),
+                           rows=[('Caudal de Entrada (Total)',forecasteddata['total'][0], forecasteddata['total'][1],
+                                  forecasteddata['total'][2],forecasteddata['total'][3],forecasteddata['total'][4],
+                                  forecasteddata['total'][5],forecasteddata['total'][6]),
+                                 ('Caudal de Entrada (593)', forecasteddata['593'][0], forecasteddata['593'][1],
+                                  forecasteddata['593'][2], forecasteddata['593'][3], forecasteddata['593'][4],
+                                  forecasteddata['593'][5], forecasteddata['593'][6]),
+                                 ('Caudal de Entrada (600)', forecasteddata['600'][0], forecasteddata['600'][1],
+                                  forecasteddata['600'][2], forecasteddata['600'][3],forecasteddata['600'][4],
+                                  forecasteddata['600'][5], forecasteddata['600'][6]),
+                                 ('Caudal de Entrada (599)', forecasteddata['599'][0], forecasteddata['599'][1],
+                                  forecasteddata['599'][2], forecasteddata['599'][3], forecasteddata['599'][4],
+                                  forecasteddata['599'][5], forecasteddata['599'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
-                                 ('Niveles','393', '393.8', '394', '394.1','394','394.4','394.8')],
+                                 ('Niveles Prognosticos',forecasteddata['levels'][0], forecasteddata['levels'][1],
+                                  forecasteddata['levels'][2], forecasteddata['levels'][3],forecasteddata['levels'][4],
+                                  forecasteddata['levels'][5],forecasteddata['levels'][6])],
                            hover=True,
                            striped=True,
                            bordered=True,
@@ -163,7 +172,7 @@ def hatillo(request):
 
     comids = ['834', '813', '849', '857']
 
-    forecastinfo = getforecastflows(comids)
+    forecasteddata = forecastdata(comids, 'Hatillo', 85, .3)
     data = gethistoricaldata('Hatillo')
 
     timeseries_plot = TimeSeries(
@@ -177,23 +186,33 @@ def hatillo(request):
             'name': 'Historico',
             'data': data
         }],
-        y_min = 40
+        y_min = 35
     )
 
 
     #This creates the table
-    table_view = TableView(column_names=('Caudales/Niveles',forecastinfo['timestep'][0], forecastinfo['timestep'][1], forecastinfo['timestep'][2], forecastinfo['timestep'][3], forecastinfo['timestep'][4], forecastinfo['timestep'][5], forecastinfo['timestep'][6]),
-                           rows=[('Caudal de Entrada (Total)',forecastinfo['total'][0], forecastinfo['total'][1], forecastinfo['total'][2],forecastinfo['total'][3],forecastinfo['total'][4],forecastinfo['total'][5],forecastinfo['total'][6]),
-                                 ('Caudal de Entrada (834)', forecastinfo['834'][0], forecastinfo['834'][1], forecastinfo['834'][2], forecastinfo['834'][3],
-                                  forecastinfo['834'][4], forecastinfo['834'][5], forecastinfo['834'][6]),
-                                 ('Caudal de Entrada (813)', forecastinfo['813'][0], forecastinfo['813'][1], forecastinfo['813'][2], forecastinfo['813'][3],
-                                  forecastinfo['813'][4], forecastinfo['813'][5], forecastinfo['813'][6]),
-                                 ('Caudal de Entrada (849)', forecastinfo['849'][0], forecastinfo['849'][1], forecastinfo['849'][2], forecastinfo['849'][3],
-                                  forecastinfo['849'][4], forecastinfo['849'][5], forecastinfo['849'][6]),
-                                 ('Caudal de Entrada (857)', forecastinfo['857'][0], forecastinfo['857'][1], forecastinfo['857'][2], forecastinfo['857'][3],
-                                  forecastinfo['857'][4], forecastinfo['857'][5], forecastinfo['857'][6]),
+    table_view = TableView(column_names=('Caudales/Niveles',forecasteddata['dates'][0], forecasteddata['dates'][1],
+                                         forecasteddata['dates'][2], forecasteddata['dates'][3], forecasteddata['dates'][4],
+                                         forecasteddata['dates'][5], forecasteddata['dates'][6]),
+                           rows=[('Caudal de Entrada (Total)',forecasteddata['total'][0], forecasteddata['total'][1],
+                                  forecasteddata['total'][2],forecasteddata['total'][3],forecasteddata['total'][4],
+                                  forecasteddata['total'][5],forecasteddata['total'][6]),
+                                 ('Caudal de Entrada (834)', forecasteddata['834'][0], forecasteddata['834'][1],
+                                  forecasteddata['834'][2], forecasteddata['834'][3], forecasteddata['834'][4],
+                                  forecasteddata['834'][5], forecasteddata['834'][6]),
+                                 ('Caudal de Entrada (813)', forecasteddata['813'][0], forecasteddata['813'][1],
+                                  forecasteddata['813'][2], forecasteddata['813'][3],forecasteddata['813'][4],
+                                  forecasteddata['813'][5], forecasteddata['813'][6]),
+                                 ('Caudal de Entrada (849)', forecasteddata['849'][0], forecasteddata['849'][1],
+                                  forecasteddata['849'][2], forecasteddata['849'][3], forecasteddata['849'][4],
+                                  forecasteddata['849'][5], forecasteddata['849'][6]),
+                                 ('Caudal de Entrada (857)', forecasteddata['857'][0], forecasteddata['857'][1],
+                                  forecasteddata['857'][2], forecasteddata['857'][3], forecasteddata['857'][4],
+                                  forecasteddata['857'][5], forecasteddata['857'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
-                                 ('Niveles','368', '370', '369', '374','373','371','372')],
+                                 ('Niveles Prognosticos',forecasteddata['levels'][0], forecasteddata['levels'][1],
+                                  forecasteddata['levels'][2], forecasteddata['levels'][3],forecasteddata['levels'][4],
+                                  forecasteddata['levels'][5],forecasteddata['levels'][6])],
                            hover=True,
                            striped=True,
                            bordered=True,
@@ -215,7 +234,7 @@ def maguaca(request):
     """
     comids = ['1399']
 
-    forecastinfo = getforecastflows(comids)
+    forecasteddata = forecastdata(comids, 'Maguaca', 50, .1)
     data = gethistoricaldata('Maguaca')
 
     timeseries_plot = TimeSeries(
@@ -233,11 +252,19 @@ def maguaca(request):
     )
 
     #This creates the table
-    table_view = TableView(column_names=('Caudales/Niveles',forecastinfo['timestep'][0], forecastinfo['timestep'][1], forecastinfo['timestep'][2], forecastinfo['timestep'][3], forecastinfo['timestep'][4], forecastinfo['timestep'][5], forecastinfo['timestep'][6]),
-                           rows=[('Caudal de Entrada (Total)',forecastinfo['total'][0], forecastinfo['total'][1], forecastinfo['total'][2],forecastinfo['total'][3],forecastinfo['total'][4],forecastinfo['total'][5],forecastinfo['total'][6]),
-                                 ('Caudal de Entrada (1399)', forecastinfo['1399'][0], forecastinfo['1399'][1], forecastinfo['1399'][2], forecastinfo['1399'][3],
-                                  forecastinfo['1399'][4], forecastinfo['1399'][5], forecastinfo['1399'][6]),
-                                 ('Niveles','368', '370', '369', '374','373','371','372')],
+    table_view = TableView(column_names=('Caudales/Niveles',forecasteddata['dates'][0], forecasteddata['dates'][1],
+                                         forecasteddata['dates'][2], forecasteddata['dates'][3], forecasteddata['dates'][4],
+                                         forecasteddata['dates'][5], forecasteddata['dates'][6]),
+                           rows=[('Caudal de Entrada (Total)',forecasteddata['total'][0], forecasteddata['total'][1],
+                                  forecasteddata['total'][2],forecasteddata['total'][3],forecasteddata['total'][4],
+                                  forecasteddata['total'][5],forecasteddata['total'][6]),
+                                 ('Caudal de Entrada (1399)', forecasteddata['1399'][0], forecasteddata['1399'][1],
+                                  forecasteddata['1399'][2], forecasteddata['1399'][3], forecasteddata['1399'][4],
+                                  forecasteddata['1399'][5], forecasteddata['1399'][6]),
+                                 ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
+                                 ('Niveles Prognosticos',forecasteddata['levels'][0], forecasteddata['levels'][1],
+                                  forecasteddata['levels'][2], forecasteddata['levels'][3],forecasteddata['levels'][4],
+                                  forecasteddata['levels'][5],forecasteddata['levels'][6])],
                            hover=True,
                            striped=True,
                            bordered=True,
@@ -259,7 +286,7 @@ def chacuey(request):
     """
     comids = ['1396']
 
-    forecastinfo = getforecastflows(comids)
+    forecasteddata = forecastdata(comids, 'Chacuey', 45, .1)
     data = gethistoricaldata('Chacuey')
 
     timeseries_plot = TimeSeries(
@@ -277,12 +304,19 @@ def chacuey(request):
     )
 
     #This creates the table
-    table_view = TableView(column_names=('Caudales/Niveles',forecastinfo['timestep'][0], forecastinfo['timestep'][1], forecastinfo['timestep'][2], forecastinfo['timestep'][3], forecastinfo['timestep'][4], forecastinfo['timestep'][5], forecastinfo['timestep'][6]),
-                           rows=[('Caudal de Entrada (Total)',forecastinfo['total'][0], forecastinfo['total'][1], forecastinfo['total'][2],forecastinfo['total'][3],forecastinfo['total'][4],forecastinfo['total'][5],forecastinfo['total'][6]),
-                                 ('Caudal de Entrada (1396)', forecastinfo['1396'][0], forecastinfo['1396'][1], forecastinfo['1396'][2], forecastinfo['1396'][3],
-                                  forecastinfo['1396'][4], forecastinfo['1396'][5], forecastinfo['1396'][6]),
+    table_view = TableView(column_names=('Caudales/Niveles',forecasteddata['dates'][0], forecasteddata['dates'][1],
+                                         forecasteddata['dates'][2], forecasteddata['dates'][3], forecasteddata['dates'][4],
+                                         forecasteddata['dates'][5], forecasteddata['dates'][6]),
+                           rows=[('Caudal de Entrada (Total)',forecasteddata['total'][0], forecasteddata['total'][1],
+                                  forecasteddata['total'][2],forecasteddata['total'][3],forecasteddata['total'][4],
+                                  forecasteddata['total'][5],forecasteddata['total'][6]),
+                                 ('Caudal de Entrada (1396)', forecasteddata['1396'][0], forecasteddata['1396'][1],
+                                  forecasteddata['1396'][2], forecasteddata['1396'][3], forecasteddata['1396'][4],
+                                  forecasteddata['1396'][5], forecasteddata['1396'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
-                                 ('Niveles','368', '370', '369', '374','373','371','372')],
+                                 ('Niveles Prognosticos',forecasteddata['levels'][0], forecasteddata['levels'][1],
+                                  forecasteddata['levels'][2], forecasteddata['levels'][3],forecasteddata['levels'][4],
+                                  forecasteddata['levels'][5],forecasteddata['levels'][6])],
                            hover=True,
                            striped=True,
                            bordered=True,
@@ -304,7 +338,7 @@ def jiguey(request):
     """
     comids = ['475', '496']
 
-    forecastinfo = getforecastflows(comids)
+    forecasteddata = forecastdata(comids, 'Jiguey', 460, 3)
     data = gethistoricaldata('Jiguey')
 
     timeseries_plot = TimeSeries(
@@ -322,14 +356,22 @@ def jiguey(request):
     )
 
     #This creates the table
-    table_view = TableView(column_names=('Caudales/Niveles',forecastinfo['timestep'][0], forecastinfo['timestep'][1], forecastinfo['timestep'][2], forecastinfo['timestep'][3], forecastinfo['timestep'][4], forecastinfo['timestep'][5], forecastinfo['timestep'][6]),
-                           rows=[('Caudal de Entrada (Total)',forecastinfo['total'][0], forecastinfo['total'][1], forecastinfo['total'][2],forecastinfo['total'][3],forecastinfo['total'][4],forecastinfo['total'][5],forecastinfo['total'][6]),
-                                 ('Caudal de Entrada (475)', forecastinfo['475'][0], forecastinfo['475'][1], forecastinfo['475'][2], forecastinfo['475'][3],
-                                  forecastinfo['475'][4], forecastinfo['475'][5], forecastinfo['475'][6]),
-                                 ('Caudal de Entrada (496)', forecastinfo['496'][0], forecastinfo['496'][1], forecastinfo['496'][2], forecastinfo['496'][3],
-                                  forecastinfo['496'][4], forecastinfo['496'][5], forecastinfo['496'][6]),
+    table_view = TableView(column_names=('Caudales/Niveles',forecasteddata['dates'][0], forecasteddata['dates'][1],
+                                         forecasteddata['dates'][2], forecasteddata['dates'][3], forecasteddata['dates'][4],
+                                         forecasteddata['dates'][5], forecasteddata['dates'][6]),
+                           rows=[('Caudal de Entrada (Total)',forecasteddata['total'][0], forecasteddata['total'][1],
+                                  forecasteddata['total'][2],forecasteddata['total'][3],forecasteddata['total'][4],
+                                  forecasteddata['total'][5],forecasteddata['total'][6]),
+                                 ('Caudal de Entrada (475)', forecasteddata['475'][0], forecasteddata['475'][1],
+                                  forecasteddata['475'][2], forecasteddata['475'][3], forecasteddata['475'][4],
+                                  forecasteddata['475'][5], forecasteddata['475'][6]),
+                                 ('Caudal de Entrada (496)', forecasteddata['496'][0], forecasteddata['496'][1],
+                                  forecasteddata['496'][2], forecasteddata['496'][3],forecasteddata['496'][4],
+                                  forecasteddata['496'][5], forecasteddata['496'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
-                                 ('Niveles','368', '370', '369', '374','373','371','372')],
+                                 ('Niveles Prognosticos',forecasteddata['levels'][0], forecasteddata['levels'][1],
+                                  forecasteddata['levels'][2], forecasteddata['levels'][3],forecasteddata['levels'][4],
+                                  forecasteddata['levels'][5],forecasteddata['levels'][6])],
                            hover=True,
                            striped=True,
                            bordered=True,
@@ -351,8 +393,8 @@ def moncion(request):
     """
     comids = ['1148', '1182']
 
-    forecastinfo = getforecastflows(comids)
-    data = gethistoricaldata('Moncion')
+    observeddata = gethistoricaldata('Moncion')
+    forecasteddata = forecastdata(comids,'Moncion', 185, 1)
 
     timeseries_plot = TimeSeries(
         height='500px',
@@ -363,20 +405,28 @@ def moncion(request):
         y_axis_units='m',
         series=[{
             'name': 'Historico',
-            'data': data
+            'data': observeddata
         }],
         y_min = 100
     )
 
-    #This creates the table
-    table_view = TableView(column_names=('Caudales/Niveles',forecastinfo['timestep'][0], forecastinfo['timestep'][1], forecastinfo['timestep'][2], forecastinfo['timestep'][3], forecastinfo['timestep'][4], forecastinfo['timestep'][5], forecastinfo['timestep'][6]),
-                           rows=[('Caudal de Entrada (Total)',forecastinfo['total'][0], forecastinfo['total'][1], forecastinfo['total'][2],forecastinfo['total'][3],forecastinfo['total'][4],forecastinfo['total'][5],forecastinfo['total'][6]),
-                                 ('Caudal de Entrada (1148)', forecastinfo['1148'][0], forecastinfo['1148'][1], forecastinfo['1148'][2], forecastinfo['1148'][3],
-                                  forecastinfo['1148'][4], forecastinfo['1148'][5], forecastinfo['1148'][6]),
-                                 ('Caudal de Entrada (1182)', forecastinfo['1182'][0], forecastinfo['1182'][1], forecastinfo['1182'][2], forecastinfo['1182'][3],
-                                  forecastinfo['1182'][4], forecastinfo['1182'][5], forecastinfo['1182'][6]),
+
+    table_view = TableView(column_names=('Caudales/Niveles',forecasteddata['dates'][0], forecasteddata['dates'][1],
+                                         forecasteddata['dates'][2], forecasteddata['dates'][3], forecasteddata['dates'][4],
+                                         forecasteddata['dates'][5], forecasteddata['dates'][6]),
+                           rows=[('Caudal de Entrada (Total)',forecasteddata['total'][0], forecasteddata['total'][1],
+                                  forecasteddata['total'][2],forecasteddata['total'][3],forecasteddata['total'][4],
+                                  forecasteddata['total'][5],forecasteddata['total'][6]),
+                                 ('Caudal de Entrada (1148)', forecasteddata['1148'][0], forecasteddata['1148'][1],
+                                  forecasteddata['1148'][2], forecasteddata['1148'][3], forecasteddata['1148'][4],
+                                  forecasteddata['1148'][5], forecasteddata['1148'][6]),
+                                 ('Caudal de Entrada (1182)', forecasteddata['1182'][0], forecasteddata['1182'][1],
+                                  forecasteddata['1182'][2], forecasteddata['1182'][3],forecasteddata['1182'][4],
+                                  forecasteddata['1182'][5], forecasteddata['1182'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
-                                 ('Niveles','368', '370', '369', '374','373','371','372')],
+                                 ('Niveles Prognosticos',forecasteddata['levels'][0], forecasteddata['levels'][1],
+                                  forecasteddata['levels'][2], forecasteddata['levels'][3],forecasteddata['levels'][4],
+                                  forecasteddata['levels'][5],forecasteddata['levels'][6])],
                            hover=True,
                            striped=True,
                            bordered=True,
@@ -443,7 +493,7 @@ def rincon(request):
     """
     comids = ['853', '922']
 
-    forecastinfo = getforecastflows(comids)
+    forecasteddata = forecastdata(comids, 'Rincon', 98, 1)
     data = gethistoricaldata('Rincon')
 
     timeseries_plot = TimeSeries(
@@ -461,13 +511,22 @@ def rincon(request):
     )
 
     #This creates the table
-    table_view = TableView(column_names=('Caudales/Niveles',forecastinfo['timestep'][0], forecastinfo['timestep'][1], forecastinfo['timestep'][2], forecastinfo['timestep'][3], forecastinfo['timestep'][4], forecastinfo['timestep'][5], forecastinfo['timestep'][6]),
-                           rows=[('Caudal de Entrada (Total)',forecastinfo['total'][0], forecastinfo['total'][1], forecastinfo['total'][2],forecastinfo['total'][3],forecastinfo['total'][4],forecastinfo['total'][5],forecastinfo['total'][6]),
-                                 ('Caudal de Entrada (853)', forecastinfo['853'][0], forecastinfo['853'][1], forecastinfo['853'][2], forecastinfo['853'][3],
-                                  forecastinfo['853'][4], forecastinfo['853'][5], forecastinfo['853'][6]),
-                                 ('Caudal de Entrada (922)', forecastinfo['922'][0], forecastinfo['922'][1], forecastinfo['922'][2], forecastinfo['922'][3],
-                                  forecastinfo['922'][4], forecastinfo['922'][5], forecastinfo['922'][6]),
-                                 ('Niveles','368', '370', '369', '374','373','371','372')],
+    table_view = TableView(column_names=('Caudales/Niveles',forecasteddata['dates'][0], forecasteddata['dates'][1],
+                                         forecasteddata['dates'][2], forecasteddata['dates'][3], forecasteddata['dates'][4],
+                                         forecasteddata['dates'][5], forecasteddata['dates'][6]),
+                           rows=[('Caudal de Entrada (Total)',forecasteddata['total'][0], forecasteddata['total'][1],
+                                  forecasteddata['total'][2],forecasteddata['total'][3],forecasteddata['total'][4],
+                                  forecasteddata['total'][5],forecasteddata['total'][6]),
+                                 ('Caudal de Entrada (853)', forecasteddata['853'][0], forecasteddata['853'][1],
+                                  forecasteddata['853'][2], forecasteddata['853'][3], forecasteddata['853'][4],
+                                  forecasteddata['853'][5], forecasteddata['853'][6]),
+                                 ('Caudal de Entrada (922)', forecasteddata['922'][0], forecasteddata['922'][1],
+                                  forecasteddata['922'][2], forecasteddata['922'][3],forecasteddata['922'][4],
+                                  forecasteddata['922'][5], forecasteddata['922'][6]),
+                                 ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
+                                 ('Niveles Prognosticos',forecasteddata['levels'][0], forecasteddata['levels'][1],
+                                  forecasteddata['levels'][2], forecasteddata['levels'][3],forecasteddata['levels'][4],
+                                  forecasteddata['levels'][5],forecasteddata['levels'][6])],
                            hover=True,
                            striped=True,
                            bordered=True,
@@ -489,7 +548,7 @@ def sabaneta(request):
     """
     comids = ['863', '862']
 
-    forecastinfo = getforecastflows(comids)
+    forecasteddata = forecastdata(comids, 'Sabaneta', 611, 5)
     data = gethistoricaldata('Sabaneta')
 
     timeseries_plot = TimeSeries(
@@ -507,14 +566,22 @@ def sabaneta(request):
     )
 
     #This creates the table
-    table_view = TableView(column_names=('Caudales/Niveles',forecastinfo['timestep'][0], forecastinfo['timestep'][1], forecastinfo['timestep'][2], forecastinfo['timestep'][3], forecastinfo['timestep'][4], forecastinfo['timestep'][5], forecastinfo['timestep'][6]),
-                           rows=[('Caudal de Entrada (Total)',forecastinfo['total'][0], forecastinfo['total'][1], forecastinfo['total'][2],forecastinfo['total'][3],forecastinfo['total'][4],forecastinfo['total'][5],forecastinfo['total'][6]),
-                                 ('Caudal de Entrada (863)', forecastinfo['863'][0], forecastinfo['863'][1], forecastinfo['863'][2], forecastinfo['863'][3],
-                                  forecastinfo['863'][4], forecastinfo['863'][5], forecastinfo['863'][6]),
-                                 ('Caudal de Entrada (862)', forecastinfo['862'][0], forecastinfo['862'][1], forecastinfo['862'][2], forecastinfo['862'][3],
-                                  forecastinfo['862'][4], forecastinfo['862'][5], forecastinfo['862'][6]),
+    table_view = TableView(column_names=('Caudales/Niveles',forecasteddata['dates'][0], forecasteddata['dates'][1],
+                                         forecasteddata['dates'][2], forecasteddata['dates'][3], forecasteddata['dates'][4],
+                                         forecasteddata['dates'][5], forecasteddata['dates'][6]),
+                           rows=[('Caudal de Entrada (Total)',forecasteddata['total'][0], forecasteddata['total'][1],
+                                  forecasteddata['total'][2],forecasteddata['total'][3],forecasteddata['total'][4],
+                                  forecasteddata['total'][5],forecasteddata['total'][6]),
+                                 ('Caudal de Entrada (863)', forecasteddata['863'][0], forecasteddata['863'][1],
+                                  forecasteddata['863'][2], forecasteddata['863'][3], forecasteddata['863'][4],
+                                  forecasteddata['863'][5], forecasteddata['863'][6]),
+                                 ('Caudal de Entrada (862)', forecasteddata['862'][0], forecasteddata['862'][1],
+                                  forecasteddata['862'][2], forecasteddata['862'][3],forecasteddata['862'][4],
+                                  forecasteddata['862'][5], forecasteddata['862'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
-                                 ('Niveles','368', '370', '369', '374','373','371','372')],
+                                 ('Niveles Prognosticos',forecasteddata['levels'][0], forecasteddata['levels'][1],
+                                  forecasteddata['levels'][2], forecasteddata['levels'][3],forecasteddata['levels'][4],
+                                  forecasteddata['levels'][5],forecasteddata['levels'][6])],
                            hover=True,
                            striped=True,
                            bordered=True,
@@ -536,7 +603,7 @@ def tavera_bao(request):
     """
     comids = ['1024', '1140', '1142', '1153']
 
-    forecastinfo = getforecastflows(comids)
+    forecasteddata = forecastdata(comids, 'Tavera', 317, 3)
     data = gethistoricaldata('Bao')
 
     timeseries_plot = TimeSeries(
@@ -554,18 +621,28 @@ def tavera_bao(request):
     )
 
     #This creates the table
-    table_view = TableView(column_names=('Caudales/Niveles',forecastinfo['timestep'][0], forecastinfo['timestep'][1], forecastinfo['timestep'][2], forecastinfo['timestep'][3], forecastinfo['timestep'][4], forecastinfo['timestep'][5], forecastinfo['timestep'][6]),
-                           rows=[('Caudal de Entrada (Total)',forecastinfo['total'][0], forecastinfo['total'][1], forecastinfo['total'][2],forecastinfo['total'][3],forecastinfo['total'][4],forecastinfo['total'][5],forecastinfo['total'][6]),
-                                 ('Caudal de Entrada (1024)', forecastinfo['1024'][0], forecastinfo['1024'][1], forecastinfo['1024'][2], forecastinfo['1024'][3],
-                                  forecastinfo['1024'][4], forecastinfo['1024'][5], forecastinfo['1024'][6]),
-                                 ('Caudal de Entrada (1140)', forecastinfo['1140'][0], forecastinfo['1140'][1], forecastinfo['1140'][2], forecastinfo['1140'][3],
-                                  forecastinfo['1140'][4], forecastinfo['1140'][5], forecastinfo['1140'][6]),
-                                 ('Caudal de Entrada (1142)', forecastinfo['1142'][0], forecastinfo['1142'][1], forecastinfo['1142'][2], forecastinfo['1142'][3],
-                                  forecastinfo['1142'][4], forecastinfo['1142'][5], forecastinfo['1142'][6]),
-                                 ('Caudal de Entrada (1153)', forecastinfo['1153'][0], forecastinfo['1153'][1], forecastinfo['1153'][2], forecastinfo['1153'][3],
-                                  forecastinfo['1153'][4], forecastinfo['1153'][5], forecastinfo['1153'][6]),
+    table_view = TableView(column_names=('Caudales/Niveles',forecasteddata['dates'][0], forecasteddata['dates'][1],
+                                         forecasteddata['dates'][2], forecasteddata['dates'][3], forecasteddata['dates'][4],
+                                         forecasteddata['dates'][5], forecasteddata['dates'][6]),
+                           rows=[('Caudal de Entrada (Total)',forecasteddata['total'][0], forecasteddata['total'][1],
+                                  forecasteddata['total'][2],forecasteddata['total'][3],forecasteddata['total'][4],
+                                  forecasteddata['total'][5],forecasteddata['total'][6]),
+                                 ('Caudal de Entrada (1024)', forecasteddata['1024'][0], forecasteddata['1024'][1],
+                                  forecasteddata['1024'][2], forecasteddata['1024'][3], forecasteddata['1024'][4],
+                                  forecasteddata['1024'][5], forecasteddata['1024'][6]),
+                                 ('Caudal de Entrada (1140)', forecasteddata['1140'][0], forecasteddata['1140'][1],
+                                  forecasteddata['1140'][2], forecasteddata['1140'][3],forecasteddata['1140'][4],
+                                  forecasteddata['1140'][5], forecasteddata['1140'][6]),
+                                 ('Caudal de Entrada (1142)', forecasteddata['1142'][0], forecasteddata['1142'][1],
+                                  forecasteddata['1142'][2], forecasteddata['1142'][3], forecasteddata['1142'][4],
+                                  forecasteddata['1142'][5], forecasteddata['1142'][6]),
+                                 ('Caudal de Entrada (1153)', forecasteddata['1153'][0], forecasteddata['1153'][1],
+                                  forecasteddata['1153'][2], forecasteddata['1153'][3], forecasteddata['1153'][4],
+                                  forecasteddata['1153'][5], forecasteddata['1153'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
-                                 ('Niveles','368', '370', '369', '374','373','371','372')],
+                                 ('Niveles Prognosticos',forecasteddata['levels'][0], forecasteddata['levels'][1],
+                                  forecasteddata['levels'][2], forecasteddata['levels'][3],forecasteddata['levels'][4],
+                                  forecasteddata['levels'][5],forecasteddata['levels'][6])],
                            hover=True,
                            striped=True,
                            bordered=True,
@@ -587,7 +664,7 @@ def valdesia(request):
     """
     comids = ['159']
 
-    forecastinfo = getforecastflows(comids)
+    forecasteddata = forecastdata(comids, 'Valdesia', 140, 1)
     data = gethistoricaldata('Valdesia')
 
     timeseries_plot = TimeSeries(
@@ -605,12 +682,19 @@ def valdesia(request):
     )
 
     #This creates the table
-    table_view = TableView(column_names=('Caudales/Niveles',forecastinfo['timestep'][0], forecastinfo['timestep'][1], forecastinfo['timestep'][2], forecastinfo['timestep'][3], forecastinfo['timestep'][4], forecastinfo['timestep'][5], forecastinfo['timestep'][6]),
-                           rows=[('Caudal de Entrada (Total)',forecastinfo['total'][0], forecastinfo['total'][1], forecastinfo['total'][2],forecastinfo['total'][3],forecastinfo['total'][4],forecastinfo['total'][5],forecastinfo['total'][6]),
-                                 ('Caudal de Entrada (159)', forecastinfo['159'][0], forecastinfo['159'][1], forecastinfo['159'][2], forecastinfo['159'][3],
-                                  forecastinfo['159'][4], forecastinfo['159'][5], forecastinfo['159'][6]),
+    table_view = TableView(column_names=('Caudales/Niveles',forecasteddata['dates'][0], forecasteddata['dates'][1],
+                                         forecasteddata['dates'][2], forecasteddata['dates'][3], forecasteddata['dates'][4],
+                                         forecasteddata['dates'][5], forecasteddata['dates'][6]),
+                           rows=[('Caudal de Entrada (Total)',forecasteddata['total'][0], forecasteddata['total'][1],
+                                  forecasteddata['total'][2],forecasteddata['total'][3],forecasteddata['total'][4],
+                                  forecasteddata['total'][5],forecasteddata['total'][6]),
+                                 ('Caudal de Entrada (159)', forecasteddata['159'][0], forecasteddata['159'][1],
+                                  forecasteddata['159'][2], forecasteddata['159'][3], forecasteddata['159'][4],
+                                  forecasteddata['159'][5], forecasteddata['159'][6]),
                                  ('Caudal de Salida','10', '10', '13','12','12.4','11','13'),
-                                 ('Niveles','368', '370', '369', '374','373','371','372')],
+                                 ('Niveles Prognosticos',forecasteddata['levels'][0], forecasteddata['levels'][1],
+                                  forecasteddata['levels'][2], forecasteddata['levels'][3],forecasteddata['levels'][4],
+                                  forecasteddata['levels'][5],forecasteddata['levels'][6])],
                            hover=True,
                            striped=True,
                            bordered=True,
