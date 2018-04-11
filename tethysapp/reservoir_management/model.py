@@ -134,5 +134,182 @@ def getrecentdata():
 
 
 
+def forecastlevels(comids,res):
+
+    outflow = 3.0
+    outtime = 24.0
+    elevval = 185.1
+
+    outvol = outflow * outtime * 3600.0
+
+    totalflow = []
+    tsvol = []
+    tselev = []
+
+    elev = res + '_Elev'
+    vol = res + '_Vol'
+
+    app_workspace = app.get_app_workspace()
+    elevcurves = os.path.join(app_workspace.path, 'BATIMETRIA PRESAS RD.xlsx')
+
+    df = pd.read_excel(elevcurves)
+
+    volres = df.loc[df[elev] == elevval, vol].iloc[0]
+    volin = volres * 1000000
+
+    for comid in comids:
+        request_params = dict(watershed_name='Dominican Republic', subbasin_name='National', reach_id=comid,
+                              forecast_folder='most_recent', stat_type='mean', return_format='csv')
+        request_headers = dict(Authorization='Token fa7fa9f7d35eddb64011913ef8a27129c9740f3c')
+        res = requests.get('https://tethys-staging.byu.edu/apps/streamflow-prediction-tool/api/GetForecast/',
+                           params=request_params, headers=request_headers)
+
+        data = res.content.splitlines()
+
+        ts = []
+        comidflows = []
+
+        for i in data:
+            ts.append(i.split(','))
+
+        ts.pop(0)
+
+        for r in ts:
+            comidflows.append(float(r[1]))
+
+        totalflow.append(comidflows)
+
+    totalflow = [sum(x) for x in zip(*totalflow)]
+
+    entries = len(ts)
+
+    for x in range(0, entries):
+        if x == 0:
+            inflow1 = float(totalflow[x])
+            time1 = dt.datetime.strptime(ts[x][0], "%Y-%m-%d %H:%M:%S")
+        else:
+            inflow2 = float(totalflow[x])
+            time2 = dt.datetime.strptime(ts[x][0], "%Y-%m-%d %H:%M:%S")
+            timedif = (time2 - time1).total_seconds()
+            vol2 = (inflow2 + inflow1) / 2 * timedif
+            volin = volin + vol2
+            inflow1 = inflow2
+            time1 = time2
+            if ts[x][0].endswith('12:00:00'):
+                if not tsvol:
+                    tsvol.append([str(ts[x][0])[:10], volin - (outvol / 2.0)])
+                    volin = volin - (outvol / 2.0)
+                else:
+                    tsvol.append([str(ts[x][0])[:10], volin - outvol])
+                    volin = volin - (outvol)
+
+    for q in tsvol:
+        volval = q[1]
+        volval = volval / 1000000.0
+        evolval = (df.loc[df[vol] > volval, elev].iloc[0])
+        tselev.append([q[0], evolval])
+
+    return(tselev)
+
+def forecastdata(comids,res,level,outflow):
+    outtime = 24.0
+    elevval = level
+
+    outvol = outflow * outtime * 3600.0
+
+    totalflow = []
+    tsvol = []
+    tselev = []
+    data = {}
+    dataformatted = {}
+
+    elev = res + '_Elev'
+    vol = res + '_Vol'
+
+    app_workspace = app.get_app_workspace()
+    elevcurve = os.path.join(app_workspace.path, 'BATIMETRIA PRESAS RD.xlsx')
+
+    df = pd.read_excel(elevcurve)
+
+    volres = df.loc[df[elev] == elevval, vol].iloc[0]
+    volin = volres * 1000000
+
+    for comid in comids:
+        request_params = dict(watershed_name='Dominican Republic', subbasin_name='National', reach_id=comid,
+                              forecast_folder='most_recent', stat_type='mean', return_format='csv')
+        request_headers = dict(Authorization='Token fa7fa9f7d35eddb64011913ef8a27129c9740f3c')
+        res = requests.get('https://tethys-staging.byu.edu/apps/streamflow-prediction-tool/api/GetForecast/',
+                           params=request_params, headers=request_headers)
+
+        content = res.content.splitlines()
+
+        ts = []
+        comidflows = []
+        allcomidflows = []
+
+        for i in content:
+            ts.append(i.split(','))
+
+        ts.pop(0)
+
+        for r in ts:
+            allcomidflows.append(float(r[1]))
+            if r[0].endswith('12:00:00'):
+                comidflows.append(float(r[1]))
+
+        totalflow.append(allcomidflows)
+        data[comid] = comidflows
+
+    newseries = []
+    for x in data:
+        newseries.append(data[x])
+
+    total = [sum(x) for x in zip(*newseries)]
+    alltotal = [sum(x) for x in zip(*totalflow)]
+    data['total'] = total
+
+    for x in data:
+        formattedtotal = ["%.2f" % elem for elem in data[x]]
+        dataformatted[x] = formattedtotal
+
+    entries = len(ts)
+
+    dates = []
+
+    for x in range(0, entries):
+        if x == 0:
+            inflow1 = float(alltotal[x])
+            time1 = dt.datetime.strptime(ts[x][0], "%Y-%m-%d %H:%M:%S")
+        else:
+            inflow2 = float(alltotal[x])
+            time2 = dt.datetime.strptime(ts[x][0], "%Y-%m-%d %H:%M:%S")
+            timedif = (time2 - time1).total_seconds()
+            vol2 = (inflow2 + inflow1) / 2 * timedif
+            volin = volin + vol2
+            inflow1 = inflow2
+            time1 = time2
+            if ts[x][0].endswith('12:00:00'):
+                if not tsvol:
+                    tsvol.append([str(ts[x][0])[:10], volin - (outvol / 2.0)])
+                    dates.append(str(ts[x][0])[5:-9])
+                    volin = volin - (outvol / 2.0)
+                else:
+                    tsvol.append([str(ts[x][0])[:10], volin - outvol])
+                    dates.append(str(ts[x][0])[5:-9])
+                    volin = volin - (outvol)
+
+    for q in tsvol:
+        volval = q[1]
+        volval = volval / 1000000.0
+        evolval = (df.loc[df[vol] > volval, elev].iloc[0])
+        tselev.append(evolval)
+
+    dataformatted['levels'] = tselev
+    dataformatted['dates'] = dates
+
+    return(dataformatted)
+
+
+
 
 
