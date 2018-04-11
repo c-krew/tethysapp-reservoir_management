@@ -32,7 +32,7 @@ def sabana_yegua(request):
     #this refers to python code in model.py. It uses the stremaflow prediction tool api to get this information.
     comids = ['593', '600', '599']
 
-    forecasteddata = forecastdata(comids, 'Sabana_Yegua', 360, 3)
+    forecasteddata = forecastdata(comids, 'Sabana_Yegua', 3)
     data = gethistoricaldata('S. Yegua')
 
     timeseries_plot = TimeSeries(
@@ -172,7 +172,7 @@ def hatillo(request):
 
     comids = ['834', '813', '849', '857']
 
-    forecasteddata = forecastdata(comids, 'Hatillo', 85, .3)
+    forecasteddata = forecastdata(comids, 'Hatillo', .3)
     data = gethistoricaldata('Hatillo')
 
     timeseries_plot = TimeSeries(
@@ -234,7 +234,7 @@ def maguaca(request):
     """
     comids = ['1399']
 
-    forecasteddata = forecastdata(comids, 'Maguaca', 50, .1)
+    forecasteddata = forecastdata(comids, 'Maguaca', .1)
     data = gethistoricaldata('Maguaca')
 
     timeseries_plot = TimeSeries(
@@ -286,7 +286,7 @@ def chacuey(request):
     """
     comids = ['1396']
 
-    forecasteddata = forecastdata(comids, 'Chacuey', 45, .1)
+    forecasteddata = forecastdata(comids, 'Chacuey', .1)
     data = gethistoricaldata('Chacuey')
 
     timeseries_plot = TimeSeries(
@@ -338,7 +338,7 @@ def jiguey(request):
     """
     comids = ['475', '496']
 
-    forecasteddata = forecastdata(comids, 'Jiguey', 460, 3)
+    forecasteddata = forecastdata(comids, 'Jiguey', 3)
     data = gethistoricaldata('Jiguey')
 
     timeseries_plot = TimeSeries(
@@ -394,7 +394,7 @@ def moncion(request):
     comids = ['1148', '1182']
 
     observeddata = gethistoricaldata('Moncion')
-    forecasteddata = forecastdata(comids,'Moncion', 185, 1)
+    forecasteddata = forecastdata(comids,'Moncion', 1)
 
     timeseries_plot = TimeSeries(
         height='500px',
@@ -493,7 +493,7 @@ def rincon(request):
     """
     comids = ['853', '922']
 
-    forecasteddata = forecastdata(comids, 'Rincon', 98, 1)
+    forecasteddata = forecastdata(comids, 'Rincon', 1)
     data = gethistoricaldata('Rincon')
 
     timeseries_plot = TimeSeries(
@@ -548,7 +548,7 @@ def sabaneta(request):
     """
     comids = ['863', '862']
 
-    forecasteddata = forecastdata(comids, 'Sabaneta', 611, 5)
+    forecasteddata = forecastdata(comids, 'Sabaneta', 5)
     data = gethistoricaldata('Sabaneta')
 
     timeseries_plot = TimeSeries(
@@ -603,7 +603,7 @@ def tavera_bao(request):
     """
     comids = ['1024', '1140', '1142', '1153']
 
-    forecasteddata = forecastdata(comids, 'Tavera', 317, 3)
+    forecasteddata = forecastdata(comids, 'Tavera', 3)
     data = gethistoricaldata('Bao')
 
     timeseries_plot = TimeSeries(
@@ -664,7 +664,7 @@ def valdesia(request):
     """
     comids = ['159']
 
-    forecasteddata = forecastdata(comids, 'Valdesia', 140, 1)
+    forecasteddata = forecastdata(comids, 'Valdesia', 1)
     data = gethistoricaldata('Valdesia')
 
     timeseries_plot = TimeSeries(

@@ -211,9 +211,21 @@ def forecastlevels(comids,res):
 
     return(tselev)
 
-def forecastdata(comids,res,level,outflow):
+def forecastdata(comids,res,outflow):
     outtime = 24.0
-    elevval = level
+
+    app_workspace = app.get_app_workspace()
+    damsheet = os.path.join(app_workspace.path, 'DamLevel_DR_BYU 2018.xlsx')
+
+    dfnan = pd.read_excel(damsheet)
+    df1 = dfnan[['Nivel', res]]
+    df = df1.dropna()[::-1]
+    reslevel = df[:1]
+    lastdate = reslevel['Nivel']
+    lastlevel = reslevel[res]
+
+    lastobsdate = str(lastdate.iloc[0])[:10]
+    elevval = lastlevel.iloc[0]
 
     outvol = outflow * outtime * 3600.0
 
@@ -226,7 +238,6 @@ def forecastdata(comids,res,level,outflow):
     elev = res + '_Elev'
     vol = res + '_Vol'
 
-    app_workspace = app.get_app_workspace()
     elevcurve = os.path.join(app_workspace.path, 'BATIMETRIA PRESAS RD.xlsx')
 
     df = pd.read_excel(elevcurve)
