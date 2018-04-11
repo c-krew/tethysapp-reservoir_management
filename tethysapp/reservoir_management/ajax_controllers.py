@@ -41,7 +41,7 @@ def append_res_info(request):
         df.loc[df.Nivel == time, damnames[reservoir]] = level
 
         # Create a Pandas Excel writer using XlsxWriter as the engine.
-        writer = pd.ExcelWriter(filenew, engine='xlsxwriter')
+        writer = pd.ExcelWriter(file, engine='xlsxwriter')
 
         # Convert the dataframe to an XlsxWriter Excel object.
         df.to_excel(writer, index=False, sheet_name='Sheet1')

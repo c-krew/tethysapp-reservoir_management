@@ -183,7 +183,7 @@ function append(){
         error: function (status) {
 
         }, success: function (response) {
-
+                location.reload();
         }
     })
 }
