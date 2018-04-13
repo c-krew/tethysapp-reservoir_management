@@ -94,3 +94,16 @@ body {
 #ingresar {
     text-align: center;
 }
+
+#outflow_button {
+    text-align:center;
+    }
+
+#dimtable {
+    padding-right: 10%;
+    padding-left: 10%;
+}
+#modalbut {
+    padding: 5%;
+    text-align:center;
+}

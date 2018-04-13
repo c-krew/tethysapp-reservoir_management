@@ -218,6 +218,9 @@ function addvarstomessage(){
     document.getElementsByClassName("modal-body")[0].innerHTML = "Paragraph changed!";
 }
 
+function outflowmodal() {
+    $("#outflowmod").modal('show')
+}
 
 /*thse function occur automatically when the page is loaded*/
 $(function(){

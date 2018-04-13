@@ -214,6 +214,8 @@ def forecastlevels(comids,res):
 def forecastdata(comids,res,outflow):
     outtime = 24.0
 
+    if res == 'Sabana_Yegua':
+        res = 'S. Yegua'
     app_workspace = app.get_app_workspace()
     damsheet = os.path.join(app_workspace.path, 'DamLevel_DR_BYU 2018.xlsx')
 
@@ -234,6 +236,9 @@ def forecastdata(comids,res,outflow):
     tselev = []
     data = {}
     dataformatted = {}
+
+    if res == 'S. Yegua':
+        res = 'Sabana_Yegua'
 
     elev = res + '_Elev'
     vol = res + '_Vol'
