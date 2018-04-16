@@ -7,7 +7,6 @@
     </div>
     <p><h5>Datos Historicos y Prevision</h5></p>
     {% gizmo timeseries_plot %}
-    <p><h5>Caudales</h5></p>
 {% endblock %}
 
 {% block app_navigation_items %}
@@ -30,8 +29,9 @@
             <div id="modalbut">
                 {% gizmo calculate %}
             </div>
-            <div id="waiting_output"></div>
-            <table id="mytable">
+            <h5 align="center">Niveles Prognosticados</h5>
+            <div align="center" id="waiting_output"></div>
+            <table align="center" id="mytable">
                 <tbody id="tbody">
                 </tbody>
             </table>

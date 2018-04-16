@@ -69,22 +69,15 @@ body {
   font: 13px 'Open Sans', "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
-#myTable td, #myTable th {
+#mytable td {
+    text-align: left;
     border: 1px solid #ddd;
     padding: 8px;
 }
 
-#myTable tr:nth-child(even){background-color: #f2f2f2;}
+#mytable tr:nth-child(odd){background-color: #f2f2f2;}
 
-#myTable tr:hover {background-color: #ddd;}
-
-#myTable th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #4CAF50;
-    color: white;
-}
+#mytable tr:hover {background-color: #ddd;}
 
 .modal-body {
     text-align: center;

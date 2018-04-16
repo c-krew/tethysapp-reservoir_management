@@ -286,7 +286,7 @@ function calculatelevels() {
 
 function waiting_output() {
     var wait_text = "<strong>Loading...</strong><br>" +
-        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='/static/reservoir_management/images/swansonhead.gif'>";
+        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='/static/reservoir_management/images/fillingup.gif'>";
     document.getElementById('waiting_output').innerHTML = wait_text;
 }
 
