@@ -72,12 +72,53 @@ def sabana_yegua(request):
                            bordered=True,
                            condensed=False)
 
+    outflow_edit = TableView(column_names=('Dia', 'Caudal de Salida (cms)', 'Tiempo de salida (horas)'),
+                             rows=[(forecasteddata['dates'][0], '0', '0'),
+                                   (forecasteddata['dates'][1], '0', '0'),
+                                   (forecasteddata['dates'][2], '0', '0'),
+                                   (forecasteddata['dates'][3], '0', '0'),
+                                   (forecasteddata['dates'][4], '0', '0'),
+                                   (forecasteddata['dates'][5], '0', '0'),
+                                   (forecasteddata['dates'][6], '0', '0'),
+                                   ],
+                             hover=True,
+                             striped=True,
+                             bordered=True,
+                             condensed=True,
+                             editable_columns=(False, 'Outflow', 'Time'),
+                             row_ids=['day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7'],
+                             classes="outflowtable"
+                             )
 
+    calculate = Button(display_text='Calcular Niveles del Embalse',
+                       name='calculate',
+                       style='',
+                       icon='',
+                       href='',
+                       submit=False,
+                       disabled=False,
+                       attributes={"onclick": "calculatelevels()"},
+                       classes='calcbut'
+                       )
+
+    outflow_button = Button(display_text='Ingresar caudales de salida',
+                            name='dimensions',
+                            style='',
+                            icon='',
+                            href='',
+                            submit=False,
+                            disabled=False,
+                            attributes={"onclick": "outflowmodal()"},
+                            classes='outflow_button'
+                            )
     context = {
         'timeseries_plot': timeseries_plot,
         'table_view': table_view,
- #       'historic_plot': historic_plot,
+        'outflow_button': outflow_button,
+        'calculate': calculate,
+        'outflow_edit': outflow_edit,
     }
+    #       'historic_plot': historic_plot,
 
     return render(request, 'reservoir_management/sabana_yegua.html', context)
 
@@ -216,12 +257,53 @@ def hatillo(request):
                            bordered=True,
                            condensed=False)
 
+    outflow_edit = TableView(column_names=('Dia', 'Caudal de Salida (cms)', 'Tiempo de salida (horas)'),
+                             rows=[(forecasteddata['dates'][0], '0', '0'),
+                                   (forecasteddata['dates'][1], '0', '0'),
+                                   (forecasteddata['dates'][2], '0', '0'),
+                                   (forecasteddata['dates'][3], '0', '0'),
+                                   (forecasteddata['dates'][4], '0', '0'),
+                                   (forecasteddata['dates'][5], '0', '0'),
+                                   (forecasteddata['dates'][6], '0', '0'),
+                                   ],
+                             hover=True,
+                             striped=True,
+                             bordered=True,
+                             condensed=True,
+                             editable_columns=(False, 'Outflow', 'Time'),
+                             row_ids=['day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7'],
+                             classes="outflowtable"
+                             )
 
+    calculate = Button(display_text='Calcular Niveles del Embalse',
+                       name='calculate',
+                       style='',
+                       icon='',
+                       href='',
+                       submit=False,
+                       disabled=False,
+                       attributes={"onclick": "calculatelevels()"},
+                       classes='calcbut'
+                       )
+
+    outflow_button = Button(display_text='Ingresar caudales de salida',
+                            name='dimensions',
+                            style='',
+                            icon='',
+                            href='',
+                            submit=False,
+                            disabled=False,
+                            attributes={"onclick": "outflowmodal()"},
+                            classes='outflow_button'
+                            )
     context = {
         'timeseries_plot': timeseries_plot,
         'table_view': table_view,
- #       'historic_plot': historic_plot,
+        'outflow_button': outflow_button,
+        'calculate': calculate,
+        'outflow_edit': outflow_edit,
     }
+    #       'historic_plot': historic_plot,
 
     return render(request, 'reservoir_management/hatillo.html', context)
 
@@ -267,12 +349,53 @@ def maguaca(request):
                            bordered=True,
                            condensed=False)
 
+    outflow_edit = TableView(column_names=('Dia', 'Caudal de Salida (cms)', 'Tiempo de salida (horas)'),
+                             rows=[(forecasteddata['dates'][0], '0', '0'),
+                                   (forecasteddata['dates'][1], '0', '0'),
+                                   (forecasteddata['dates'][2], '0', '0'),
+                                   (forecasteddata['dates'][3], '0', '0'),
+                                   (forecasteddata['dates'][4], '0', '0'),
+                                   (forecasteddata['dates'][5], '0', '0'),
+                                   (forecasteddata['dates'][6], '0', '0'),
+                                   ],
+                             hover=True,
+                             striped=True,
+                             bordered=True,
+                             condensed=True,
+                             editable_columns=(False, 'Outflow', 'Time'),
+                             row_ids=['day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7'],
+                             classes="outflowtable"
+                             )
 
+    calculate = Button(display_text='Calcular Niveles del Embalse',
+                       name='calculate',
+                       style='',
+                       icon='',
+                       href='',
+                       submit=False,
+                       disabled=False,
+                       attributes={"onclick": "calculatelevels()"},
+                       classes='calcbut'
+                       )
+
+    outflow_button = Button(display_text='Ingresar caudales de salida',
+                            name='dimensions',
+                            style='',
+                            icon='',
+                            href='',
+                            submit=False,
+                            disabled=False,
+                            attributes={"onclick": "outflowmodal()"},
+                            classes='outflow_button'
+                            )
     context = {
         'timeseries_plot': timeseries_plot,
         'table_view': table_view,
- #       'historic_plot': historic_plot,
+        'outflow_button': outflow_button,
+        'calculate': calculate,
+        'outflow_edit': outflow_edit,
     }
+    #       'historic_plot': historic_plot,
 
     return render(request, 'reservoir_management/maguaca.html', context)
 
@@ -345,7 +468,7 @@ def chacuey(request):
                        submit=False,
                        disabled=False,
                        attributes={"onclick": "calculatelevels()"},
-                       classes=''
+                       classes='calcbut'
                        )
 
     outflow_button = Button(display_text='Ingresar caudales de salida',
@@ -356,7 +479,7 @@ def chacuey(request):
                             submit=False,
                             disabled=False,
                             attributes={"onclick": "outflowmodal()"},
-                            classes=''
+                            classes='outflow_button'
                             )
     context = {
         'timeseries_plot': timeseries_plot,
@@ -415,12 +538,53 @@ def jiguey(request):
                            bordered=True,
                            condensed=False)
 
+    outflow_edit = TableView(column_names=('Dia', 'Caudal de Salida (cms)', 'Tiempo de salida (horas)'),
+                             rows=[(forecasteddata['dates'][0], '0', '0'),
+                                   (forecasteddata['dates'][1], '0', '0'),
+                                   (forecasteddata['dates'][2], '0', '0'),
+                                   (forecasteddata['dates'][3], '0', '0'),
+                                   (forecasteddata['dates'][4], '0', '0'),
+                                   (forecasteddata['dates'][5], '0', '0'),
+                                   (forecasteddata['dates'][6], '0', '0'),
+                                   ],
+                             hover=True,
+                             striped=True,
+                             bordered=True,
+                             condensed=True,
+                             editable_columns=(False, 'Outflow', 'Time'),
+                             row_ids=['day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7'],
+                             classes="outflowtable"
+                             )
 
+    calculate = Button(display_text='Calcular Niveles del Embalse',
+                       name='calculate',
+                       style='',
+                       icon='',
+                       href='',
+                       submit=False,
+                       disabled=False,
+                       attributes={"onclick": "calculatelevels()"},
+                       classes='calcbut'
+                       )
+
+    outflow_button = Button(display_text='Ingresar caudales de salida',
+                            name='dimensions',
+                            style='',
+                            icon='',
+                            href='',
+                            submit=False,
+                            disabled=False,
+                            attributes={"onclick": "outflowmodal()"},
+                            classes='outflow_button'
+                            )
     context = {
         'timeseries_plot': timeseries_plot,
         'table_view': table_view,
- #       'historic_plot': historic_plot,
+        'outflow_button': outflow_button,
+        'calculate': calculate,
+        'outflow_edit': outflow_edit,
     }
+    #       'historic_plot': historic_plot,
 
     return render(request, 'reservoir_management/jiguey.html', context)
 
@@ -469,12 +633,53 @@ def moncion(request):
                            bordered=True,
                            condensed=False)
 
+    outflow_edit = TableView(column_names=('Dia', 'Caudal de Salida (cms)', 'Tiempo de salida (horas)'),
+                             rows=[(forecasteddata['dates'][0], '0', '0'),
+                                   (forecasteddata['dates'][1], '0', '0'),
+                                   (forecasteddata['dates'][2], '0', '0'),
+                                   (forecasteddata['dates'][3], '0', '0'),
+                                   (forecasteddata['dates'][4], '0', '0'),
+                                   (forecasteddata['dates'][5], '0', '0'),
+                                   (forecasteddata['dates'][6], '0', '0'),
+                                   ],
+                             hover=True,
+                             striped=True,
+                             bordered=True,
+                             condensed=True,
+                             editable_columns=(False, 'Outflow', 'Time'),
+                             row_ids=['day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7'],
+                             classes="outflowtable"
+                             )
 
+    calculate = Button(display_text='Calcular Niveles del Embalse',
+                       name='calculate',
+                       style='',
+                       icon='',
+                       href='',
+                       submit=False,
+                       disabled=False,
+                       attributes={"onclick": "calculatelevels()"},
+                       classes='calcbut'
+                       )
+
+    outflow_button = Button(display_text='Ingresar caudales de salida',
+                            name='dimensions',
+                            style='',
+                            icon='',
+                            href='',
+                            submit=False,
+                            disabled=False,
+                            attributes={"onclick": "outflowmodal()"},
+                            classes='outflow_button'
+                            )
     context = {
         'timeseries_plot': timeseries_plot,
         'table_view': table_view,
- #       'historic_plot': historic_plot,
+        'outflow_button': outflow_button,
+        'calculate': calculate,
+        'outflow_edit': outflow_edit,
     }
+    #       'historic_plot': historic_plot,
 
     return render(request, 'reservoir_management/moncion.html', context)
 
@@ -513,12 +718,53 @@ def pinalito(request):
                            bordered=True,
                            condensed=False)
 
+    outflow_edit = TableView(column_names=('Dia', 'Caudal de Salida (cms)', 'Tiempo de salida (horas)'),
+                             rows=[(forecasteddata['dates'][0], '0', '0'),
+                                   (forecasteddata['dates'][1], '0', '0'),
+                                   (forecasteddata['dates'][2], '0', '0'),
+                                   (forecasteddata['dates'][3], '0', '0'),
+                                   (forecasteddata['dates'][4], '0', '0'),
+                                   (forecasteddata['dates'][5], '0', '0'),
+                                   (forecasteddata['dates'][6], '0', '0'),
+                                   ],
+                             hover=True,
+                             striped=True,
+                             bordered=True,
+                             condensed=True,
+                             editable_columns=(False, 'Outflow', 'Time'),
+                             row_ids=['day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7'],
+                             classes="outflowtable"
+                             )
 
+    calculate = Button(display_text='Calcular Niveles del Embalse',
+                       name='calculate',
+                       style='',
+                       icon='',
+                       href='',
+                       submit=False,
+                       disabled=False,
+                       attributes={"onclick": "calculatelevels()"},
+                       classes='calcbut'
+                       )
+
+    outflow_button = Button(display_text='Ingresar caudales de salida',
+                            name='dimensions',
+                            style='',
+                            icon='',
+                            href='',
+                            submit=False,
+                            disabled=False,
+                            attributes={"onclick": "outflowmodal()"},
+                            classes='outflow_button'
+                            )
     context = {
         'timeseries_plot': timeseries_plot,
         'table_view': table_view,
- #       'historic_plot': historic_plot,
+        'outflow_button': outflow_button,
+        'calculate': calculate,
+        'outflow_edit': outflow_edit,
     }
+    #       'historic_plot': historic_plot,
 
     return render(request, 'reservoir_management/pinalito.html', context)
 
@@ -567,12 +813,53 @@ def rincon(request):
                            bordered=True,
                            condensed=False)
 
+    outflow_edit = TableView(column_names=('Dia', 'Caudal de Salida (cms)', 'Tiempo de salida (horas)'),
+                             rows=[(forecasteddata['dates'][0], '0', '0'),
+                                   (forecasteddata['dates'][1], '0', '0'),
+                                   (forecasteddata['dates'][2], '0', '0'),
+                                   (forecasteddata['dates'][3], '0', '0'),
+                                   (forecasteddata['dates'][4], '0', '0'),
+                                   (forecasteddata['dates'][5], '0', '0'),
+                                   (forecasteddata['dates'][6], '0', '0'),
+                                   ],
+                             hover=True,
+                             striped=True,
+                             bordered=True,
+                             condensed=True,
+                             editable_columns=(False, 'Outflow', 'Time'),
+                             row_ids=['day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7'],
+                             classes="outflowtable"
+                             )
 
+    calculate = Button(display_text='Calcular Niveles del Embalse',
+                       name='calculate',
+                       style='',
+                       icon='',
+                       href='',
+                       submit=False,
+                       disabled=False,
+                       attributes={"onclick": "calculatelevels()"},
+                       classes='calcbut'
+                       )
+
+    outflow_button = Button(display_text='Ingresar caudales de salida',
+                            name='dimensions',
+                            style='',
+                            icon='',
+                            href='',
+                            submit=False,
+                            disabled=False,
+                            attributes={"onclick": "outflowmodal()"},
+                            classes='outflow_button'
+                            )
     context = {
         'timeseries_plot': timeseries_plot,
         'table_view': table_view,
- #       'historic_plot': historic_plot,
+        'outflow_button': outflow_button,
+        'calculate': calculate,
+        'outflow_edit': outflow_edit,
     }
+    #       'historic_plot': historic_plot,
 
     return render(request, 'reservoir_management/rincon.html', context)
 
@@ -621,12 +908,53 @@ def sabaneta(request):
                            bordered=True,
                            condensed=False)
 
+    outflow_edit = TableView(column_names=('Dia', 'Caudal de Salida (cms)', 'Tiempo de salida (horas)'),
+                             rows=[(forecasteddata['dates'][0], '0', '0'),
+                                   (forecasteddata['dates'][1], '0', '0'),
+                                   (forecasteddata['dates'][2], '0', '0'),
+                                   (forecasteddata['dates'][3], '0', '0'),
+                                   (forecasteddata['dates'][4], '0', '0'),
+                                   (forecasteddata['dates'][5], '0', '0'),
+                                   (forecasteddata['dates'][6], '0', '0'),
+                                   ],
+                             hover=True,
+                             striped=True,
+                             bordered=True,
+                             condensed=True,
+                             editable_columns=(False, 'Outflow', 'Time'),
+                             row_ids=['day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7'],
+                             classes="outflowtable"
+                             )
 
+    calculate = Button(display_text='Calcular Niveles del Embalse',
+                       name='calculate',
+                       style='',
+                       icon='',
+                       href='',
+                       submit=False,
+                       disabled=False,
+                       attributes={"onclick": "calculatelevels()"},
+                       classes='calcbut'
+                       )
+
+    outflow_button = Button(display_text='Ingresar caudales de salida',
+                            name='dimensions',
+                            style='',
+                            icon='',
+                            href='',
+                            submit=False,
+                            disabled=False,
+                            attributes={"onclick": "outflowmodal()"},
+                            classes='outflow_button'
+                            )
     context = {
         'timeseries_plot': timeseries_plot,
         'table_view': table_view,
- #       'historic_plot': historic_plot,
+        'outflow_button': outflow_button,
+        'calculate': calculate,
+        'outflow_edit': outflow_edit,
     }
+    #       'historic_plot': historic_plot,
 
     return render(request, 'reservoir_management/sabaneta.html', context)
 
@@ -681,12 +1009,53 @@ def tavera_bao(request):
                            bordered=True,
                            condensed=False)
 
+    outflow_edit = TableView(column_names=('Dia', 'Caudal de Salida (cms)', 'Tiempo de salida (horas)'),
+                             rows=[(forecasteddata['dates'][0], '0', '0'),
+                                   (forecasteddata['dates'][1], '0', '0'),
+                                   (forecasteddata['dates'][2], '0', '0'),
+                                   (forecasteddata['dates'][3], '0', '0'),
+                                   (forecasteddata['dates'][4], '0', '0'),
+                                   (forecasteddata['dates'][5], '0', '0'),
+                                   (forecasteddata['dates'][6], '0', '0'),
+                                   ],
+                             hover=True,
+                             striped=True,
+                             bordered=True,
+                             condensed=True,
+                             editable_columns=(False, 'Outflow', 'Time'),
+                             row_ids=['day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7'],
+                             classes="outflowtable"
+                             )
 
+    calculate = Button(display_text='Calcular Niveles del Embalse',
+                       name='calculate',
+                       style='',
+                       icon='',
+                       href='',
+                       submit=False,
+                       disabled=False,
+                       attributes={"onclick": "calculatelevels()"},
+                       classes='calcbut'
+                       )
+
+    outflow_button = Button(display_text='Ingresar caudales de salida',
+                            name='dimensions',
+                            style='',
+                            icon='',
+                            href='',
+                            submit=False,
+                            disabled=False,
+                            attributes={"onclick": "outflowmodal()"},
+                            classes='outflow_button'
+                            )
     context = {
         'timeseries_plot': timeseries_plot,
         'table_view': table_view,
- #       'historic_plot': historic_plot,
+        'outflow_button': outflow_button,
+        'calculate': calculate,
+        'outflow_edit': outflow_edit,
     }
+    #       'historic_plot': historic_plot,
 
     return render(request, 'reservoir_management/tavera_bao.html', context)
 
@@ -732,11 +1101,52 @@ def valdesia(request):
                            bordered=True,
                            condensed=False)
 
+    outflow_edit = TableView(column_names=('Dia', 'Caudal de Salida (cms)', 'Tiempo de salida (horas)'),
+                             rows=[(forecasteddata['dates'][0], '0', '0'),
+                                   (forecasteddata['dates'][1], '0', '0'),
+                                   (forecasteddata['dates'][2], '0', '0'),
+                                   (forecasteddata['dates'][3], '0', '0'),
+                                   (forecasteddata['dates'][4], '0', '0'),
+                                   (forecasteddata['dates'][5], '0', '0'),
+                                   (forecasteddata['dates'][6], '0', '0'),
+                                   ],
+                             hover=True,
+                             striped=True,
+                             bordered=True,
+                             condensed=True,
+                             editable_columns=(False, 'Outflow', 'Time'),
+                             row_ids=['day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7'],
+                             classes="outflowtable"
+                             )
 
+    calculate = Button(display_text='Calcular Niveles del Embalse',
+                       name='calculate',
+                       style='',
+                       icon='',
+                       href='',
+                       submit=False,
+                       disabled=False,
+                       attributes={"onclick": "calculatelevels()"},
+                       classes='calcbut'
+                       )
+
+    outflow_button = Button(display_text='Ingresar caudales de salida',
+                            name='dimensions',
+                            style='',
+                            icon='',
+                            href='',
+                            submit=False,
+                            disabled=False,
+                            attributes={"onclick": "outflowmodal()"},
+                            classes='outflow_button'
+                            )
     context = {
         'timeseries_plot': timeseries_plot,
         'table_view': table_view,
- #       'historic_plot': historic_plot,
+        'outflow_button': outflow_button,
+        'calculate': calculate,
+        'outflow_edit': outflow_edit,
     }
+    #       'historic_plot': historic_plot,
 
     return render(request, 'reservoir_management/valdesia.html', context)
