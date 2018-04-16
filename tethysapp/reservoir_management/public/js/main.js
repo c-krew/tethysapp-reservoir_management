@@ -234,7 +234,6 @@ function calculatelevels() {
     console.log(outflows)
     var path = window.location.pathname.split("/");
     var res = path[path.length - 2]
-    alert(res);
     var comids = {Chacuey:['1396'],Sabana_Yegua:['593', '600', '599'],Hatillo:['834', '813', '849', '857'],Maguaca:['1399'],Jiguey:['475', '496'],Moncion:['1148', '1182'],Rincon:['853', '922'],Sabaneta:['863', '862'],Tavera:['1024', '1140', '1142', '1153'],Valdesia:['159']};
     comid = comids[res].toString()
     $.ajax({
@@ -245,9 +244,49 @@ function calculatelevels() {
         error: function (status) {
 
         }, success: function (response) {
+                var tbody = document.getElementById('tbody');
+
+                for (var object1 in response) {
+                    console.log(object1)
+                    if (object1 != 'success') {
+                        var tr = "<tr id=" + object1.toString() + "><td>" + object1.toString() + "</td>";
+                        for (var value1 in response[object1]) {
+                            console.log(response[object1][value1])
+                            tr += "<td>" + response[object1][value1].toString() + "</td>"
+                        }
+                        tr += "</tr>";
+                        tbody.innerHTML += tr;
+                    }
+                }
+//                $("#levels").parent().prependTo("#mytable");
+//                $("#total").parent().prependTo("#mytable");
+//                $("#dates").parent().prependTo("#mytable");
+
                 console.log(response)
+//                var tbody = document.getElementById('tbody');
+//                for (var i = 0; i < Object.keys(response).length; i++) {
+//                    var tr = "<tr>";
+//                    if (response[i].value.toString().substring(response[i].value.toString().indexOf('.'), response[i].value.toString().length) < 2) repsonse[i].value += "0";
+//
+//                    tr += "<td>" + response[i].key + "</td>" + "<td>$" + response[i].value.toString() + "</td></tr>";
+//                    tbody.innerHTML += tr;
+//                }
         }
     })
+}
+
+function makeTableHTML(myArray) {
+    var result = "<table border=1>";
+    for(var i=0; i<myArray.length; i++) {
+        result += "<tr>";
+        for(var j=0; j<myArray[i].length; j++){
+            result += "<td>"+myArray[i][j]+"</td>";
+        }
+        result += "</tr>";
+    }
+    result += "</table>";
+
+    return result;
 }
 
 /*thse function occur automatically when the page is loaded*/

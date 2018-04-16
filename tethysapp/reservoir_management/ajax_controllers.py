@@ -58,6 +58,10 @@ def append_res_info(request):
 
 def forecastdata(request):
 
+    dataformatted = {
+        'success': True
+    }
+
     comids = request.GET.get('comid')
     res = request.GET.get('res')
     outflow = request.GET.get('outflows')
@@ -87,7 +91,6 @@ def forecastdata(request):
     tsvol = []
     tselev = []
     data = {}
-    dataformatted = {}
 
     if res == 'S. Yegua':
         res = 'Sabana_Yegua'
@@ -120,10 +123,16 @@ def forecastdata(request):
 
         ts.pop(0)
 
+        tsnum = 0
+
         for r in ts:
             allcomidflows.append(float(r[1]))
             if r[0].endswith('12:00:00'):
-                comidflows.append(float(r[1]))
+                if tsnum == 7:
+                    break
+                else:
+                    comidflows.append(float(r[1]))
+                    tsnum = tsnum + 1
 
         totalflow.append(allcomidflows)
         data[comid] = comidflows
@@ -182,4 +191,6 @@ def forecastdata(request):
     dataformatted['levels'] = tselev
     dataformatted['dates'] = dates
 
-    return(dataformatted)
+    print(dataformatted)
+
+    return JsonResponse(dataformatted)
