@@ -222,6 +222,34 @@ function outflowmodal() {
     $("#outflowmod").modal('show')
 }
 
+function calculatelevels() {
+    var out1 = $("#Outflowday1").val() * $("#Timeday1").val() * 3600
+    var out2 = $("#Outflowday2").val() * $("#Timeday2").val() * 3600
+    var out3 = $("#Outflowday3").val() * $("#Timeday3").val() * 3600
+    var out4 = $("#Outflowday4").val() * $("#Timeday4").val() * 3600
+    var out5 = $("#Outflowday5").val() * $("#Timeday5").val() * 3600
+    var out6 = $("#Outflowday6").val() * $("#Timeday6").val() * 3600
+    var out7 = $("#Outflowday7").val() * $("#Timeday7").val() * 3600
+    outflows = [out1,out2,out3,out4,out5,out6,out7].toString()
+    console.log(outflows)
+    var path = window.location.pathname.split("/");
+    var res = path[path.length - 2]
+    alert(res);
+    var comids = {Chacuey:['1396'],Sabana_Yegua:['593', '600', '599'],Hatillo:['834', '813', '849', '857'],Maguaca:['1399'],Jiguey:['475', '496'],Moncion:['1148', '1182'],Rincon:['853', '922'],Sabaneta:['863', '862'],Tavera:['1024', '1140', '1142', '1153'],Valdesia:['159']};
+    comid = comids[res].toString()
+    $.ajax({
+        url: '/apps/reservoir-management/forecastdata/',
+        type: 'GET',
+        data: {'comid' : comid, 'res' : res, 'outflows' : outflows},
+        contentType: 'application/json',
+        error: function (status) {
+
+        }, success: function (response) {
+                console.log(response)
+        }
+    })
+}
+
 /*thse function occur automatically when the page is loaded*/
 $(function(){
 //    $('#app-content-wrapper').removeClass('show-nav');

@@ -41,63 +41,68 @@ class ReservoirManagement(TethysAppBase):
                    ),
             UrlMap(
                 name='sabana_yegua',
-                url='reservoir-management/sabana_yegua',
+                url='reservoir-management/Sabana_Yegua',
                 controller='reservoir_management.controllers.sabana_yegua'
             ),
             UrlMap(
                 name='hatillo',
-                url='reservoir-management/hatillo',
+                url='reservoir-management/Hatillo',
                 controller='reservoir_management.controllers.hatillo'
             ),
             UrlMap(
                 name='maguaca',
-                url='reservoir-management/maguaca',
+                url='reservoir-management/Maguaca',
                 controller='reservoir_management.controllers.maguaca'
             ),
             UrlMap(
                 name='chacuey',
-                url='reservoir-management/chacuey',
+                url='reservoir-management/Chacuey',
                 controller='reservoir_management.controllers.chacuey'
             ),
             UrlMap(
                 name='jiguey',
-                url='reservoir-management/jiguey',
+                url='reservoir-management/Jiguey',
                 controller='reservoir_management.controllers.jiguey'
             ),
             UrlMap(
                 name='moncion',
-                url='reservoir-management/moncion',
+                url='reservoir-management/Moncion',
                 controller='reservoir_management.controllers.moncion'
             ),
             UrlMap(
                 name='pinalito',
-                url='reservoir-management/pinalito',
+                url='reservoir-management/Pinalito',
                 controller='reservoir_management.controllers.pinalito'
             ),
             UrlMap(
                 name='rincon',
-                url='reservoir-management/rincon',
+                url='reservoir-management/Rincon',
                 controller='reservoir_management.controllers.rincon'
             ),
             UrlMap(
                 name='sabaneta',
-                url='reservoir-management/sabaneta',
+                url='reservoir-management/Sabaneta',
                 controller='reservoir_management.controllers.sabaneta'
             ),
             UrlMap(
                 name='tavera_bao',
-                url='reservoir-management/tavera_bao',
+                url='reservoir-management/Tavera',
                 controller='reservoir_management.controllers.tavera_bao'
             ),
             UrlMap(
                 name='valdesia',
-                url='reservoir-management/valdesia',
+                url='reservoir-management/Valdesia',
                 controller='reservoir_management.controllers.valdesia'
             ),
             UrlMap(
                 name='append-res-info',
                 url='reservoir-management/append-res-info',
                 controller='reservoir_management.ajax_controllers.append_res_info'
+            ),
+            UrlMap(
+                name='forecastdata',
+                url='reservoir-management/forecastdata',
+                controller='reservoir_management.ajax_controllers.forecastdata'
             ),
         )
 
