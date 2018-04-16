@@ -107,3 +107,14 @@ body {
     padding: 5%;
     text-align:center;
 }
+
+.outflow_button {
+    background-color: #01AEBF;
+    color: white;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.calcbut {
+    background-color: #01AEBF;
+    color: white;
+}
