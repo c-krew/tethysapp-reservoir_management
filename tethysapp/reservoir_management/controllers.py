@@ -281,6 +281,7 @@ def chacuey(request):
     """
     Controller for the Add Dam page.
     """
+
     comids = ['1396']
 
     forecasteddata = forecastdata(comids, 'Chacuey', .1)
@@ -319,20 +320,21 @@ def chacuey(request):
                            condensed=False)
 
     outflow_edit = TableView(column_names=('Dia', 'Caudal de Salida (cms)', 'Tiempo de salida (horas)'),
-                             rows=[(forecasteddata['dates'][0], '',''),
-                                   (forecasteddata['dates'][1], '',''),
-                                   (forecasteddata['dates'][2], '',''),
-                                   (forecasteddata['dates'][3], '',''),
-                                   (forecasteddata['dates'][4], '',''),
-                                   (forecasteddata['dates'][5], '', ''),
-                                   (forecasteddata['dates'][6], '', ''),
+                             rows=[(forecasteddata['dates'][0], '0','0'),
+                                   (forecasteddata['dates'][1], '0','0'),
+                                   (forecasteddata['dates'][2], '0','0'),
+                                   (forecasteddata['dates'][3], '0','0'),
+                                   (forecasteddata['dates'][4], '0','0'),
+                                   (forecasteddata['dates'][5], '0', '0'),
+                                   (forecasteddata['dates'][6], '0', '0'),
                                    ],
                              hover=True,
                              striped=True,
                              bordered=True,
                              condensed=True,
                              editable_columns=(False, 'Outflow', 'Time'),
-                             row_ids = ['day1', 'day2', 'day3', 'day4', 'day5', 'day6']
+                             row_ids = ['day1', 'day2', 'day3', 'day4', 'day5', 'day6','day7'],
+                             classes = "outflowtable"
                              )
 
     calculate = Button(display_text='Calcular Niveles del Embalse',
@@ -342,9 +344,10 @@ def chacuey(request):
                        href='',
                        submit=False,
                        disabled=False,
-                       attributes={},
+                       attributes={"onclick": "calculatelevels()"},
                        classes=''
                        )
+
     outflow_button = Button(display_text='Ingresar caudales de salida',
                             name='dimensions',
                             style='',
