@@ -67,9 +67,6 @@ def forecastdata(request):
     outflow = request.GET.get('outflows')
     outflow = outflow.split(",")
     comids = comids.split(",")
-    print(comids)
-    print(res)
-    print(outflow)
 
     if res == 'Sabana_Yegua':
         res = 'S. Yegua'
@@ -145,9 +142,14 @@ def forecastdata(request):
     alltotal = [sum(x) for x in zip(*totalflow)]
     data['total'] = total
 
-    for x in data:
-        formattedtotal = ["%.2f" % elem for elem in data[x]]
-        dataformatted[x] = formattedtotal
+    formattedtotal = ["%.2f" % elem for elem in data['total']]
+    dataformatted['Entrada'] = formattedtotal
+
+    # for x in data:
+    #     formattedtotal = ["%.2f" % elem for elem in data[x]]
+    #     dataformatted[x] = formattedtotal
+
+
 
     entries = len(ts)
 
@@ -167,7 +169,6 @@ def forecastdata(request):
             inflow1 = inflow2
             time1 = time2
             if ts[x][0].endswith('12:00:00'):
-                print(days)
                 if not tsvol:
                     tsvol.append([str(ts[x][0])[:10], volin - (float(outflow[days]) / 2.0)])
                     dates.append(str(ts[x][0])[5:-9])
@@ -188,9 +189,7 @@ def forecastdata(request):
         evolval = (df.loc[df[vol] > volval, elev].iloc[0])
         tselev.append(evolval)
 
-    dataformatted['levels'] = tselev
-    dataformatted['dates'] = dates
-
-    print(dataformatted)
+    dataformatted['Nivel'] = tselev
+    dataformatted['Dia'] = dates
 
     return JsonResponse(dataformatted)

@@ -223,6 +223,8 @@ function outflowmodal() {
 }
 
 function calculatelevels() {
+    $("#tbody").empty()
+    waiting_output();
     var out1 = $("#Outflowday1").val() * $("#Timeday1").val() * 3600
     var out2 = $("#Outflowday2").val() * $("#Timeday2").val() * 3600
     var out3 = $("#Outflowday3").val() * $("#Timeday3").val() * 3600
@@ -244,12 +246,19 @@ function calculatelevels() {
         error: function (status) {
 
         }, success: function (response) {
+
+
                 var tbody = document.getElementById('tbody');
 
                 for (var object1 in response) {
+                    document.getElementById("waiting_output").innerHTML = '';
                     console.log(object1)
                     if (object1 != 'success') {
-                        var tr = "<tr id=" + object1.toString() + "><td>" + object1.toString() + "</td>";
+                        if (object1 == "Entrada") {
+                            var tr = "<tr id=" + object1.toString() + "><td> Caudal de " + object1.toString()  + "</td>";
+                        } else {
+                            var tr = "<tr id=" + object1.toString() + "><td>" + object1.toString()  + "</td>";
+                        }
                         for (var value1 in response[object1]) {
                             console.log(response[object1][value1])
                             tr += "<td>" + response[object1][value1].toString() + "</td>"
@@ -258,9 +267,9 @@ function calculatelevels() {
                         tbody.innerHTML += tr;
                     }
                 }
-//                $("#levels").parent().prependTo("#mytable");
-//                $("#total").parent().prependTo("#mytable");
-//                $("#dates").parent().prependTo("#mytable");
+                $("#Nivel").prependTo("#mytable");
+                $("#Entrada").prependTo("#mytable");
+                $("#Dia").prependTo("#mytable");
 
                 console.log(response)
 //                var tbody = document.getElementById('tbody');
@@ -275,18 +284,10 @@ function calculatelevels() {
     })
 }
 
-function makeTableHTML(myArray) {
-    var result = "<table border=1>";
-    for(var i=0; i<myArray.length; i++) {
-        result += "<tr>";
-        for(var j=0; j<myArray[i].length; j++){
-            result += "<td>"+myArray[i][j]+"</td>";
-        }
-        result += "</tr>";
-    }
-    result += "</table>";
-
-    return result;
+function waiting_output() {
+    var wait_text = "<strong>Loading...</strong><br>" +
+        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='/static/reservoir_management/images/swansonhead.gif'>";
+    document.getElementById('waiting_output').innerHTML = wait_text;
 }
 
 /*thse function occur automatically when the page is loaded*/
