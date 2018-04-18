@@ -14,12 +14,6 @@ var layers,
 
 
 
-
-/* clicking on the shapefile uses this function. We need to make it automatic instead of hardcoded*/
-function goToURL() {
-   location.href = 'http://127.0.0.1:8000/apps/reservoir-management/sabana-yegua/';
-}
-
 /*this function creates the base map on the home page*/
 function init_map(){
 
@@ -85,21 +79,28 @@ function init_map(){
     map.addLayer(wmsLayer);
 
 
-    /*these events occur when the mouse moves*/
-    map.on('pointermove', function(evt) {
-
-        var pixel = map.getEventPixel(evt.originalEvent);
-        var hit = map.forEachLayerAtPixel(pixel, function(layer) {
-            if (layer != layers[0] && layer != layers[1] && layer != layers[2] && layer != layers[3]){
-                current_layer = layer;
-                return true;}
-        });
-
-        /*when the cursor hits a shapefile, it turns into a pointer hand*/
-        map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+//    /*these events occur when the mouse moves*/
+//    map.on('pointermove', function(evt) {
+//
+//        var pixel = map.getEventPixel(evt.originalEvent);
+//        var hit = map.forEachLayerAtPixel(pixel, function(layer) {
+//            if (layer != layers[0] && layer != layers[1] && layer != layers[2] && layer != layers[3]){
+//                current_layer = layer;
+//                return true;}
+//        });
+//
+//        /*when the cursor hits a shapefile, it turns into a pointer hand*/
+//        map.getTargetElement().style.cursor = hit ? 'pointer' : '';
 
         /*when the cursor is a pointer, the following code if ran*/
-        if (map.getTargetElement().style.cursor == "pointer") {
+        map.on("singleclick",function(evt) {
+
+            var pixel = map.getEventPixel(evt.originalEvent);
+            var hit = map.forEachLayerAtPixel(pixel, function(layer) {
+                if (layer != layers[0] && layer != layers[1] && layer != layers[2] && layer != layers[3]){
+                    current_layer = layer;
+                    return true;}
+            });
             /*getting the necessary information to pull information from the point in the shapefile*/
             var view = map.getView();
             var viewProjection = view.getProjection();
@@ -114,59 +115,48 @@ function init_map(){
                   jsonpCallback: 'parseResponse'
                 }).then(function(response) {
                    res_name = response['features'][0]['properties']['NAME']
+                   if (res_name == "Sabana Yegua") {
+                         res_name= 'S. Yegua';
+                   } else if (res_name == "Tavera-Bao") {
+                        res_name = 'Tavera';
+                   }
                    var coord = response['features'][0]['geometry']['coordinates']
                    var coordinate = evt.coordinate;
                    var hdms = ol.coordinate.toStringHDMS(ol.proj.transform(
                         coordinate, 'EPSG:3857', 'EPSG:4326'));
 
-            /*this is what appears in the popup*/
-            content.innerHTML = '<h3>' + res_name + '</h3><br><p> Nivel de Agua = ... </p><p> Caudal en entrada = ... </p><p> Ultimo dia de ingresar = ... </p>';
-            overlay.setPosition(coordinate);
+                   $.ajax({
+                        url: '/apps/reservoir-management/getrecentdata/',
+                        type: 'GET',
+                        data: {'res': res_name},
+                        contentType: 'application/json',
+                        error: function (status) {
+
+                        }, success: function (response) {
+                                console.log(response)
+                                console.log("******")
+                                lastdate = response['lastdate']
+                                lastlevel = response['lastlevel']
+                                            /*this is what appears in the popup*/
+                                content.innerHTML = '<h3>' + res_name + '</h3><br><p> Ultimo dia de ingresar = ' + lastdate + '</p><br><p> Nivel de Agua = ' + lastlevel + ' </p>';
+                                overlay.setPosition(coordinate);
+                        }
+                    })
+
                 });
-            map.on("singleclick",function(evt) {
-
-                var res_name_lower;
-                if (res_name == "Sabana Yegua")
-                   {
-                         res_name_lower= 'sabana_yegua';
-                   }
-                   else if (res_name == "Tavera-Bao")
-                   {
-                        res_name_lower = 'tavera_bao';
-                   }
-                   else
-                   {
-                        res_name_lower = res_name.charAt(0).toLowerCase() + res_name.slice(1);
-                   }
-                location.href = 'http://127.0.0.1:8000/apps/reservoir-management/' + res_name_lower
-
-
-            });
-
-
             }
-        } else {
-            /*if the cursor is not a pointer hand, then there is no popup*/
-            overlay.setPosition(undefined);
-            closer.blur();
-            return false;
-        }
-
-    });
-
-
-    /*when the element is clocked, the "goToUrl" function is used, see first function*/
-    map.on("singleclick",function(evt) {
+        });
+        map.on("dblclick",function(evt) {
+                if (res_name == "S. Yegua") {
+                    res_name= 'Sabana_Yegua';
+                }
+                location.href = 'http://127.0.0.1:8000/apps/reservoir-management/' + res_name
+                goToURL()
 
 
-        if (map.getTargetElement().style.cursor == "pointer") {
+         });
 
-
-            goToURL()
-        }
-    });
-
-
+//    });
 
 }
 
@@ -247,6 +237,12 @@ function calculatelevels() {
 
         }, success: function (response) {
 
+                response['outflow']=[$("#Outflowday1").val(),$("#Outflowday2").val(),$("#Outflowday3").val(),$("#Outflowday4").val(),
+                $("#Outflowday5").val(),$("#Outflowday6").val(),$("#Outflowday7").val()]
+
+                response['outtime']=[$("#Timeday1").val(),$("#Timeday2").val(),$("#Timeday3").val(),$("#Timeday4").val(),
+                $("#Timeday5").val(),$("#Timeday6").val(),$("#Timeday7").val()]
+
 
                 var tbody = document.getElementById('tbody');
 
@@ -254,20 +250,36 @@ function calculatelevels() {
                     document.getElementById("waiting_output").innerHTML = '';
                     console.log(object1)
                     if (object1 != 'success') {
-                        if (object1 == "Entrada") {
-                            var tr = "<tr id=" + object1.toString() + "><td> Caudal de " + object1.toString()  + "</td>";
+                        if (object1 == "Dia") {
+                            var tr = "<tr id=" + object1.toString() + "><th>" + object1.toString()  + "</th>";
+                            for (var value1 in response[object1]) {
+                                console.log(response[object1][value1])
+                                tr += "<th>" + response[object1][value1].toString() + "</th>"
+                            }
+                            tr += "</tr>";
+                            tbody.innerHTML += tr;
                         } else {
-                            var tr = "<tr id=" + object1.toString() + "><td>" + object1.toString()  + "</td>";
+                            if (object1 == "Entrada") {
+                                var tr = "<tr id=" + object1.toString() + "><td>Caudal de " + object1.toString()  + " (cms)</td>";
+                            } else if (object1 == "outflow") {
+                                var tr = "<tr id=" + object1.toString() + "><td>Caudal de Salida (cms)</td>";
+                            } else if (object1 == "outtime") {
+                                var tr = "<tr id=" + object1.toString() + "><td>Tiempo de Salida (horas)</td>";
+                            } else {
+                                var tr = "<tr id=" + object1.toString() + "><td>" + object1.toString()  + "</td>";
+                            }
+                            for (var value1 in response[object1]) {
+                                console.log(response[object1][value1])
+                                tr += "<td>" + response[object1][value1].toString() + "</td>"
+                            }
+                            tr += "</tr>";
+                            tbody.innerHTML += tr;
                         }
-                        for (var value1 in response[object1]) {
-                            console.log(response[object1][value1])
-                            tr += "<td>" + response[object1][value1].toString() + "</td>"
-                        }
-                        tr += "</tr>";
-                        tbody.innerHTML += tr;
                     }
                 }
                 $("#Nivel").prependTo("#mytable");
+                $("#outtime").prependTo("#mytable");
+                $("#outflow").prependTo("#mytable");
                 $("#Entrada").prependTo("#mytable");
                 $("#Dia").prependTo("#mytable");
 
@@ -286,7 +298,7 @@ function calculatelevels() {
 
 function waiting_output() {
     var wait_text = "<strong>Loading...</strong><br>" +
-        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='/static/reservoir_management/images/swansonhead.gif'>";
+        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='/static/reservoir_management/images/fillingup.gif'>";
     document.getElementById('waiting_output').innerHTML = wait_text;
 }
 
