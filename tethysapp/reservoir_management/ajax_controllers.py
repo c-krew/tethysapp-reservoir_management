@@ -189,7 +189,34 @@ def forecastdata(request):
         evolval = (df.loc[df[vol] > volval, elev].iloc[0])
         tselev.append(evolval)
 
+
     dataformatted['Nivel'] = tselev
     dataformatted['Dia'] = dates
 
     return JsonResponse(dataformatted)
+
+def getrecentdata(request):
+
+    recentresdata = {
+        'success': True
+    }
+
+    res = request.GET.get('res')
+
+    if res == 'Sabana_Yegua':
+        res = 'S. Yegua'
+    app_workspace = app.get_app_workspace()
+    damsheet = os.path.join(app_workspace.path, 'DamLevel_DR_BYU 2018.xlsx')
+
+    dfnan = pd.read_excel(damsheet)
+    df1 = dfnan[['Nivel', res]]
+    df = df1.dropna()[::-1]
+    reslevel = df[:1]
+    lastdate = reslevel['Nivel']
+    lastlevel = reslevel[res]
+
+
+    recentresdata['lastdate'] = str(lastdate.iloc[0])[:10]
+    recentresdata['lastlevel'] = lastlevel.iloc[0]
+
+    return JsonResponse(recentresdata)

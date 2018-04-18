@@ -7,6 +7,12 @@
     </div>
     <p><h5>Datos Historicos y Prevision</h5></p>
     {% gizmo timeseries_plot %}
+    <br>
+    <h5 align="center">Niveles Prognosticados</h5>
+    <table align="center" id="mytable">
+        <tbody id="tbody">
+        </tbody>
+    </table>
 {% endblock %}
 
 {% block app_navigation_items %}
@@ -30,11 +36,6 @@
                 {% gizmo calculate %}
             </div>
             <h5 align="center">Niveles Prognosticados</h5>
-            <div align="center" id="waiting_output"></div>
-            <table align="center" id="mytable">
-                <tbody id="tbody">
-                </tbody>
-            </table>
         </div>
         <!--End modal content-->
     </div>

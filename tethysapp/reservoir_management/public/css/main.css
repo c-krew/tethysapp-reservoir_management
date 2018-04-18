@@ -69,10 +69,15 @@ body {
   font: 13px 'Open Sans', "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 }
 
-#mytable td {
-    text-align: left;
-    border: 1px solid #ddd;
+#mytable td,#mytable th  {
+    text-align: center;
+    border: 1px solid black;
     padding: 8px;
+}
+
+#mytable th {
+    background-color: #01AEBF;
+    color: white;
 }
 
 #mytable tr:nth-child(odd){background-color: #f2f2f2;}

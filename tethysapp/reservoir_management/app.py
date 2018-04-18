@@ -104,6 +104,11 @@ class ReservoirManagement(TethysAppBase):
                 url='reservoir-management/forecastdata',
                 controller='reservoir_management.ajax_controllers.forecastdata'
             ),
+            UrlMap(
+                name='recentdata',
+                url='reservoir-management/getrecentdata',
+                controller='reservoir_management.ajax_controllers.getrecentdata'
+            ),
         )
 
         return url_maps
