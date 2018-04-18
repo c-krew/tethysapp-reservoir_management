@@ -325,6 +325,36 @@ def forecastdata(comids,res,outflow):
 
     return(dataformatted)
 
+def gettabledates(comid):
+
+    comid = comid[0]
+    request_params = dict(watershed_name='Dominican Republic', subbasin_name='National', reach_id=comid,
+                          forecast_folder='most_recent', stat_type='mean', return_format='csv')
+    request_headers = dict(Authorization='Token fa7fa9f7d35eddb64011913ef8a27129c9740f3c')
+    res = requests.get('https://tethys-staging.byu.edu/apps/streamflow-prediction-tool/api/GetForecast/',
+                       params=request_params, headers=request_headers)
+
+    content = res.content.splitlines()
+
+    ts = []
+    comidflows = []
+    allcomidflows = []
+
+    for i in content:
+        ts.append(i.split(','))
+
+    ts.pop(0)
+
+    entries = len(ts)
+
+    dates = []
+
+    for x in range(0, entries):
+        if ts[x][0].endswith('12:00:00'):
+            dates.append(str(ts[x][0])[5:-9])
+
+
+    return(dates)
 
 
 

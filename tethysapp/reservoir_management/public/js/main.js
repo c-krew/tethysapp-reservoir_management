@@ -214,6 +214,7 @@ function outflowmodal() {
 
 function calculatelevels() {
     $("#tbody").empty()
+    $("#nivprog").removeClass('hidden')
     waiting_output();
     var out1 = $("#Outflowday1").val() * $("#Timeday1").val() * 3600
     var out2 = $("#Outflowday2").val() * $("#Timeday2").val() * 3600
