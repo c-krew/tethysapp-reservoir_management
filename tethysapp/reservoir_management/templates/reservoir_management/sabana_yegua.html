@@ -11,7 +11,7 @@ functionality, then add javascript or python code. we will need a page for each 
     <p><h5>Datos Historicos y Prevision</h5></p>
     {% gizmo timeseries_plot %}
     <br>
-    <h5 align="center">Niveles Prognosticados</h5>
+    <h5 id="nivprog" class = "hidden" align="center">Niveles Prognosticados</h5>
     <table align="center" id="mytable">
         <tbody id="tbody">
         </tbody>
@@ -20,6 +20,8 @@ functionality, then add javascript or python code. we will need a page for each 
 
 {% block app_navigation_items %}
       {{ block.super }}
+    <br>
+    <br>
     <div class="buttons" align="center">
         {% gizmo outflow_button %}
     </div>
@@ -38,6 +40,7 @@ functionality, then add javascript or python code. we will need a page for each 
             <div id="modalbut">
                 {% gizmo calculate %}
             </div>
+            <div align="center" id="waiting_output"></div>
         </div>
         <!--End modal content-->
     </div>
