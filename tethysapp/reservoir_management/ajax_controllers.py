@@ -153,6 +153,7 @@ def forecastdata(request):
 
     entries = len(ts)
 
+    fulldate = []
     dates = []
     days = 0
 
@@ -172,11 +173,13 @@ def forecastdata(request):
                 if not tsvol:
                     tsvol.append([str(ts[x][0])[:10], volin - (float(outflow[days]) / 2.0)])
                     dates.append(str(ts[x][0])[5:-9])
+                    fulldate.append(str(ts[x][0])[:10])
                     volin = volin - (float(outflow[days]) / 2.0)
                     days = days + 1
                 else:
                     tsvol.append([str(ts[x][0])[:10], volin - float(outflow[days])])
                     dates.append(str(ts[x][0])[5:-9])
+                    fulldate.append(str(ts[x][0])[:10])
                     volin = volin - (float(outflow[days]))
                     days = days + 1
                 if days == 7:
@@ -192,6 +195,7 @@ def forecastdata(request):
 
     dataformatted['Nivel'] = tselev
     dataformatted['Dia'] = dates
+    dataformatted['fulldate'] = fulldate
 
     return JsonResponse(dataformatted)
 

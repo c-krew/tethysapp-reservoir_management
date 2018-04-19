@@ -3,9 +3,14 @@
 
 from django.shortcuts import render, reverse, redirect
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse, Http404, HttpResponse
 from tethys_sdk.gizmos import *
 import datetime
+import plotly.graph_objs as go
+import os
+import pandas as pd
 from model import getforecastflows, gethistoricaldata, getrecentdata, forecastdata, forecastlevels, gettabledates
+from .app import ReservoirManagement as app
 
 
 @login_required()
@@ -35,6 +40,9 @@ def sabana_yegua(request):
     forecasteddata = gettabledates(comids)
     data = gethistoricaldata('S. Yegua')
 
+    min_level = [[data[0][0], 358.00], [data[-1][0], 358.00]]
+    max_level = [[data[0][0], 396.40], [data[-1][0], 396.4]]
+
     timeseries_plot = TimeSeries(
         height='500px',
         width='500px',
@@ -42,11 +50,12 @@ def sabana_yegua(request):
         title='Sabana Yequa',
         y_axis_title='Niveles de agua',
         y_axis_units='m',
-        series=[{
-            'name': 'Historico',
-            'data': data
-        }],
-        y_min = 300
+        series=[
+            {'name': 'Historico','data': data},
+            {'name': 'Nivel Minimo de Operacion', 'data': min_level, 'type': 'line', 'color': '#660066'},
+            {'name': 'Nivel Maximo de Operacion', 'data': max_level, 'type': 'line', 'color': '#FF0000'}
+            ],
+        y_min = 350
     )
 
 
@@ -137,7 +146,7 @@ def reportar(request):
     date = month + ' ' + day + ', ' + year
 
     date_input = DatePicker(name='dateinput',
-                             display_text='Date',
+                             display_text='Dia',
                              autoclose=True,
                              format='MM d, yyyy',
                              start_date='2/15/2014',
@@ -186,6 +195,9 @@ def hatillo(request):
     forecasteddata = gettabledates(comids)
     data = gethistoricaldata('Hatillo')
 
+    min_level = [[data[0][0], 70.00], [data[-1][0], 70.00]]
+    max_level = [[data[0][0], 86.50], [data[-1][0], 86.50]]
+
     timeseries_plot = TimeSeries(
         height='500px',
         width='500px',
@@ -193,11 +205,12 @@ def hatillo(request):
         title='Hatillo',
         y_axis_title='Niveles de agua',
         y_axis_units='m',
-        series=[{
-            'name': 'Historico',
-            'data': data
-        }],
-        y_min = 35
+        series=[
+            {'name': 'Historico','data': data},
+            {'name': 'Nivel Minimo', 'data': min_level, 'type': 'line', 'color': '#660066'},
+            {'name': 'Nivel Maximo', 'data': max_level, 'type': 'line', 'color': '#FF0000'}
+            ],
+        y_min = 55
     )
 
     outflow_edit = TableView(column_names=('Dia', 'Caudal de Salida (cms)', 'Tiempo de salida (horas)'),
@@ -258,6 +271,9 @@ def maguaca(request):
     forecasteddata = gettabledates(comids)
     data = gethistoricaldata('Maguaca')
 
+    min_level = [[data[0][0], 46.70], [data[-1][0], 46.70]]
+    max_level = [[data[0][0], 57.00], [data[-1][0], 57.00]]
+
     timeseries_plot = TimeSeries(
         height='500px',
         width='500px',
@@ -265,11 +281,12 @@ def maguaca(request):
         title='Maguaca',
         y_axis_title='Niveles de agua',
         y_axis_units='m',
-        series=[{
-            'name': 'Historico',
-            'data': data
-        }],
-        y_min = 0
+        series=[
+            {'name': 'Historico','data': data},
+            {'name': 'Nivel Minimo', 'data': min_level, 'type': 'line', 'color': '#660066'},
+            {'name': 'Nivel Maximo', 'data': max_level, 'type': 'line', 'color': '#FF0000'}
+            ],
+        y_min = 30
     )
 
 
@@ -333,6 +350,9 @@ def chacuey(request):
     forecasteddata = gettabledates(comids)
     data = gethistoricaldata('Chacuey')
 
+    min_level = [[data[0][0], 47.00], [data[-1][0], 47.00]]
+    max_level = [[data[0][0], 54.63], [data[-1][0], 54.63]]
+
     timeseries_plot = TimeSeries(
         height='500px',
         width='500px',
@@ -340,11 +360,12 @@ def chacuey(request):
         title='Chacuey',
         y_axis_title='Niveles de agua',
         y_axis_units='m',
-        series=[{
-            'name': 'Historico',
-            'data': data
-        }],
-        y_min = 0
+        series=[
+            {'name': 'Historico','data': data},
+            {'name': 'Nivel Minimo', 'data': min_level, 'type': 'line', 'color': '#660066'},
+            {'name': 'Nivel Maximo', 'data': max_level, 'type': 'line', 'color': '#FF0000'}
+            ],
+        y_min = 30
     )
 
 
@@ -408,6 +429,9 @@ def jiguey(request):
     forecasteddata = gettabledates(comids)
     data = gethistoricaldata('Jiguey')
 
+    min_level = [[data[0][0], 500.00], [data[-1][0], 500.00]]
+    max_level = [[data[0][0], 541.50], [data[-1][0], 541.50]]
+
     timeseries_plot = TimeSeries(
         height='500px',
         width='500px',
@@ -415,11 +439,12 @@ def jiguey(request):
         title='Jiguey',
         y_axis_title='Niveles de agua',
         y_axis_units='m',
-        series=[{
-            'name': 'Historico',
-            'data': data
-        }],
-        y_min = 300
+        series=[
+            {'name': 'Historico','data': data},
+            {'name': 'Nivel Minimo', 'data': min_level, 'type': 'line', 'color': '#660066'},
+            {'name': 'Nivel Maximo', 'data': max_level, 'type': 'line', 'color': '#FF0000'}
+            ],
+        y_min = 450
     )
 
 
@@ -479,8 +504,11 @@ def moncion(request):
     """
     comids = ['1148', '1182']
 
-    observeddata = gethistoricaldata('Moncion')
+    data = gethistoricaldata('Moncion')
     forecasteddata = gettabledates(comids)
+
+    min_level = [[data[0][0], 223.00], [data[-1][0], 223.00]]
+    max_level = [[data[0][0], 280.00], [data[-1][0], 280.00]]
 
     timeseries_plot = TimeSeries(
         height='500px',
@@ -489,11 +517,12 @@ def moncion(request):
         title='Moncion',
         y_axis_title='Niveles de agua',
         y_axis_units='m',
-        series=[{
-            'name': 'Historico',
-            'data': observeddata
-        }],
-        y_min = 100
+        series=[
+            {'name': 'Historico','data': data},
+            {'name': 'Nivel Minimo', 'data': min_level, 'type': 'line', 'color': '#660066'},
+            {'name': 'Nivel Maximo', 'data': max_level, 'type': 'line', 'color': '#FF0000'}
+            ],
+        y_min = 180
     )
 
 
@@ -640,6 +669,9 @@ def rincon(request):
     forecasteddata = gettabledates(comids)
     data = gethistoricaldata('Rincon')
 
+    min_level = [[data[0][0], 108.50], [data[-1][0], 108.50]]
+    max_level = [[data[0][0], 122.00], [data[-1][0], 122.00]]
+
     timeseries_plot = TimeSeries(
         height='500px',
         width='500px',
@@ -647,11 +679,12 @@ def rincon(request):
         title='Rincon',
         y_axis_title='Niveles de agua',
         y_axis_units='m',
-        series=[{
-            'name': 'Historico',
-            'data': data
-        }],
-        y_min = 100
+        series=[
+            {'name': 'Historico','data': data},
+            {'name': 'Nivel Minimo', 'data': min_level, 'type': 'line', 'color': '#660066'},
+            {'name': 'Nivel Maximo', 'data': max_level, 'type': 'line', 'color': '#FF0000'}
+            ],
+        y_min = 95
     )
 
 
@@ -714,6 +747,9 @@ def sabaneta(request):
     forecasteddata = gettabledates(comids)
     data = gethistoricaldata('Sabaneta')
 
+    min_level = [[data[0][0], 612.00], [data[-1][0], 612.00]]
+    max_level = [[data[0][0], 644.00], [data[-1][0], 644.00]]
+
     timeseries_plot = TimeSeries(
         height='500px',
         width='500px',
@@ -721,11 +757,12 @@ def sabaneta(request):
         title='Sabaneta',
         y_axis_title='Niveles de agua',
         y_axis_units='m',
-        series=[{
-            'name': 'Historico',
-            'data': data
-        }],
-        y_min = 300
+        series=[
+            {'name': 'Historico','data': data},
+            {'name': 'Nivel Minimo', 'data': min_level, 'type': 'line', 'color': '#660066'},
+            {'name': 'Nivel Maximo', 'data': max_level, 'type': 'line', 'color': '#FF0000'}
+            ],
+        y_min = 580
     )
 
     outflow_edit = TableView(column_names=('Dia', 'Caudal de Salida (cms)', 'Tiempo de salida (horas)'),
@@ -786,6 +823,9 @@ def tavera_bao(request):
     forecasteddata = gettabledates(comids)
     data = gethistoricaldata('Bao')
 
+    min_level = [[data[0][0], 300.00], [data[-1][0], 300.00]]
+    max_level = [[data[0][0], 327.50], [data[-1][0], 327.50]]
+
     timeseries_plot = TimeSeries(
         height='500px',
         width='500px',
@@ -793,11 +833,12 @@ def tavera_bao(request):
         title='Tavera-Bao',
         y_axis_title='Niveles de agua',
         y_axis_units='m',
-        series=[{
-            'name': 'Historico',
-            'data': data
-        }],
-        y_min = 300
+        series=[
+            {'name': 'Historico','data': data},
+            {'name': 'Nivel Minimo', 'data': min_level, 'type': 'line', 'color': '#660066'},
+            {'name': 'Nivel Maximo', 'data': max_level, 'type': 'line', 'color': '#FF0000'}
+            ],
+        y_min = 270
     )
 
 
@@ -860,6 +901,9 @@ def valdesia(request):
     forecasteddata = gettabledates(comids)
     data = gethistoricaldata('Valdesia')
 
+    min_level = [[data[0][0], 130.75], [data[-1][0], 130.75]]
+    max_level = [[data[0][0], 150.00], [data[-1][0], 150.00]]
+
     timeseries_plot = TimeSeries(
         height='500px',
         width='500px',
@@ -867,11 +911,12 @@ def valdesia(request):
         title='Valdesia',
         y_axis_title='Niveles de agua',
         y_axis_units='m',
-        series=[{
-            'name': 'Historico',
-            'data': data
-        }],
-        y_min = 120
+        series=[
+            {'name': 'Historico','data': data},
+            {'name': 'Nivel Minimo', 'data': min_level, 'type': 'line', 'color': '#660066'},
+            {'name': 'Nivel Maximo', 'data': max_level, 'type': 'line', 'color': '#FF0000'}
+            ],
+        y_min = 110
     )
 
 
@@ -922,3 +967,75 @@ def valdesia(request):
     }
 
     return render(request, 'reservoir_management/valdesia.html', context)
+
+def get_forecast_curve(request):
+    get_data = request.GET
+
+    try:
+        levels = get_data['forecastlevels'].split(",")
+        forecastdates = get_data['forecastdates'].split(",")
+        res = get_data['res']
+
+        datetimedates = []
+        forecastlevel = []
+        observeddates = []
+        observedlevels = []
+
+        for x in range(0,len(forecastdates)):
+            datetimedates.append(datetime.datetime.strptime(forecastdates[x], "%Y-%m-%d"))
+            forecastlevel.append(float(levels[x]))
+
+        if res == 'Sabana_Yegua':
+            res = 'S. Yegua'
+        app_workspace = app.get_app_workspace()
+        damsheet = os.path.join(app_workspace.path, 'DamLevel_DR_BYU 2018.xlsx')
+
+        dfnan = pd.read_excel(damsheet)
+        df1 = dfnan[['Nivel', res]]
+        df = df1.dropna()[::-1]
+        reslevels = (df[:15])
+
+        for index, row in reslevels.iterrows():
+            observeddates.append(datetime.datetime.strptime(str(row['Nivel'])[:10], "%Y-%m-%d"))
+            observedlevels.append(row[res])
+
+        observeddates.insert(0,datetimedates[0])
+        observedlevels.insert(0,forecastlevel[0])
+
+        forecast = go.Scatter(
+            x=datetimedates,
+            y=forecastlevel,
+            fill='tozeroy',
+            name='pronosticos'
+        )
+
+        observed = go.Scatter(
+            x=observeddates,
+            y=observedlevels,
+            fill='tozeroy',
+            name='observados'
+        )
+
+        layout = go.Layout(title="Niveles Observados y Pronosticados",
+                           xaxis=dict(
+                               title='Dia',
+                               type='datetime'),
+                           yaxis=dict(
+                               title='Nivel del Emblase',
+                               range=[float(min(min(forecastlevel),min(observedlevels)))-2.0, float(max(max(forecastlevel),max(observedlevels))) + 2.0]),
+                           showlegend=True)
+
+        chart_obj = PlotlyView(
+            go.Figure(data=[forecast,observed],
+                      layout=layout)
+        )
+
+        context = {
+            'gizmo_object': chart_obj,
+        }
+
+        return render(request,'reservoir_management/gizmo_ajax.html', context)
+
+    except Exception as e:
+        print str(e)
+        return JsonResponse({'error':'Unknown Error'})

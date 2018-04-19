@@ -212,9 +212,36 @@ function outflowmodal() {
     $("#outflowmod").modal('show')
 }
 
+function get_forecast_curve (forecastlevels, forecastdates, res) {
+    $.ajax({
+        type: 'GET',
+        url: '/apps/reservoir-management/get-forecast-curve',
+        data: {
+            'forecastlevels':forecastlevels.toString(),
+            'forecastdates':forecastdates.toString(),
+            'res': res
+        },
+        success: function (data) {
+            if (!data.error) {
+                $('#forecastgraph').html(data);
+            } else if (data.error) {
+                $('#info').html('<p class="alert alert-danger" style="text-align: center"><strong>An unknown error occurred while retrieving the historic data</strong></p>');
+                $('#info').removeClass('hidden');
+
+                setTimeout(function () {
+                    $('#info').addClass('hidden')
+                }, 5000);
+            } else {
+                $('#info').html('<p><strong>An unexplainable error occurred.</strong></p>').removeClass('hidden');
+            }
+        }
+    });
+};
+
 function calculatelevels() {
     $("#tbody").empty()
     $("#nivprog").removeClass('hidden')
+    $('#forecastgraph').addClass('hidden');
     waiting_output();
     var out1 = $("#Outflowday1").val() * $("#Timeday1").val() * 3600
     var out2 = $("#Outflowday2").val() * $("#Timeday2").val() * 3600
@@ -224,9 +251,8 @@ function calculatelevels() {
     var out6 = $("#Outflowday6").val() * $("#Timeday6").val() * 3600
     var out7 = $("#Outflowday7").val() * $("#Timeday7").val() * 3600
     outflows = [out1,out2,out3,out4,out5,out6,out7].toString()
-    console.log(outflows)
     var path = window.location.pathname.split("/");
-    var res = path[path.length - 2]
+    res = path[path.length - 2]
     var comids = {Chacuey:['1396'],Sabana_Yegua:['593', '600', '599'],Hatillo:['834', '813', '849', '857'],Maguaca:['1399'],Jiguey:['475', '496'],Moncion:['1148', '1182'],Rincon:['853', '922'],Sabaneta:['863', '862'],Tavera:['1024', '1140', '1142', '1153'],Valdesia:['159']};
     comid = comids[res].toString()
     $.ajax({
@@ -248,13 +274,17 @@ function calculatelevels() {
                 var tbody = document.getElementById('tbody');
 
                 for (var object1 in response) {
-                    document.getElementById("waiting_output").innerHTML = '';
-                    console.log(object1)
+
+                    forecastlevels = response['Nivel']
+                    forecastdates = response['fulldate']
+                    get_forecast_curve(forecastlevels, forecastdates, res);
+                    $('#forecastgraph').removeClass('hidden');
                     if (object1 != 'success') {
-                        if (object1 == "Dia") {
+                        if (object1 == 'fulldate') {
+                            continue
+                        }else if (object1 == "Dia") {
                             var tr = "<tr id=" + object1.toString() + "><th>" + object1.toString()  + "</th>";
                             for (var value1 in response[object1]) {
-                                console.log(response[object1][value1])
                                 tr += "<th>" + response[object1][value1].toString() + "</th>"
                             }
                             tr += "</tr>";
@@ -270,7 +300,6 @@ function calculatelevels() {
                                 var tr = "<tr id=" + object1.toString() + "><td>" + object1.toString()  + "</td>";
                             }
                             for (var value1 in response[object1]) {
-                                console.log(response[object1][value1])
                                 tr += "<td>" + response[object1][value1].toString() + "</td>"
                             }
                             tr += "</tr>";
@@ -283,16 +312,9 @@ function calculatelevels() {
                 $("#outflow").prependTo("#mytable");
                 $("#Entrada").prependTo("#mytable");
                 $("#Dia").prependTo("#mytable");
+                document.getElementById("waitingoutput").innerHTML = '';
+//                $("#outflowmod").modal('hide')
 
-                console.log(response)
-//                var tbody = document.getElementById('tbody');
-//                for (var i = 0; i < Object.keys(response).length; i++) {
-//                    var tr = "<tr>";
-//                    if (response[i].value.toString().substring(response[i].value.toString().indexOf('.'), response[i].value.toString().length) < 2) repsonse[i].value += "0";
-//
-//                    tr += "<td>" + response[i].key + "</td>" + "<td>$" + response[i].value.toString() + "</td></tr>";
-//                    tbody.innerHTML += tr;
-//                }
         }
     })
 }
@@ -300,7 +322,7 @@ function calculatelevels() {
 function waiting_output() {
     var wait_text = "<strong>Loading...</strong><br>" +
         "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='/static/reservoir_management/images/fillingup.gif'>";
-    document.getElementById('waiting_output').innerHTML = wait_text;
+    document.getElementById('waitingoutput').innerHTML = wait_text;
 }
 
 /*thse function occur automatically when the page is loaded*/
