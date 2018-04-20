@@ -79,19 +79,6 @@ function init_map(){
     map.addLayer(wmsLayer);
 
 
-//    /*these events occur when the mouse moves*/
-//    map.on('pointermove', function(evt) {
-//
-//        var pixel = map.getEventPixel(evt.originalEvent);
-//        var hit = map.forEachLayerAtPixel(pixel, function(layer) {
-//            if (layer != layers[0] && layer != layers[1] && layer != layers[2] && layer != layers[3]){
-//                current_layer = layer;
-//                return true;}
-//        });
-//
-//        /*when the cursor hits a shapefile, it turns into a pointer hand*/
-//        map.getTargetElement().style.cursor = hit ? 'pointer' : '';
-
         /*when the cursor is a pointer, the following code if ran*/
         map.on("singleclick",function(evt) {
 
@@ -133,8 +120,6 @@ function init_map(){
                         error: function (status) {
 
                         }, success: function (response) {
-                                console.log(response)
-                                console.log("******")
                                 lastdate = response['lastdate']
                                 lastlevel = response['lastlevel']
                                             /*this is what appears in the popup*/
@@ -153,10 +138,7 @@ function init_map(){
                 location.href = 'http://127.0.0.1:8000/apps/reservoir-management/' + res_name
                 goToURL()
 
-
          });
-
-//    });
 
 }
 
@@ -178,14 +160,29 @@ function append(){
     })
 }
 
-function test(){
-    alert("work")
-}
 
 $('#sampleModal').on('show.bs.modal', function () {
     var dam = $("#dam").val();
     var level = $("#levelinput").val();
     var date = $("#dateinput").val();
+    $.ajax({
+        type: 'GET',
+        url: '/apps/reservoir-management/check-spreadsheet',
+        data: {
+            'dam':dam,
+            'date':date,
+        },
+        success: function (data) {
+            if (!data.error) {
+                if ("level" in data) {
+                    $( ".modal-body" ).append("<br>");
+                    $( ".modal-body" ).append(warning);
+                    $( ".modal-body" ).append("<br>");
+                    $( ".modal-body" ).append('<i style="font-size:25px;color:red">Ya hay datos para este dia</i>')
+                }
+            }
+        }
+    });
     levelstr = "Nivel del Embalse = " + level
     datestr = "Dia = " + date;
     document.getElementsByClassName("modal-body")[0].innerHTML = "Embalse = " + dam;
@@ -203,10 +200,6 @@ $('#sampleModal').on('show.bs.modal', function () {
         $( ".modal-body" ).append('<i style="font-size:25px;color:red">Se necesita un nivel para el embalse</i>')
     }
 })
-
-function addvarstomessage(){
-    document.getElementsByClassName("modal-body")[0].innerHTML = "Paragraph changed!";
-}
 
 function outflowmodal() {
     $("#outflowmod").modal('show')
@@ -313,8 +306,6 @@ function calculatelevels() {
                 $("#Entrada").prependTo("#mytable");
                 $("#Dia").prependTo("#mytable");
                 document.getElementById("waitingoutput").innerHTML = '';
-//                $("#outflowmod").modal('hide')
-
         }
     })
 }
@@ -325,11 +316,29 @@ function waiting_output() {
     document.getElementById('waitingoutput').innerHTML = wait_text;
 }
 
+function get_min_max_operating_levels () {
+    res = $('#dam').val()
+    minmax = {'Sabana Yegua':[358.00,396.40],
+           'Hatillo': [70.00,86.50],
+           'Maguaca': [46.70,57.00],
+           'Chacuey': [47.00,54.63],
+           'Jiguey': [500.00,541.50],
+           'Moncion': [223.00,280.00],
+           'Rincon': [108.50,122.00],
+           'Sabaneta': [612.00,644.00],
+           'Tavera-Bao': [310.00,327.50],
+           'Valdesia': [130.75,150.00],
+           'Pinalito': [1170.00,1180.00],
+           'Rio Blanco': [612.00,624.00]
+    }
+    console.log(res)
+    console.log(minmax)
+    placeholder = "Niveles de Operacion: Min-" + minmax[res][0] + " Max-" + minmax[res][1]
+    $('#levelinput').attr("placeholder",placeholder);
+}
+
 /*thse function occur automatically when the page is loaded*/
 $(function(){
-//    $('#app-content-wrapper').removeClass('show-nav');
-//    $('#app-actions').remove();
-    $(".toggle-nav").removeClass('toggle-nav');
     init_map();
 });
 
