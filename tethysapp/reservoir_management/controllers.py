@@ -129,13 +129,14 @@ def reportar(request):
                                         ('Rio Blanco', 'Rio Blanco'),
                                         ('Pinalito', 'Pinalito'),
                                         ('Maguaca', 'Maguaca'),
-                                        ('Chacuey', 'Chacuey'),
+                                        ('Chacuey', 'Chacuey')
                                         ],
-                               initial=[''])
+                               attributes={"onchange": "get_min_max_operating_levels()"},
+                            )
 
     level_input = TextInput(display_text='Nivel de Agua',
                            name='levelinput',
-                           placeholder='i.e. 375',
+                           placeholder='Niveles de Operacion: Min-358 Max-396.4',
                            )
 
 
@@ -173,6 +174,17 @@ def reportar(request):
                              affirmative_attributes='onclick=append();',
                              )
 
+    download_button = Button(display_text='Descargar Datos',
+                            name='download',
+                            style='',
+                            icon='',
+                            href='file:///C:/Users/student/tethysdev/tethysapp-reservoir_management/tethysapp/reservoir_management/workspaces/app_workspace/DamLevel_DR_BYU 2018.xlsx',
+                            submit=False,
+                            disabled=False,
+                            attributes={"onclick": "outflowmodal()"},
+                            classes='outflow_button'
+                            )
+
 
     context = {
         'dam_input': dam_input,
@@ -180,6 +192,7 @@ def reportar(request):
         'date_input': date_input,
         'table_view': table_view,
         'message_box': message_box,
+        'download_button': download_button,
     }
 
     return render(request, 'reservoir_management/reportar.html', context)
@@ -821,7 +834,7 @@ def tavera_bao(request):
     comids = ['1024', '1140', '1142', '1153']
 
     forecasteddata = gettabledates(comids)
-    data = gethistoricaldata('Bao')
+    data = gethistoricaldata('Tavera')
 
     min_level = [[data[0][0], 300.00], [data[-1][0], 300.00]]
     max_level = [[data[0][0], 327.50], [data[-1][0], 327.50]]

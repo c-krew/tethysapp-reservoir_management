@@ -20,26 +20,16 @@ def append_res_info(request):
         file = os.path.join(app_workspace.path, 'DamLevel_DR_BYU 2018.xlsx')
         filenew = os.path.join(app_workspace.path, 'NEWDamLevel_DR_BYU 2018.xlsx')
 
-        reservoir = dam
-        level = level
-        date = date
-
-        dams = {'Tavera-Bao': "1", 'Moncion': "3", 'Rincon': "4", 'Hatillo': "5", 'Jiguey': "6",
-                'Valdesia': "7", 'Sabana Yegua': "8", 'Sabaneta': "9", 'Pinalito': "10", 'Chacuey': "11",
-                'Maguaca': "12"}
-
-        damnames = {'Tavera-Bao': "Tavera", 'Moncion': "Moncion", 'Rincon': "Rincon", 'Hatillo': "Hatillo",
-                    'Jiguey': "Jiguey",
-                    'Valdesia': "Valdesia", 'Sabana Yegua': "S. Yegua", 'Sabaneta': "Sabaneta",
-                    'Pinalito': "Pinalito",
-                    'Chacuey': "Chacuey", 'Maguaca': "Maguaca"}
+        if dam == 'Sabana Yegua':
+            dam = 'S. Yegua'
+        if dam == 'Tavera-Bao':
+            dam = 'Tavera'
 
         df = pd.read_excel(file)
 
-        from datetime import datetime
-        time = str(datetime.strptime(date, '%B %d, %Y'))[0:10]
+        time = str(dt.datetime.strptime(date, '%B %d, %Y'))[0:10]
 
-        df.loc[df.Nivel == time, damnames[reservoir]] = level
+        df.loc[df.Nivel == time, dam] = level
 
         # Create a Pandas Excel writer using XlsxWriter as the engine.
         writer = pd.ExcelWriter(file, engine='xlsxwriter')
@@ -222,5 +212,30 @@ def getrecentdata(request):
 
     recentresdata['lastdate'] = str(lastdate.iloc[0])[:10]
     recentresdata['lastlevel'] = lastlevel.iloc[0]
+
+    return JsonResponse(recentresdata)
+
+def check_spreadsheet(request):
+
+    recentresdata = {
+        'success': True
+    }
+
+    res = request.GET.get('dam')
+    date = request.GET.get('date')
+
+    if res == 'Sabana Yegua':
+        res = 'S. Yegua'
+    if res == 'Tavera-Bao':
+        res = 'Tavera'
+
+    app_workspace = app.get_app_workspace()
+    damsheet = os.path.join(app_workspace.path, 'DamLevel_DR_BYU 2018.xlsx')
+
+    time = str(dt.datetime.strptime(date, '%B %d, %Y'))[0:10]
+    df = pd.read_excel(damsheet)
+    level = df.loc[df.Nivel == time, res].iloc[0]
+    if level != 'nan':
+        recentresdata['level'] = level
 
     return JsonResponse(recentresdata)
