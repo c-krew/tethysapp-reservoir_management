@@ -192,7 +192,9 @@ def forecastdata(request):
         evolval = (dfcurve.loc[dfcurve[vol] > volval, elev].iloc[0])
         tselev.append(evolval)
 
-    dataformatted['Volume'] = volumes
+    formattedvolumes = ["%.2f" % elem for elem in volumes]
+
+    dataformatted['Volume'] = formattedvolumes
     dataformatted['Nivel'] = tselev
     dataformatted['Dia'] = dates
     dataformatted['fulldate'] = fulldate
