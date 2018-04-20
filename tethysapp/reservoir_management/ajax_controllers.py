@@ -53,44 +53,21 @@ def forecastdata(request):
     }
 
     comids = request.GET.get('comid')
-    res = request.GET.get('res')
+    reservoir = request.GET.get('res')
     outflow = request.GET.get('outflows')
     outflow = outflow.split(",")
     comids = comids.split(",")
 
-    if res == 'Sabana_Yegua':
-        res = 'S. Yegua'
+    if reservoir == 'Sabana_Yegua':
+        reservoir = 'S. Yegua'
     app_workspace = app.get_app_workspace()
     damsheet = os.path.join(app_workspace.path, 'DamLevel_DR_BYU 2018.xlsx')
-
-    dfnan = pd.read_excel(damsheet)
-    df1 = dfnan[['Nivel', res]]
-    df = df1.dropna()[::-1]
-    reslevel = df[:1]
-    lastdate = reslevel['Nivel']
-    lastlevel = reslevel[res]
-
-    lastobsdate = str(lastdate.iloc[0])[:10]
-    elevval = lastlevel.iloc[0]
-
 
     totalflow = []
     tsvol = []
     tselev = []
     data = {}
 
-    if res == 'S. Yegua':
-        res = 'Sabana_Yegua'
-
-    elev = res + '_Elev'
-    vol = res + '_Vol'
-
-    elevcurve = os.path.join(app_workspace.path, 'BATIMETRIA PRESAS RD.xlsx')
-
-    df = pd.read_excel(elevcurve)
-
-    volres = df.loc[df[elev] == elevval, vol].iloc[0]
-    volin = volres * 1000000
 
     for comid in comids:
         request_params = dict(watershed_name='Dominican Republic', subbasin_name='National', reach_id=comid,
@@ -135,17 +112,53 @@ def forecastdata(request):
     formattedtotal = ["%.2f" % elem for elem in data['total']]
     dataformatted['Entrada'] = formattedtotal
 
-    # for x in data:
-    #     formattedtotal = ["%.2f" % elem for elem in data[x]]
-    #     dataformatted[x] = formattedtotal
-
-
-
     entries = len(ts)
 
-    fulldate = []
     dates = []
+    fulldate = []
+
+    for d in range(0, entries):
+        if ts[d][0].endswith('12:00:00'):
+            dates.append(str(ts[d][0])[5:-9])
+            fulldate.append(str(ts[d][0])[:10])
+
+    del dates[-3:]
+    del fulldate[-3:]
+
+    dfdata = pd.read_excel(damsheet)
+    df1 = dfdata[['Nivel', reservoir]]
+    dfnan = df1.dropna()[::-1]
+    reslevel = dfnan[:1]
+    lastdate = reslevel['Nivel']
+    lastlevel = reslevel[reservoir]
+
+    lastobsdate = str(lastdate.iloc[0])[:10]
+
+    lastobserveddate = dt.datetime.strptime(lastobsdate, "%Y-%m-%d")
+    firstforecastdate = dt.datetime.strptime(fulldate[0], "%Y-%m-%d")
+
+    if lastobserveddate>firstforecastdate:
+        elevval = dfnan.loc[dfnan.Nivel == fulldate[0], reservoir].iloc[0]
+    else:
+        elevval = lastlevel.iloc[0]
+
+    if reservoir == 'S. Yegua':
+        reservoir = 'Sabana_Yegua'
+
+    elev = reservoir + '_Elev'
+    vol = reservoir + '_Vol'
+
+    elevcurve = os.path.join(app_workspace.path, 'BATIMETRIA PRESAS RD.xlsx')
+
+    dfcurve = pd.read_excel(elevcurve)
+
+    volres = dfcurve.loc[dfcurve[elev] == elevval, vol].iloc[0]
+    volin = volres * 1000000
+
+    volumes = []
     days = 0
+
+
 
     for x in range(0, entries):
         if x == 0:
@@ -162,14 +175,10 @@ def forecastdata(request):
             if ts[x][0].endswith('12:00:00'):
                 if not tsvol:
                     tsvol.append([str(ts[x][0])[:10], volin - (float(outflow[days]) / 2.0)])
-                    dates.append(str(ts[x][0])[5:-9])
-                    fulldate.append(str(ts[x][0])[:10])
                     volin = volin - (float(outflow[days]) / 2.0)
                     days = days + 1
                 else:
                     tsvol.append([str(ts[x][0])[:10], volin - float(outflow[days])])
-                    dates.append(str(ts[x][0])[5:-9])
-                    fulldate.append(str(ts[x][0])[:10])
                     volin = volin - (float(outflow[days]))
                     days = days + 1
                 if days == 7:
@@ -179,10 +188,11 @@ def forecastdata(request):
     for q in tsvol:
         volval = q[1]
         volval = volval / 1000000.0
-        evolval = (df.loc[df[vol] > volval, elev].iloc[0])
+        volumes.append(volval)
+        evolval = (dfcurve.loc[dfcurve[vol] > volval, elev].iloc[0])
         tselev.append(evolval)
 
-
+    dataformatted['Volume'] = volumes
     dataformatted['Nivel'] = tselev
     dataformatted['Dia'] = dates
     dataformatted['fulldate'] = fulldate

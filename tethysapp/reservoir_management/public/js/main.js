@@ -263,14 +263,13 @@ function calculatelevels() {
                 response['outtime']=[$("#Timeday1").val(),$("#Timeday2").val(),$("#Timeday3").val(),$("#Timeday4").val(),
                 $("#Timeday5").val(),$("#Timeday6").val(),$("#Timeday7").val()]
 
+                forecastlevels = response['Nivel']
+                forecastdates = response['fulldate']
+                get_forecast_curve(forecastlevels, forecastdates, res);
 
                 var tbody = document.getElementById('tbody');
 
                 for (var object1 in response) {
-
-                    forecastlevels = response['Nivel']
-                    forecastdates = response['fulldate']
-                    get_forecast_curve(forecastlevels, forecastdates, res);
                     $('#forecastgraph').removeClass('hidden');
                     if (object1 != 'success') {
                         if (object1 == 'fulldate') {
@@ -281,6 +280,7 @@ function calculatelevels() {
                                 tr += "<th>" + response[object1][value1].toString() + "</th>"
                             }
                             tr += "</tr>";
+                            console.log(tr)
                             tbody.innerHTML += tr;
                         } else {
                             if (object1 == "Entrada") {
@@ -296,11 +296,14 @@ function calculatelevels() {
                                 tr += "<td>" + response[object1][value1].toString() + "</td>"
                             }
                             tr += "</tr>";
+                            console.log(tr)
                             tbody.innerHTML += tr;
                         }
                     }
                 }
+
                 $("#Nivel").prependTo("#mytable");
+                $("#Volume").prependTo("#mytable");
                 $("#outtime").prependTo("#mytable");
                 $("#outflow").prependTo("#mytable");
                 $("#Entrada").prependTo("#mytable");
