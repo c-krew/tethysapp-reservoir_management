@@ -1012,9 +1012,6 @@ def get_forecast_curve(request):
             observeddates.append(datetime.datetime.strptime(str(row['Nivel'])[:10], "%Y-%m-%d"))
             observedlevels.append(row[res])
 
-        observeddates.insert(0,datetimedates[0])
-        observedlevels.insert(0,forecastlevel[0])
-
         forecast = go.Scatter(
             x=datetimedates,
             y=forecastlevel,
