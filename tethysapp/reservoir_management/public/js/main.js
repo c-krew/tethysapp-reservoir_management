@@ -289,6 +289,10 @@ function calculatelevels() {
                                 var tr = "<tr id=" + object1.toString() + "><td>Caudal de Salida (cms)</td>";
                             } else if (object1 == "outtime") {
                                 var tr = "<tr id=" + object1.toString() + "><td>Tiempo de Salida (horas)</td>";
+                            } else if (object1 == "Volumen") {
+                                var tr = "<tr id=" + object1.toString() + "><td>Volumen (m3)</td>";
+                            } else if (object1 == "Nivel") {
+                                var tr = "<tr id=" + object1.toString() + "><td>Nivel (m)</td>";
                             } else {
                                 var tr = "<tr id=" + object1.toString() + "><td>" + object1.toString()  + "</td>";
                             }
@@ -303,7 +307,7 @@ function calculatelevels() {
                 }
 
                 $("#Nivel").prependTo("#mytable");
-                $("#Volume").prependTo("#mytable");
+                $("#Volumen").prependTo("#mytable");
                 $("#outtime").prependTo("#mytable");
                 $("#outflow").prependTo("#mytable");
                 $("#Entrada").prependTo("#mytable");

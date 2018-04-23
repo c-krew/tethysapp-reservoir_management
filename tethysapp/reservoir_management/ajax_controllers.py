@@ -194,7 +194,7 @@ def forecastdata(request):
 
     formattedvolumes = ["%.2f" % elem for elem in volumes]
 
-    dataformatted['Volume'] = formattedvolumes
+    dataformatted['Volumen'] = formattedvolumes
     dataformatted['Nivel'] = tselev
     dataformatted['Dia'] = dates
     dataformatted['fulldate'] = fulldate
